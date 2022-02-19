@@ -1,10 +1,12 @@
 package ghosking.lormaster;
 
+import java.util.Comparator;
+
 public class LeaderboardEntry {
 
-    private final String name;
+    private String name;
     private int rank;
-    private final int lp;
+    private int lp;
 
     public LeaderboardEntry(String name, int rank, int lp) {
         this.name = name;
@@ -20,7 +22,7 @@ public class LeaderboardEntry {
         return rank;
     }
 
-    public int getLp() {
+    public int getLP() {
         return lp;
     }
 
@@ -31,6 +33,14 @@ public class LeaderboardEntry {
 
     @Override
     public String toString() {
-        return getRank() + ". " + getName() + " (" + getLp() + " LP)";
+        return getRank() + ". " + getName() + " (" + getLP() + " LP)";
+    }
+
+    public static class LeaderboardEntryComparator implements Comparator<LeaderboardEntry> {
+
+        @Override
+        public int compare(LeaderboardEntry entry1, LeaderboardEntry entry2) {
+            return (entry1.getLP() <= entry2.getLP()) ? 0 : 1;
+        }
     }
 }

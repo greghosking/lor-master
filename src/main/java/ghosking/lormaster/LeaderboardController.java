@@ -1,12 +1,10 @@
 package ghosking.lormaster;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,24 +24,33 @@ public class LeaderboardController implements Initializable {
         String url = "https://" + region.name().toLowerCase() + ".api.riotgames.com"
                 + "/lor/ranked/v1/leaderboards?api_key=" + RequestHandler.API_KEY;
 
-        // Returns a JSON string containing a list of all players in Masters rank in a given region.
-        // The string is then parsed into an array of JSON elements (with each element representing a player).
-        /**
-         * @TODO: JsonParser is deprecated. Investigate alternatives to parse JSON.
-         */
-        String leaderboardJsonString = RequestHandler.get(url);
-        JsonArray leaderboardJsonArray = new JsonParser().parse(leaderboardJsonString)
-                .getAsJsonObject().get("players").getAsJsonArray();
+        // Returns a string containing a list of all players in Masters rank in a given region in JSON format.
+        // The string is then parsed into a JSONArray (with each element representing a player).
+        String leaderboardJSONString = RequestHandler.get(url);
+        JSONArray leaderboardJSONArray = (JSONArray) new JSONObject(leaderboardJSONString).get("players");
 
-        for (var leaderboardEntryJson : leaderboardJsonArray) {
-            JsonObject leaderboardEntryObj = leaderboardEntryJson.getAsJsonObject();
-
-            String name = leaderboardEntryObj.get("name").getAsString();
-            int rank = leaderboardEntryObj.get("rank").getAsInt() + 1;
-            int lp = leaderboardEntryObj.get("lp").getAsInt();
-
-            leaderboard.add(new LeaderboardEntry(name, rank, lp));
+        // Parse each element of the JSONArray to create an entry using the name, rank, and lp of the player
+        // to be added to the leaderboard.
+        for (var element : leaderboardJSONArray) {
+            JSONObject obj = (JSONObject) element;
+            leaderboard.add(new LeaderboardEntry(obj.getString("name"), obj.getInt("rank") + 1, obj.getInt("lp")));
         }
+
+        return leaderboard;
+    }
+
+    public static ArrayList<LeaderboardEntry> getGlobalLeaderboard() {
+
+        ArrayList<LeaderboardEntry> leaderboard = new ArrayList<>();
+
+        // Add the leaderboards from each region together.
+        for (Region region : Region.values())
+            leaderboard.addAll(getRegionLeaderboard(region));
+
+        // Sort the global leaderboard by LP and reassign rank as necessary.
+        leaderboard.sort(new LeaderboardEntry.LeaderboardEntryComparator());
+        for (int i = 0; i < leaderboard.size(); i++)
+            leaderboard.get(i).setRank(i + 1);
 
         return leaderboard;
     }
@@ -61,6 +68,8 @@ public class LeaderboardController implements Initializable {
     private ListView<String> europeListView;
     @FXML
     private ListView<String> seaListView;
+    @FXML
+    private ListView<String> globalListView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -69,6 +78,9 @@ public class LeaderboardController implements Initializable {
         ArrayList<LeaderboardEntry> americasLeaderboard = getRegionLeaderboard(Region.AMERICAS);
         ArrayList<LeaderboardEntry> europeLeaderboard   = getRegionLeaderboard(Region.EUROPE);
         ArrayList<LeaderboardEntry> seaLeaderboard      = getRegionLeaderboard(Region.SEA);
+
+        // To see the top player rankings regardless of region, get the global leaderboard.
+        ArrayList<LeaderboardEntry> globalLeaderboard   = getGlobalLeaderboard();
 
         System.out.println("AMERICAS LEADERBOARD " + "(" + americasLeaderboard.size() + " Masters players)");
         System.out.println("--------------------------------------------------");
@@ -85,14 +97,19 @@ public class LeaderboardController implements Initializable {
         printLeaderboard(seaLeaderboard);
         System.out.println();
 
-        for (LeaderboardEntry entry : americasLeaderboard) {
+        System.out.println("GLOBAL LEADERBOARD " + "(" + globalLeaderboard.size() + " Masters players)");
+        System.out.println("--------------------------------------------------");
+        printLeaderboard(globalLeaderboard);
+        System.out.println();
+
+        // Update each list view with the respective leaderboard data.
+        for (LeaderboardEntry entry : americasLeaderboard)
             americasListView.getItems().add(entry.toString());
-        }
-        for (LeaderboardEntry entry : europeLeaderboard) {
+        for (LeaderboardEntry entry : europeLeaderboard)
             europeListView.getItems().add(entry.toString());
-        }
-        for (LeaderboardEntry entry : seaLeaderboard) {
+        for (LeaderboardEntry entry : seaLeaderboard)
             seaListView.getItems().add(entry.toString());
-        }
+        for (LeaderboardEntry entry : globalLeaderboard)
+            globalListView.getItems().add(entry.toString());
     }
 }

@@ -64,7 +64,8 @@ public class RequestHandler {
                 // case 504:
             }
         } catch (Exception ex) {
-
+            ex.printStackTrace();
+            System.exit(1);
         }
 
         return null;

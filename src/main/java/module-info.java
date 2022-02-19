@@ -10,7 +10,7 @@ module ghosking.lormaster {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires okhttp;
-    requires com.google.gson;
+    requires org.json;
 
     opens ghosking.lormaster to javafx.fxml;
     exports ghosking.lormaster;

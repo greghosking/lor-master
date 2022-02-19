@@ -1,13 +1,11 @@
 package ghosking.lormaster;
 
-// IMPORT GSON
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
 import java.net.URL;
@@ -16,7 +14,7 @@ import java.util.ResourceBundle;
 
 public class LeaderboardController implements Initializable {
 
-    public enum Region {
+    private enum Region {
         AMERICAS, EUROPE, SEA
     }
 
@@ -30,6 +28,9 @@ public class LeaderboardController implements Initializable {
 
         // Returns a JSON string containing a list of all players in Masters rank in a given region.
         // The string is then parsed into an array of JSON elements (with each element representing a player).
+        /**
+         * @TODO: JsonParser is deprecated. Investigate alternatives to parse JSON.
+         */
         String leaderboardJsonString = RequestHandler.get(url);
         JsonArray leaderboardJsonArray = new JsonParser().parse(leaderboardJsonString)
                 .getAsJsonObject().get("players").getAsJsonArray();
@@ -37,19 +38,11 @@ public class LeaderboardController implements Initializable {
         for (var leaderboardEntryJson : leaderboardJsonArray) {
             JsonObject leaderboardEntryObj = leaderboardEntryJson.getAsJsonObject();
 
-            // Encode and store name in UTF-8 (for names that include non-ASCII characters).
-            /** @TODO Some characters such as Korean are displayed as empty boxes. It is 
-             *        likely due to the current font used in NetBeans not including those 
-             *        characters. Install new compatible font and use it to render these names.
-             */
-            String rawName = leaderboardEntryObj.get("name").getAsString();
-//            byte[] nameBytes = rawName.getBytes(StandardCharsets.UTF_8);
-//            String name = new String(nameBytes, StandardCharsets.UTF_8);
-
+            String name = leaderboardEntryObj.get("name").getAsString();
             int rank = leaderboardEntryObj.get("rank").getAsInt() + 1;
             int lp = leaderboardEntryObj.get("lp").getAsInt();
 
-            leaderboard.add(new LeaderboardEntry(rawName, rank, lp));
+            leaderboard.add(new LeaderboardEntry(name, rank, lp));
         }
 
         return leaderboard;
@@ -62,17 +55,12 @@ public class LeaderboardController implements Initializable {
         }
     }
 
-
-
-
     @FXML
     private ListView<String> americasListView;
     @FXML
     private ListView<String> europeListView;
     @FXML
     private ListView<String> seaListView;
-
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -82,20 +70,17 @@ public class LeaderboardController implements Initializable {
         ArrayList<LeaderboardEntry> europeLeaderboard   = getRegionLeaderboard(Region.EUROPE);
         ArrayList<LeaderboardEntry> seaLeaderboard      = getRegionLeaderboard(Region.SEA);
 
-        System.out.println("AMERICAS LEADERBOARD "
-                + "(" + String.valueOf(americasLeaderboard.size()) + " Masters players)");
+        System.out.println("AMERICAS LEADERBOARD " + "(" + americasLeaderboard.size() + " Masters players)");
         System.out.println("--------------------------------------------------");
         printLeaderboard(americasLeaderboard);
         System.out.println();
 
-        System.out.println("EUROPE LEADERBOARD "
-                + "(" + String.valueOf(europeLeaderboard.size()) + " Masters players)");
+        System.out.println("EUROPE LEADERBOARD " + "(" + europeLeaderboard.size() + " Masters players)");
         System.out.println("--------------------------------------------------");
         printLeaderboard(europeLeaderboard);
         System.out.println();
 
-        System.out.println("SEA LEADERBOARD "
-                + "(" + String.valueOf(seaLeaderboard.size()) + " Masters players)");
+        System.out.println("SEA LEADERBOARD " + "(" + seaLeaderboard.size() + " Masters players)");
         System.out.println("--------------------------------------------------");
         printLeaderboard(seaLeaderboard);
         System.out.println();

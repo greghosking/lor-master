@@ -7,8 +7,8 @@ import com.squareup.okhttp.Response;
 
 public class RequestHandler {
 
-    // API key expires Feb. 19 @ 1:00PM.
-    public static final String API_KEY = "RGAPI-db4f66d4-cb4d-421b-8463-9c46d4aedd2d";
+    // API key expires Feb. 23 @ 11:30AM.
+    public static final String API_KEY = "RGAPI-f3e3a8de-d6e2-4a09-9f04-51f95c9f29c9";
 
     /**
      * Makes a GET request to a specified endpoint of the Riot Games API.

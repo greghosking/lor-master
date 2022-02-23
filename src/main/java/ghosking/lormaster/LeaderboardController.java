@@ -47,8 +47,18 @@ public class LeaderboardController implements Initializable {
         for (Region region : Region.values())
             leaderboard.addAll(getRegionLeaderboard(region));
 
-        // Sort the global leaderboard by LP and reassign rank as necessary.
-        leaderboard.sort(new LeaderboardEntry.LeaderboardEntryComparator());
+        // Sort the global leaderboard by LP descending and reassign rank as necessary.
+        LeaderboardEntry placeholder;
+        for (int i = 0; i < leaderboard.size() - 1; i++) {
+            int indexOfMostLP = i;
+            for (int j = i + 1; j < leaderboard.size(); j++) {
+                if (leaderboard.get(j).getLP() > leaderboard.get(indexOfMostLP).getLP())
+                    indexOfMostLP = j;
+            }
+            placeholder = leaderboard.get(i);
+            leaderboard.set(i, leaderboard.get(indexOfMostLP));
+            leaderboard.set(indexOfMostLP, placeholder);
+        }
         for (int i = 0; i < leaderboard.size(); i++)
             leaderboard.get(i).setRank(i + 1);
 

@@ -1,0 +1,22 @@
+.background-pane {
+    -fx-background-color: #3F2A29;
+}
+
+
+.navigation-button:hover {
+    -fx-background-color: #3F2A29;
+    -fx-background-color: #332424;
+}
+
+.navigation-button:pressed {
+    -fx-background-color: #FF0000;
+}
+
+
+.navigation-button {
+    -fx-background-color: #261D1E;
+    -fx-background-radius: 0;
+    -fx-text-fill: #C6B7A0;
+}
+
+

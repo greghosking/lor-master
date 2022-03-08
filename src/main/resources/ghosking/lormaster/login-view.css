@@ -1,13 +1,15 @@
-text {
+.title-text {
     -fx-text-fill: #C6B7A0;
 }
 
-.title-label {
-    -fx-text-fill: #C6B7A0;
+.text-field {
+
 }
 
-.background-pane {
+.login-button {
     -fx-background-color: #3F2A29;
+    -fx-background-radius: 0;
+    -fx-text-fill: #C6B7A0;
 }
 
 
@@ -22,9 +24,6 @@ text {
 
 
 .navigation-button {
-    -fx-background-color: #261D1E;
-    -fx-background-radius: 0;
-    -fx-text-fill: #C6B7A0;
-}
 
+}
 

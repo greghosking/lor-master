@@ -1,6 +1,5 @@
 package ghosking.lormaster;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -23,11 +22,11 @@ public class LeaderboardController implements Initializable {
 
         // Create the request URL from the given region name and existing API key.
         String url = "https://" + region.name().toLowerCase() + ".api.riotgames.com"
-                + "/lor/ranked/v1/leaderboards?api_key=" + RequestHandler.API_KEY;
+                + "/lor/ranked/v1/leaderboards?api_key="; // @TODO: ADD API_KEY
 
         // Returns a string containing a list of all players in Masters rank in a given region in JSON format.
         // The string is then parsed into a JSONArray (with each element representing a player).
-        String leaderboardJSONString = RequestHandler.get(url);
+        String leaderboardJSONString = LoRAPIRequest.get(url);
         JSONArray leaderboardJSONArray = (JSONArray) new JSONObject(leaderboardJSONString).get("players");
 
         // Parse each element of the JSONArray to create an entry using the name, rank, and lp of the player

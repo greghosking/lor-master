@@ -137,4 +137,9 @@ public class LoRRegion {
 
         throw new RuntimeException("Unrecognized region name: " + name);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

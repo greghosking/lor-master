@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class LoRCard {
 
-    private final ArrayList<LoRCard> associatedCards;
+    private final ArrayList<String> associatedCards;
     private final String code;
 
     private final ArrayList<LoRRegion> regions;
@@ -25,7 +25,7 @@ public class LoRCard {
     private final String levelupDescription;
     private final ArrayList<String> assets;
 
-    protected LoRCard(ArrayList<LoRCard> associatedCards, String code, ArrayList<LoRRegion> regions, String name, int cost, int attack, int health, ArrayList<String> keywords, String spellSpeed, String type, ArrayList<String> subtypes, String supertype, String rarity, boolean collectible, String description, String levelupDescription, ArrayList<String> assets) {
+    protected LoRCard(ArrayList<String> associatedCards, String code, ArrayList<LoRRegion> regions, String name, int cost, int attack, int health, ArrayList<String> keywords, String spellSpeed, String type, ArrayList<String> subtypes, String supertype, String rarity, boolean collectible, String description, String levelupDescription, ArrayList<String> assets) {
         this.associatedCards = associatedCards;
         this.code = code;
         this.regions = regions;
@@ -45,7 +45,7 @@ public class LoRCard {
         this.assets = assets;
     }
 
-    public ArrayList<LoRCard> getAssociatedCards() {
+    public ArrayList<String> getAssociatedCards() {
         return associatedCards;
     }
 

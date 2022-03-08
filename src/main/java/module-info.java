@@ -11,6 +11,7 @@ module ghosking.lormaster {
     requires eu.hansolo.tilesfx;
     requires okhttp;
     requires org.json;
+    requires org.apache.commons.codec;
 
     opens ghosking.lormaster to javafx.fxml;
     exports ghosking.lormaster;

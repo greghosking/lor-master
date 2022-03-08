@@ -1,18 +1,15 @@
 package ghosking.lormaster;
 
-// IMPORT OKHTTP
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-public class RequestHandler {
+public class LoRAPIRequest {
 
-    // API key expires Feb. 23 @ 11:30AM.
-    public static final String API_KEY = "RGAPI-f3e3a8de-d6e2-4a09-9f04-51f95c9f29c9";
+    // API key expires Tue, March 8, 2022 @ 9:15PM.
+    public static final String apiKey = "RGAPI-9961cca2-ffdc-445a-9c5a-65fbfca5cecf";
 
     /**
-     * Makes a GET request to a specified endpoint of the Riot Games API.
-     *
      * @param url The URL of the request.
      * @return The body of the JSON response as a string or null if the request fails.
      */

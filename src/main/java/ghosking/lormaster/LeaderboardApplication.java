@@ -31,6 +31,7 @@ public class LeaderboardApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(String.valueOf(this.getClass().getResource("login-view.css")));
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
 
     }

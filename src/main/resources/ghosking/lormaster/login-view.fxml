@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" styleClass="background-pane" stylesheets="@login-view.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ghosking.lormaster.LoginController">
+<AnchorPane fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background-pane" stylesheets="@login-view.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ghosking.lormaster.LoginController">
    <children>
       <ImageView fx:id="backImageView" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" />
       <ImageView fx:id="frontImageView" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" />
-      <Label layoutX="315.0" layoutY="200.0" styleClass="title-text" stylesheets="@login-view.css" text="LEGENDS OF RUNETERRA COMPANION" textFill="WHITE" visible="false">
+      <Rectangle fx:id="overlayRectangle" arcHeight="5.0" arcWidth="5.0" fill="#241b1c80" height="720.0" stroke="BLACK" strokeType="INSIDE" width="1280.0" />
+      <Label fx:id="titleLabel1" alignment="CENTER" layoutY="160.0" prefHeight="39.0" prefWidth="1280.0" styleClass="title" stylesheets="@login-view.css" text="WELCOME TO" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Lucida Console" size="36.0" />
          </font>
       </Label>
-      <TextField layoutX="370.0" layoutY="368.0" promptText="Riot ID" visible="false">
+      <Label fx:id="titleLabel2" alignment="CENTER" contentDisplay="CENTER" layoutY="199.0" prefHeight="50.0" prefWidth="1280.0" stylesheets="@login-view.css" text="LEGENDS OF RUNETERRA MASTER" textFill="WHITE">
+         <font>
+            <Font name="Lucida Console" size="48.0" />
+         </font>
+         <styleClass>
+            <String fx:value="title-text" />
+            <String fx:value="title" />
+         </styleClass>
+      </Label>
+      <TextField fx:id="gameNameTextField" layoutX="490.0" layoutY="455.0" prefHeight="40.0" prefWidth="185.0" promptText="Game Name" styleClass="text-field" stylesheets="@login-view.css">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </TextField>
-      <TextField layoutX="654.0" layoutY="371.0" promptText="# ABC12" visible="false">
+      <TextField fx:id="tagLineTextField" layoutX="680.0" layoutY="455.0" prefHeight="40.0" prefWidth="110.0" promptText="# ABC12" styleClass="text-field" stylesheets="@login-view.css">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </TextField>
-      <Button layoutX="540.0" layoutY="508.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="200.0" styleClass="login-button" stylesheets="@login-view.css" text="LOG IN" visible="false">
+      <Button fx:id="loginButton" layoutX="490.0" layoutY="501.0" mnemonicParsing="false" onMouseClicked="#login" prefHeight="40.0" prefWidth="300.0" styleClass="login-button" stylesheets="@login-view.css" text="LOG IN">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Label fx:id="b" layoutX="532.0" layoutY="161.0" styleClass="title-text" stylesheets="@login-view.css" text="WELCOME TO" visible="false">
-         <font>
-            <Font name="Lucida Console" size="36.0" />
-         </font>
-      </Label>
    </children>
 </AnchorPane>

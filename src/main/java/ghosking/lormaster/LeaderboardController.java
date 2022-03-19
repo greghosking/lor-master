@@ -22,7 +22,7 @@ public class LeaderboardController implements Initializable {
 
         // Create the request URL from the given region name and existing API key.
         String url = "https://" + region.name().toLowerCase() + ".api.riotgames.com"
-                + "/lor/ranked/v1/leaderboards?api_key="; // @TODO: ADD API_KEY
+                + "/lor/ranked/v1/leaderboards?api_key=" + LoRAPIRequest.apiKey;
 
         // Returns a string containing a list of all players in Masters rank in a given region in JSON format.
         // The string is then parsed into a JSONArray (with each element representing a player).

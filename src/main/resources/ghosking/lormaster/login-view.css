@@ -1,29 +1,30 @@
-.title-text {
-    -fx-text-fill: #C6B7A0;
+.title {
+    -fx-text-fill: #FFF1DA;
+}
+
+.title.label .text {
+    -fx-stroke: black;
+    -fx-stroke-width: 1px;
 }
 
 .text-field {
+    -fx-text-fill: #C6B7A0;
+    -fx-background-color: #3F2A2980;
+    -fx-background-color: #261D1EA0;
+    -fx-border-color: #C9A15C;
+}
 
+.login-button:hover {
+
+    -fx-background-color: #261D1EA0;
+    -fx-background-color: #3F2A29DF;
 }
 
 .login-button {
-    -fx-background-color: #3F2A29;
+    -fx-background-color: #3F2A29A0;
     -fx-background-radius: 0;
     -fx-text-fill: #C6B7A0;
-}
-
-
-.navigation-button:hover {
-    -fx-background-color: #3F2A29;
-    -fx-background-color: #332424;
-}
-
-.navigation-button:pressed {
-    -fx-background-color: #FF0000;
-}
-
-
-.navigation-button {
-
+    -fx-text-fill: #FFF1DA;
+    -fx-border-color: #C9A15C;
 }
 

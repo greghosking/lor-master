@@ -6,12 +6,12 @@ import com.squareup.okhttp.Response;
 
 public class LoRAPIRequest {
 
-    // API key expires Tue, March 8, 2022 @ 9:15PM.
-    public static final String apiKey = "RGAPI-9961cca2-ffdc-445a-9c5a-65fbfca5cecf";
+    // API key expires Sun, March 13, 2022 @ 9:30PM.
+    public static final String apiKey = "RGAPI-35025e3c-1d31-42d1-91b6-8d716342b1eb";
 
     /**
      * @param url The URL of the request.
-     * @return The body of the JSON response as a string or null if the request fails.
+     * @return The body of the JSON response as a string or null if the request errs.
      */
     public static String get(String url) {
 
@@ -29,7 +29,9 @@ public class LoRAPIRequest {
             switch (code) {
                 // Response code 200: OK.
                 case 200:
-                    return response.body().string();
+                    String result = response.body().string();
+                    response.body().close();
+                    return result;
                 // Response code 400: Bad request.
                 // case 400:
                 // Response code 401: Unauthorized.
@@ -38,6 +40,7 @@ public class LoRAPIRequest {
                 case 403:
                     System.out.println("Error processing request: " + request.toString());
                     System.out.println("Authentication error! Invalid API key.");
+                    response.body().close();
                     return null;
                 // Response code 404: Data not found.
                 // case 404:
@@ -50,6 +53,7 @@ public class LoRAPIRequest {
                     System.out.println("Error processing request: " + request.toString());
                     System.out.println("Rate limit exceeded! Development rate limit: "
                             + "20 requests every 1 second, 100 requests every 2 minutes.");
+                    response.body().close();
                     return null;
                 // Response code 500: Internal server error.
                 // case 500:

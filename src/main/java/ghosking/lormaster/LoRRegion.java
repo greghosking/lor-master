@@ -1,12 +1,17 @@
 package ghosking.lormaster;
 
-public class LoRRegion {
+public final class LoRRegion {
 
     private final int version;
     private final int id;
     private final String code;
     private final String name;
 
+    /**
+     * Constructor is private to ensure that instances of this class are
+     * only created through one of the methods below:
+     * fromID(int id), fromCode(String code), fromName(String name).
+     */
     private LoRRegion(int version, int id, String code, String name) {
         this.version = version;
         this.id = id;
@@ -30,6 +35,15 @@ public class LoRRegion {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return version + " " + id + " " + code + " " + name;
+    }
+
+    /**
+     * @param id The region ID: an integer between 0 and 10.
+     * @return An instance of LoRRegion that corresponds to the ID.
+     */
     public static LoRRegion fromID(int id) {
 
         if (id == 0) {
@@ -66,6 +80,10 @@ public class LoRRegion {
         throw new RuntimeException("Unrecognized region ID: " + id);
     }
 
+    /**
+     * @param code The region code: a two-character abbreviation of the region name.
+     * @return An instance of LoRRegion that corresponds to the code.
+     */
     public static LoRRegion fromCode(String code) {
 
         if (code.compareToIgnoreCase("DE") == 0) {
@@ -102,6 +120,10 @@ public class LoRRegion {
         throw new RuntimeException("Unrecognized region code: " + code);
     }
 
+    /**
+     * @param name The name of the region.
+     * @return An instance of LoRRegion that corresponds to the name.
+     */
     public static LoRRegion fromName(String name) {
 
         if (name.compareToIgnoreCase("Demacia") == 0) {
@@ -136,10 +158,5 @@ public class LoRRegion {
         }
 
         throw new RuntimeException("Unrecognized region name: " + name);
-    }
-
-    @Override
-    public String toString() {
-        return name;
     }
 }

@@ -1,8 +1,8 @@
-package ghosking.lormaster;
+package ghosking.lormaster.lor;
 
 import java.util.ArrayList;
 
-public class LoRCard {
+public final class LoRCard {
 
     private final ArrayList<String> associatedCards;
     private final String code;
@@ -25,7 +25,7 @@ public class LoRCard {
     private final String levelupDescription;
     private final ArrayList<String> assets;
 
-    protected LoRCard(ArrayList<String> associatedCards, String code, ArrayList<LoRRegion> regions, String name, int cost, int attack, int health, ArrayList<String> keywords, String spellSpeed, String type, ArrayList<String> subtypes, String supertype, String rarity, boolean collectible, String description, String levelupDescription, ArrayList<String> assets) {
+    public LoRCard(ArrayList<String> associatedCards, String code, ArrayList<LoRRegion> regions, String name, int cost, int attack, int health, ArrayList<String> keywords, String spellSpeed, String type, ArrayList<String> subtypes, String supertype, String rarity, boolean collectible, String description, String levelupDescription, ArrayList<String> assets) {
         this.associatedCards = associatedCards;
         this.code = code;
         this.regions = regions;

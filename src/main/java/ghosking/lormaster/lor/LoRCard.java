@@ -1,10 +1,13 @@
 package ghosking.lormaster.lor;
 
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class LoRCard {
 
-    private final ArrayList<String> associatedCards;
+    private final ArrayList<String> associatedCardCodes;
     private final String code;
 
     private final ArrayList<LoRRegion> regions;
@@ -23,10 +26,11 @@ public final class LoRCard {
 
     private final String description;
     private final String levelupDescription;
-    private final ArrayList<String> assets;
+    private final HashMap<String, String> assetURLs;
+    private final HashMap<String, Image> assets;
 
-    public LoRCard(ArrayList<String> associatedCards, String code, ArrayList<LoRRegion> regions, String name, int cost, int attack, int health, ArrayList<String> keywords, String spellSpeed, String type, ArrayList<String> subtypes, String supertype, String rarity, boolean collectible, String description, String levelupDescription, ArrayList<String> assets) {
-        this.associatedCards = associatedCards;
+    public LoRCard(ArrayList<String> associatedCardCodes, String code, ArrayList<LoRRegion> regions, String name, int cost, int attack, int health, ArrayList<String> keywords, String spellSpeed, String type, ArrayList<String> subtypes, String supertype, String rarity, boolean collectible, String description, String levelupDescription, HashMap<String, String> assetURLs) {
+        this.associatedCardCodes = associatedCardCodes;
         this.code = code;
         this.regions = regions;
         this.name = name;
@@ -42,11 +46,12 @@ public final class LoRCard {
         this.collectible = collectible;
         this.description = description;
         this.levelupDescription = levelupDescription;
-        this.assets = assets;
+        this.assetURLs = assetURLs;
+        assets = new HashMap<>();
     }
 
-    public ArrayList<String> getAssociatedCards() {
-        return associatedCards;
+    public ArrayList<String> getAssociatedCardCodes() {
+        return associatedCardCodes;
     }
 
     public String getCode() {
@@ -109,7 +114,21 @@ public final class LoRCard {
         return levelupDescription;
     }
 
-    public ArrayList<String> getAssets() {
-        return assets;
+    public Image getGameAsset() {
+        // If the image does not already exist in assets, create the image using
+        // the corresponding URL and put it in assets.
+        if (!assets.containsKey("game")) {
+            assets.put("game", new Image(assetURLs.get("game")));
+        }
+        return assets.get("game");
+    }
+
+    public Image getFullAsset() {
+        // If the image does not already exist in assets, create the image using
+        // the corresponding URL and put it in assets.
+        if (!assets.containsKey("full")) {
+            assets.put("full", new Image(assetURLs.get("full")));
+        }
+        return assets.get("full");
     }
 }

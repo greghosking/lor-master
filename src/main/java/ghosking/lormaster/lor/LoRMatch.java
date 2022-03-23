@@ -17,8 +17,8 @@ public final class LoRMatch {
         private final boolean wonMatch;
 
         /**
-         * Constructor is private to ensure that instances of this class are
-         * only created through fromID(String id).
+         * Constructor is private to ensure that instances of this class are only
+         * created through fromID(String id).
          */
         private LoRMatchParticipant(String puuid, String deckCode, boolean wonMatch) {
             this.puuid = puuid;
@@ -45,8 +45,8 @@ public final class LoRMatch {
     private final ArrayList<LoRMatchParticipant> participants;
 
     /**
-     * Constructor is private to ensure that instances of this class are
-     * only created through fromID(String id).
+     * Constructor is private to ensure that instances of this class are only created
+     * through fromID(String id).
      */
     private LoRMatch(String id, String type, LocalDateTime startTime, ArrayList<LoRMatchParticipant> participants) {
         this.id = id;
@@ -73,23 +73,23 @@ public final class LoRMatch {
 
     /**
      * @param id The match ID.
-     * @return An instance of LoRMatch that corresponds to the ID,
-     *         if one exists, otherwise throw an exception.
+     * @return An instance of LoRMatch that corresponds to the ID, if one exists,
+     *         otherwise throw an exception.
      */
     public static LoRMatch fromID(String id) {
         // Create the request URL for the match ID.
         String url = "https://americas.api.riotgames.com/lor/match/v1/matches/" +
                 id + "?api_key=" + LoRAPIRequest.apiKey;
 
-        // Returns a string containing the match data in JSON format,
-        // or null if there is no existing match for the specified ID.
+        // Returns a string containing the match data in JSON format, or null
+        // if there is no existing match for the specified ID.
         String matchJSON = LoRAPIRequest.get(url);
         if (matchJSON == null) {
             throw new RuntimeException("Unrecognized match ID: " + id);
         }
 
-        // Get the JSONObject for the match info and parse it for the type
-        // of the match, the start time, and the participants.
+        // Get the JSONObject for the match info and parse it for the type of the
+        // match, the start time, and the participants.
         JSONObject matchInfoJSONObj = new JSONObject(matchJSON).getJSONObject("info");
         String type = matchInfoJSONObj.getString("game_type");
         // Start time is formatted as "2022-03-11T18:36:51.7306788+00:00", but

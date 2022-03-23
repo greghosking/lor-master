@@ -1,4 +1,4 @@
-package ghosking.lormaster;
+package ghosking.lormaster.lor;
 
 public final class LoRRegion {
 
@@ -33,11 +33,6 @@ public final class LoRRegion {
 
     public String getName() {
         return name;
-    }
-
-    @Override
-    public String toString() {
-        return version + " " + id + " " + code + " " + name;
     }
 
     /**

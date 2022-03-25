@@ -49,14 +49,11 @@ public class LoginController implements Initializable {
         }
 
         // Then, start a separate thread to load the rest of the images in the background.
-        Thread imageLoadingThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (String code : cardCodes) {
-                    LoRCard card = cardDatabase.getCard(code);
-                    if (card.getType().compareToIgnoreCase("Unit") == 0 && card.getSupertype().compareTo("Champion") == 0) {
-                        images.add(card.getFullAsset());
-                    }
+        Thread imageLoadingThread = new Thread(() -> {
+            for (String code : cardCodes) {
+                LoRCard card = cardDatabase.getCard(code);
+                if (card.getType().compareToIgnoreCase("Unit") == 0 && card.getSupertype().compareTo("Champion") == 0) {
+                    images.add(card.getFullAsset());
                 }
             }
         });
@@ -123,11 +120,8 @@ public class LoginController implements Initializable {
 
     public void login() {
         // Start a separate thread to perform the login attempt in the background.
-        Thread loginThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
+        Thread loginThread = new Thread(() -> {
 
-            }
         });
         loginThread.start();
 

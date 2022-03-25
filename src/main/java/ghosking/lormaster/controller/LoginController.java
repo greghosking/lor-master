@@ -1,63 +1,50 @@
-package ghosking.lormaster;
+package ghosking.lormaster.controller;
 
+import ghosking.lormaster.LoRMasterApplication;
+import ghosking.lormaster.lor.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Scale;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-//    @FXML
-//    private AnchorPane backgroundPane;
     @FXML
     private ImageView backImageView;
     @FXML
     private ImageView frontImageView;
-//    @FXML
-//    private Rectangle overlayRectangle;
-//    @FXML
-//    private Label titleLabel1;
-//    @FXML
-//    private Label titleLabel2;
     @FXML
     private TextField gameNameTextField;
     @FXML
     private TextField tagLineTextField;
-//    @FXML
-//    private Button loginButton;
 
     private int randomIndex;
     private final double slideDuration = 10;
     private final double fadeDuration = 1.5;
 
     public void slideshow() {
-
         LoRCardDatabase cardDatabase = LoRCardDatabase.getInstance();
         ArrayList<Image> images = new ArrayList<>();
-        ;
+
         // Before the start of the slideshow, load a random image into the images ArrayList.
         ArrayList<String> cardCodes = cardDatabase.getCardCodes();
         while (images.size() < 1) {
             randomIndex = (int) (Math.random() * cardCodes.size());
             LoRCard card = cardDatabase.getCard(cardCodes.get(randomIndex));
             if (card.getType().compareToIgnoreCase("Unit") == 0 && card.getSupertype().compareTo("Champion") == 0) {
-                images.add(new Image(card.getAssets().get(1)));
+
+                images.add(card.getFullAsset());
             }
         }
 
@@ -68,15 +55,15 @@ public class LoginController implements Initializable {
                 for (String code : cardCodes) {
                     LoRCard card = cardDatabase.getCard(code);
                     if (card.getType().compareToIgnoreCase("Unit") == 0 && card.getSupertype().compareTo("Champion") == 0) {
-                        images.add(new Image(card.getAssets().get(1)));
+                        images.add(card.getFullAsset());
                     }
                 }
             }
         });
         imageLoadingThread.start();
 
-        // Before starting the animation, set the image of the backImageView to the first loaded image
-        // and make the frontImageView completely transparent.
+        // Before starting the animation, set the image of the backImageView to the first loaded image and make the
+        // frontImageView completely transparent.
         backImageView.setImage(images.get(0));
         frontImageView.setOpacity(0);
 
@@ -135,37 +122,16 @@ public class LoginController implements Initializable {
     }
 
     public void login() {
-
         // Start a separate thread to perform the login attempt in the background.
         Thread loginThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                // Get the text from the first TextField, replacing whitespace with %20
-                // to be compatible with the login request URL.
-                String gameName = gameNameTextField.getText().replace(" ", "%20");
-                // Get the text from the second text field, removing any # characters or whitespace
-                // and getting up to the first five characters (since tag lines are 3-5 characters).
-                String tagLine = tagLineTextField.getText().replace("#", "")
-                        .replace(" ", "");
-                tagLine = tagLine.substring(0, Math.min(tagLine.length(), 5));
 
-                String url = "https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/" +
-                        gameName + "/" + tagLine + "?api_key=" + LoRAPIRequest.apiKey;
-
-                String accountJSON = LoRAPIRequest.get(url);
-
-                // @TODO: LoRPlayerDatabase... or LoRAccountDatabase... contains active player field
-                // @TODO: and all other players, maintaining a match history and such for each.
-
-                System.out.println(url);
-//                System.out.println(LoRAPIRequest.get(url));
-                if (accountJSON == null) {
-
-                }
             }
         });
         loginThread.start();
 
+        LoRMasterApplication.switchToProfileScene();
     }
 
     @Override

@@ -6,8 +6,8 @@ import com.squareup.okhttp.Response;
 
 public final class LoRRequest {
 
-    // API key expires Thu, March 24, 2022 @ 2:00PM.
-    public static final String apiKey = "RGAPI-43e78e19-5315-420b-a36e-39a7e2493c9d";
+    // API key expires Fri, March 25, 2022 @ 9:30PM.
+    public static final String apiKey = "RGAPI-6357fc25-84b2-4d38-99bd-7a332164ff62";
 
     /**
      * @param url The URL of the request.

@@ -15,4 +15,8 @@ module ghosking.lormaster {
 
     opens ghosking.lormaster to javafx.fxml;
     exports ghosking.lormaster;
+    exports ghosking.lormaster.lor;
+    exports ghosking.lormaster.controller;
+    opens ghosking.lormaster.lor to javafx.fxml;
+    opens ghosking.lormaster.controller to javafx.fxml;
 }

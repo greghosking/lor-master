@@ -1,9 +1,11 @@
-package ghosking.lormaster;
+package ghosking.lormaster.lor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class LoRDeck {
+// @TODO: FINISH THIS!!
+
+public final class LoRDeck {
 
     private HashMap<String, Integer> cards;
 

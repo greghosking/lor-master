@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background-pane" stylesheets="@../css/meta-view.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ghosking.lormaster.controller.MetaController">
+   <children>
+      <Button fx:id="profileNavigationButton" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/meta-view.css" text="PROFILE">
+         <font>
+            <Font name="Lucida Console" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="collectionNavigationButton" layoutY="240.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/meta-view.css" text="COLLECTION">
+         <font>
+            <Font name="Lucida Console" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="decksNavigationButton" layoutY="360.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/meta-view.css" text="DECKS">
+         <font>
+            <Font name="Lucida Console" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="communityNavigationButton" layoutY="120.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/meta-view.css" text="COMMUNITY">
+         <font>
+            <Font name="Lucida Console" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="leaderboardNavigationButton" layoutY="480.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/meta-view.css" text="LEADERBOARD">
+         <font>
+            <Font name="Lucida Console" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="metaNavigationButton" layoutY="600.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="selected-navigation-button" stylesheets="@../css/meta-view.css" text="META">
+         <font>
+            <Font name="Lucida Console" size="18.0" />
+         </font>
+      </Button>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" prefHeight="720.0" prefWidth="1080.0" stylesheets="@../css/meta-view.css" text="SELECTED META!" textFill="WHITE">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

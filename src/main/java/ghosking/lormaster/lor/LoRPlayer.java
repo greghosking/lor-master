@@ -25,6 +25,19 @@ public final class LoRPlayer {
         this.tagLine = tagLine;
     }
 
+    /**
+     * Other constructor is public to allow instances of this class to be created
+     * to store ranked information about a player without credentials.
+     */
+    public LoRPlayer(String gameName, int rank, int lp) {
+        this.gameName = gameName;
+        this.rank = rank;
+        this.lp = lp;
+
+        puuid = null;
+        tagLine = null;
+    }
+
     public String getPUUID() {
         return puuid;
     }

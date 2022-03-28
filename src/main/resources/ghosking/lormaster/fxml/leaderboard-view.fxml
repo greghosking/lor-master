@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -37,9 +38,28 @@
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" prefHeight="720.0" prefWidth="1080.0" stylesheets="@../css/leaderboard-view.css" text="SELECTED LEADERBOARD!" textFill="WHITE">
+      <ListView fx:id="americasLeaderboardListView" layoutX="256.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" />
+      <ListView fx:id="europeLeaderboardListView" layoutX="512.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" />
+      <ListView fx:id="seaLeaderboardListView" layoutX="768.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" />
+      <ListView fx:id="worldLeaderboardListView" layoutX="1024.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" />
+      <Label alignment="CENTER" layoutX="256.0" prefHeight="120.0" prefWidth="200.0" text="AMERICAS" textFill="WHITE">
          <font>
-            <Font size="36.0" />
+            <Font name="Lucida Console" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="512.0" prefHeight="120.0" prefWidth="200.0" text="EUROPE" textFill="WHITE">
+         <font>
+            <Font name="Lucida Console" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="768.0" prefHeight="120.0" prefWidth="200.0" text="SEA" textFill="WHITE">
+         <font>
+            <Font name="Lucida Console" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="1024.0" prefHeight="120.0" prefWidth="200.0" text="WORLD" textFill="WHITE">
+         <font>
+            <Font name="Lucida Console" size="24.0" />
          </font>
       </Label>
    </children>

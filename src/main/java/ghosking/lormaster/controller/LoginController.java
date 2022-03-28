@@ -41,7 +41,7 @@ public class LoginController implements Initializable {
         ArrayList<String> cardCodes = cardDatabase.getCardCodes();
         while (images.size() < 1) {
             randomIndex = (int) (Math.random() * cardCodes.size());
-            LoRCard card = cardDatabase.getCard(cardCodes.get(randomIndex));
+            LoRCardDatabase.LoRCard card = cardDatabase.getCard(cardCodes.get(randomIndex));
             if (card.getType().compareToIgnoreCase("Unit") == 0 && card.getSupertype().compareTo("Champion") == 0) {
 
                 images.add(card.getFullAsset());
@@ -51,7 +51,7 @@ public class LoginController implements Initializable {
         // Then, start a separate thread to load the rest of the images in the background.
         Thread imageLoadingThread = new Thread(() -> {
             for (String code : cardCodes) {
-                LoRCard card = cardDatabase.getCard(code);
+                LoRCardDatabase.LoRCard card = cardDatabase.getCard(code);
                 if (card.getType().compareToIgnoreCase("Unit") == 0 && card.getSupertype().compareTo("Champion") == 0) {
                     images.add(card.getFullAsset());
                 }

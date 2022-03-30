@@ -60,14 +60,19 @@ public final class LoRPlayer {
         }
     }
 
-    public int getLp() {
+    public int getLP() {
         return lp;
     }
 
-    public void setLp(int lp) {
+    public void setLP(int lp) {
         if (lp >= 0) {
             this.lp = lp;
         }
+    }
+
+    @Override
+    public String toString() {
+        return rank + ". " + gameName + " (" + lp + ")";
     }
 
     public ArrayList<LoRMatch> getMatchHistory() {

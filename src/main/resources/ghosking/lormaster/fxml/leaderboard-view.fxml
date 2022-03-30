@@ -38,28 +38,33 @@
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <ListView fx:id="americasLeaderboardListView" layoutX="256.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" />
-      <ListView fx:id="europeLeaderboardListView" layoutX="512.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" />
-      <ListView fx:id="seaLeaderboardListView" layoutX="768.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" />
-      <ListView fx:id="worldLeaderboardListView" layoutX="1024.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" />
-      <Label alignment="CENTER" layoutX="256.0" prefHeight="120.0" prefWidth="200.0" text="AMERICAS" textFill="WHITE">
+      <ListView fx:id="americasLeaderboardListView" layoutX="256.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" styleClass="leaderboard-list-view" stylesheets="@../css/leaderboard-view.css" />
+      <ListView fx:id="europeLeaderboardListView" layoutX="512.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" styleClass="leaderboard-list-view" stylesheets="@../css/leaderboard-view.css" />
+      <ListView fx:id="seaLeaderboardListView" layoutX="768.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" styleClass="leaderboard-list-view" stylesheets="@../css/leaderboard-view.css" />
+      <ListView fx:id="worldLeaderboardListView" layoutX="1024.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" styleClass="leaderboard-list-view" stylesheets="@../css/leaderboard-view.css" />
+      <Label alignment="CENTER" layoutX="256.0" prefHeight="120.0" prefWidth="200.0" styleClass="leaderboard-label" stylesheets="@../css/leaderboard-view.css" text="AMERICAS" textFill="WHITE">
          <font>
             <Font name="Lucida Console" size="24.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="512.0" prefHeight="120.0" prefWidth="200.0" text="EUROPE" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="512.0" prefHeight="120.0" prefWidth="200.0" styleClass="leaderboard-label" stylesheets="@../css/leaderboard-view.css" text="EUROPE" textFill="WHITE">
          <font>
             <Font name="Lucida Console" size="24.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="768.0" prefHeight="120.0" prefWidth="200.0" text="SEA" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="768.0" prefHeight="120.0" prefWidth="200.0" styleClass="leaderboard-label" stylesheets="@../css/leaderboard-view.css" text="SEA" textFill="WHITE">
          <font>
             <Font name="Lucida Console" size="24.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="1024.0" prefHeight="120.0" prefWidth="200.0" text="WORLD" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="1024.0" prefHeight="120.0" prefWidth="200.0" styleClass="leaderboard-label" stylesheets="@../css/leaderboard-view.css" text="WORLD" textFill="WHITE">
          <font>
             <Font name="Lucida Console" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="664.0" prefHeight="55.0" prefWidth="1080.0" styleClass="leaderboard-label" stylesheets="@../css/leaderboard-view.css" text="Leaderboards are updated every fifteen minutes..." textAlignment="CENTER" textFill="WHITE" visible="false">
+         <font>
+            <Font name="Lucida Console" size="12.0" />
          </font>
       </Label>
    </children>

@@ -1,15 +1,20 @@
 package ghosking.lormaster;
 
-import ghosking.lormaster.lor.LoRMatch;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import java.time.LocalDateTime;
 
 public class LoRMasterApplication extends Application {
 
-    private static Stage mainStage;
+    private static Stage primaryStage;
+    private static Scene leaderboardScene;
+
+    private static LocalDateTime timeLastUpdatedLeaderboard;
+
+//    private static DateTime timeSinceLastUpdatedLeaderboard;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -29,7 +34,7 @@ public class LoRMasterApplication extends Application {
         stage.setResizable(false);
         stage.show();
 
-        mainStage = stage;
+        primaryStage = stage;
     }
 
     public static void main(String[] args) { launch(); }
@@ -38,7 +43,7 @@ public class LoRMasterApplication extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(LoRMasterApplication.class.getResource("fxml/profile-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
-            mainStage.setScene(scene);
+            primaryStage.setScene(scene);
         }
         catch (Exception ex) {
             ex.printStackTrace();
@@ -48,7 +53,7 @@ public class LoRMasterApplication extends Application {
     public static void switchToCommunityScene() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(LoRMasterApplication.class.getResource("fxml/community-view.fxml"));
-            mainStage.setScene(new Scene(fxmlLoader.load()));
+            primaryStage.setScene(new Scene(fxmlLoader.load()));
         }
         catch (Exception ex) {
             ex.printStackTrace();
@@ -57,7 +62,7 @@ public class LoRMasterApplication extends Application {
     public static void switchToCollectionScene() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(LoRMasterApplication.class.getResource("fxml/collection-view.fxml"));
-            mainStage.setScene(new Scene(fxmlLoader.load()));
+            primaryStage.setScene(new Scene(fxmlLoader.load()));
         }
         catch (Exception ex) {
             ex.printStackTrace();
@@ -66,25 +71,32 @@ public class LoRMasterApplication extends Application {
     public static void switchToDecksScene() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(LoRMasterApplication.class.getResource("fxml/decks-view.fxml"));
-            mainStage.setScene(new Scene(fxmlLoader.load()));
+            primaryStage.setScene(new Scene(fxmlLoader.load()));
         }
         catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
+    // @TODO: clean this up.
     public static void switchToLeaderboardScene() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(LoRMasterApplication.class.getResource("fxml/leaderboard-view.fxml"));
-            mainStage.setScene(new Scene(fxmlLoader.load()));
+        if (timeLastUpdatedLeaderboard == null || timeLastUpdatedLeaderboard.plusMinutes(10).isBefore(LocalDateTime.now())) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(LoRMasterApplication.class.getResource("fxml/leaderboard-view.fxml"));
+                leaderboardScene = new Scene(fxmlLoader.load());
+                timeLastUpdatedLeaderboard = LocalDateTime.now();
+            }
+            catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        primaryStage.setScene(leaderboardScene);
+
     }
     public static void switchToMetaScene() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(LoRMasterApplication.class.getResource("fxml/meta-view.fxml"));
-            mainStage.setScene(new Scene(fxmlLoader.load()));
+            primaryStage.setScene(new Scene(fxmlLoader.load()));
         }
         catch (Exception ex) {
             ex.printStackTrace();

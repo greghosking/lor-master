@@ -1,43 +1,45 @@
 package ghosking.lormaster;
 
+import ghosking.lormaster.lor.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class LoRMasterApplication extends Application {
+
+    // The user that is currently logged in.
+    private static LoRPlayer activePlayer;
 
     private static Stage primaryStage;
     private static Scene leaderboardScene;
 
     private static LocalDateTime timeLastUpdatedLeaderboard;
 
-//    private static DateTime timeSinceLastUpdatedLeaderboard;
-
     @Override
     public void start(Stage stage) throws Exception {
-
-        // At the start of the program...
-        // 1. new thread: load champion images for the login screen.
-
-        // then, we start the login screen...
-
-        // 2. new thread: load collectible cards to be displayed in the collection screen.
-        // 3. either at the same time as 2 or after 2, load in the rest of the assets...
-        //    (non collectibles, full art for the cards...)
-
         FXMLLoader fxmlLoader = new FXMLLoader(LoRMasterApplication.class.getResource("fxml/login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
-
         primaryStage = stage;
+
+        // @TODO: Load other scenes in the background in separate threads.
     }
 
     public static void main(String[] args) { launch(); }
+
+    public static LoRPlayer getActivePlayer() {
+        return activePlayer;
+    }
+
+    public static void setActivePlayer(LoRPlayer player) {
+        activePlayer = player;
+    }
 
     public static void switchToProfileScene() {
         try {
@@ -78,7 +80,7 @@ public class LoRMasterApplication extends Application {
         }
     }
 
-    // @TODO: clean this up.
+    // @TODO: Clean up this method.
     public static void switchToLeaderboardScene() {
         if (timeLastUpdatedLeaderboard == null || timeLastUpdatedLeaderboard.plusMinutes(10).isBefore(LocalDateTime.now())) {
             try {

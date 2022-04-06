@@ -79,13 +79,13 @@ public final class LoRMatch {
     public static LoRMatch fromID(String id) {
         // Create the request URL for the match ID.
         String url = "https://americas.api.riotgames.com/lor/match/v1/matches/" +
-                id + "?api_key=" + LoRRequest.apiKey;
+                id + "?api_key=" + LoRRequest.API_KEY;
 
         // Returns a string containing the match data in JSON format, or null
         // if there is no existing match for the specified ID.
         String matchJSON = LoRRequest.get(url);
         if (matchJSON == null) {
-            throw new IllegalArgumentException("Illegal match ID: " + id);
+            throw new IllegalArgumentException("Unrecognized match ID: " + id);
         }
 
         // Get the JSONObject for the match info and parse it for the type of the

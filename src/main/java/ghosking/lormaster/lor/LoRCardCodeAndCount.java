@@ -18,9 +18,13 @@ public class LoRCardCodeAndCount {
         return count;
     }
 
-    public void setCount(int count) {
+    public void incrementCount() {
+        count++;
+    }
+
+    public void decrementCount() {
         if (count > 0) {
-            this.count = count;
+            count--;
         }
     }
 }

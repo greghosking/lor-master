@@ -78,7 +78,7 @@ public final class LoRPlayer {
     public ArrayList<LoRMatch> getMatchHistory() {
         // Create the request URL for the player match history using the player PUUID.
         String url = "https://americas.api.riotgames.com/lor/match/v1/matches/by-puuid/" +
-                puuid + "/ids?api_key=" + LoRRequest.apiKey;
+                puuid + "/ids?api_key=" + LoRRequest.API_KEY;
 
         // Returns a string containing a list of the player most recent twenty
         // match IDs in JSON format,
@@ -103,7 +103,7 @@ public final class LoRPlayer {
     public static LoRPlayer fromPUUID(String puuid) {
         // Create the request URL for the player PUUID.
         String url = "https://americas.api.riotgames.com/riot/account/v1/accounts/by-puuid/" +
-                puuid + "?api_key=" + LoRRequest.apiKey;
+                puuid + "?api_key=" + LoRRequest.API_KEY;
 
         // Returns a string containing the player data in JSON format, or null if
         // there is no existing player for the specified PUUID.
@@ -138,7 +138,7 @@ public final class LoRPlayer {
 
         // Create the request URL for the player Riot ID.
         String url = "https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/" +
-                gameName + "/" + tagLine + "?api_key=" + LoRRequest.apiKey;
+                formattedGameName + "/" + tagLine + "?api_key=" + LoRRequest.API_KEY;
 
         // Returns a string containing the player data in JSON format, or null if
         // there is no existing player for the specified Riot ID.

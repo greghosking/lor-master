@@ -67,6 +67,18 @@ public final class LoRCardDatabase {
             return code;
         }
 
+        public int getSet() {
+            return Integer.parseInt(code.substring(0, 2));
+        }
+
+        public LoRRegion getRegion() {
+            return LoRRegion.fromCode(code.substring(2, 4));
+        }
+
+        public int getID() {
+            return Integer.parseInt(code.substring(4, 7));
+        }
+
         public ArrayList<LoRRegion> getRegions() {
             return regions;
         }

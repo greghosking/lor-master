@@ -160,6 +160,7 @@ public final class LoRCardDatabase {
     private LoRCardDatabase() {
         cards = new HashMap<>();
 
+        // @TODO: Find a better way to handle this... (Custom exceptions in LoRRequest class.)
         int set = 1;
         while (true) {
             // Create the request URL for the current set.
@@ -225,7 +226,6 @@ public final class LoRCardDatabase {
 
             set++;
         }
-        System.out.println(cards.size());
     }
 
     public static LoRCardDatabase getInstance() {
@@ -243,27 +243,55 @@ public final class LoRCardDatabase {
         return new ArrayList<>(cards.keySet());
     }
 
-    // @TODO
-    public ArrayList<String> getCardCodesByRegion(ArrayList<String> cardCodes, boolean includeRegionX) {
+    // @TODO: Implement this and add documentation.
+    public ArrayList<String> getCardCodesByRegion(ArrayList<String> cardCodes, boolean includeDE, boolean includeFR, boolean includeIO, boolean includeNX, boolean includePZ, boolean includeSI, boolean includeBW, boolean includeMT, boolean includeSH, boolean includeBC) {
 
-        return null;
+        return cardCodes;
     }
 
-    // @TODO
-    public ArrayList<String> getCardCodesByCost(ArrayList<String> cardCodes, boolean includeXCost) {
+    // @TODO: Implement this and add documentation.
+    public ArrayList<String> getCardCodesByName(ArrayList<String> cardCodes, String name) {
 
-        return null;
+        return cardCodes;
     }
 
-//    // @TODO
-//    public ArrayList<String> getCardCodesByAttack() {
-//
-//        return null;
-//    }
-//
-//    // @TODO:
-//    public ArrayList<String> getCardCodesByHealth() {
-//
-//        return null;
-//    }
+    // @TODO: Implement this and add documentation.
+    public ArrayList<String> getCardCodesByCost(ArrayList<String> cardCodes, boolean include1OrLessCost, boolean include2Cost) {
+
+        return cardCodes;
+    }
+
+    // @TODO: Implement this and add documentation.
+    public ArrayList<String> getCardCodesByKeyword(ArrayList<String> cardCodes, String keyword) {
+
+        return cardCodes;
+    }
+
+    // @TODO: Implement this and add documentation.
+    public ArrayList<String> getCardCodesByType(ArrayList<String> cardCodes, boolean includeUnits, boolean includeSpells, boolean includeLandmarks) {
+
+        return cardCodes;
+    }
+
+    // @TODO: Add documentation.
+    public ArrayList<String> getCardCodesByRarity(ArrayList<String> cardCodes, boolean includeCommon, boolean includeRare, boolean includeEpic, boolean includeChampion) {
+        // Search through the given list of card codes, removing any cards that
+        // do not have any of the requested rarities.
+        for (int i = cardCodes.size() - 1; i >= 0; i--) {
+            String rarity = getCard(cardCodes.get(i)).getRarity();
+            String type = getCard(cardCodes.get(i)).getType();
+            String supertype = getCard(cardCodes.get(i)).getSupertype();
+            if (!((includeCommon && rarity.equalsIgnoreCase("COMMON")) || (includeRare && rarity.equalsIgnoreCase("RARE")) || (includeEpic && rarity.equalsIgnoreCase("EPIC")) || (includeChampion && type.equalsIgnoreCase("UNIT") && supertype.equalsIgnoreCase("CHAMPION")))) {
+                cardCodes.remove(i);
+            }
+        }
+
+        return cardCodes;
+    }
+
+    // @TODO: Implement this and add documentation.
+    public ArrayList<String> getCardCodesByCollectible(ArrayList<String> cardCodes, boolean includeCollectible) {
+
+        return cardCodes;
+    }
 }

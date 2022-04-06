@@ -2,19 +2,18 @@ package ghosking.lormaster.controller;
 
 import ghosking.lormaster.LoRMasterApplication;
 import ghosking.lormaster.lor.*;
-import javafx.animation.FadeTransition;
-import javafx.animation.KeyFrame;
-import javafx.animation.ScaleTransition;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -28,33 +27,33 @@ public class LoginController implements Initializable {
     private TextField gameNameTextField;
     @FXML
     private TextField tagLineTextField;
+    @FXML
+    private Button loginButton;
+    @FXML
+    private Label loginMessageLabel;
 
-    private int randomIndex;
     private final double slideDuration = 10;
     private final double fadeDuration = 1.5;
 
-    public void slideshow() {
+    private LocalDateTime timeOfLastLoginAttempt;
+    private final long timeBetweenLoginAttempts = 3;
+
+    private int index;
+    private LoRPlayer activePlayer;
+
+    private void startSlideshow() {
         LoRCardDatabase cardDatabase = LoRCardDatabase.getInstance();
+        ArrayList<String> championCardCodes = cardDatabase.getCardCodesByRarity(cardDatabase.getCardCodes(), false, false, false, true);
+
         ArrayList<Image> images = new ArrayList<>();
+        // To make sure that the slideshow has an image to start with, load a random
+        // image into the images ArrayList before starting a thread to load the rest.
+        index = (int) (Math.random() * championCardCodes.size());
+        images.add(cardDatabase.getCard(championCardCodes.get(index)).getFullAsset());
 
-        // Before the start of the slideshow, load a random image into the images ArrayList.
-        ArrayList<String> cardCodes = cardDatabase.getCardCodes();
-        while (images.size() < 1) {
-            randomIndex = (int) (Math.random() * cardCodes.size());
-            LoRCardDatabase.LoRCard card = cardDatabase.getCard(cardCodes.get(randomIndex));
-            if (card.getType().compareToIgnoreCase("Unit") == 0 && card.getSupertype().compareTo("Champion") == 0) {
-
-                images.add(card.getFullAsset());
-            }
-        }
-
-        // Then, start a separate thread to load the rest of the images in the background.
         Thread imageLoadingThread = new Thread(() -> {
-            for (String code : cardCodes) {
-                LoRCardDatabase.LoRCard card = cardDatabase.getCard(code);
-                if (card.getType().compareToIgnoreCase("Unit") == 0 && card.getSupertype().compareTo("Champion") == 0) {
-                    images.add(card.getFullAsset());
-                }
+            for (String cardCode : championCardCodes) {
+                images.add(cardDatabase.getCard(cardCode).getFullAsset());
             }
         });
         imageLoadingThread.start();
@@ -76,8 +75,8 @@ public class LoginController implements Initializable {
                 // Set the image of the frontImageView to a random loaded image and fade it in
                 // over fadeDuration seconds.
                 new KeyFrame(Duration.seconds(slideDuration), event -> {
-                    randomIndex = (int) (Math.random() * images.size());
-                    frontImageView.setImage(images.get(randomIndex));
+                    index = (int) (Math.random() * images.size());
+                    frontImageView.setImage(images.get(index));
 
                     // Before making the frontImageView visible, reset its scale.
                     frontImageView.setScaleX(1);
@@ -100,8 +99,8 @@ public class LoginController implements Initializable {
                 // Set the image of the backImageView to a random loaded image and fade the
                 // frontImageView out over fadeDuration seconds.
                 new KeyFrame(Duration.seconds((slideDuration * 2) + fadeDuration), event -> {
-                    randomIndex = (int) (Math.random() * images.size());
-                    backImageView.setImage(images.get(randomIndex));
+                    index = (int) (Math.random() * images.size());
+                    backImageView.setImage(images.get(index));
 
                     // Before making the backImageView visible, reset its scale.
                     backImageView.setScaleX(1);
@@ -118,18 +117,63 @@ public class LoginController implements Initializable {
         timeline.play();
     }
 
-    public void login() {
+    public void attemptLogin() {
+        // Hide the login message label when the user attempts to log in.
+        loginMessageLabel.setVisible(false);
+
         // Start a separate thread to perform the login attempt in the background.
         Thread loginThread = new Thread(() -> {
-
+            try {
+                activePlayer = LoRPlayer.fromRiotID(gameNameTextField.getText(), tagLineTextField.getText());
+            }
+            catch (Exception ex) {
+                showLoginError();
+            }
         });
         loginThread.start();
 
-        LoRMasterApplication.switchToProfileScene();
+        // Continually check if the login attempt has been processed without blocking.
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().addAll(
+                new KeyFrame(Duration.seconds(0), event -> {}),
+                new KeyFrame(Duration.seconds(1), event -> {
+                    // If the login attempt was processed and successful by now,
+                    // activePlayer will not be null.
+                    if (activePlayer != null) {
+                        LoRMasterApplication.setActivePlayer(activePlayer);
+                        LoRMasterApplication.switchToProfileScene();
+                        timeline.stop();
+                    }
+                })
+        );
+        timeline.setCycleCount(3);
+        timeline.play();
+    }
+
+    private void showLoginError() {
+        // Show a red message at the bottom of the screen for a few seconds.
+        // (The message warns the user that the login attempt failed.)
+        double loginMessageDuration = 7.5;
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(0), event -> loginMessageLabel.setVisible(true)),
+                new KeyFrame(Duration.seconds(loginMessageDuration), event -> loginMessageLabel.setVisible(false))
+        );
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        slideshow();
+        // Prevent the user from spamming the login button and sending too many
+        // login attempt requests.
+        loginButton.setOnMouseClicked(mouseEvent -> {
+            if (timeOfLastLoginAttempt == null ||
+                    timeOfLastLoginAttempt.plusSeconds(timeBetweenLoginAttempts).isBefore(LocalDateTime.now())) {
+                timeOfLastLoginAttempt = LocalDateTime.now();
+                attemptLogin();
+            }
+        });
+
+        startSlideshow();
     }
 }

@@ -38,10 +38,15 @@
             <Font name="Lucida Console" size="18.0" />
          </font>
       </TextField>
-      <Button fx:id="loginButton" layoutX="490.0" layoutY="501.0" mnemonicParsing="false" onMouseClicked="#login" prefHeight="40.0" prefWidth="300.0" styleClass="login-button" stylesheets="@../css/login-view.css" text="LOG IN">
+      <Button fx:id="loginButton" layoutX="490.0" layoutY="501.0" mnemonicParsing="false" onMouseClicked="#attemptLogin" prefHeight="40.0" prefWidth="300.0" styleClass="login-button" stylesheets="@../css/login-view.css" text="LOG IN">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
+      <Label fx:id="loginMessageLabel" layoutX="278.0" layoutY="686.0" stylesheets="@../css/login-view.css" text="Cannot find an account with that game name and tag line. Please try again." textFill="RED" visible="false">
+         <font>
+            <Font name="Lucida Console" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

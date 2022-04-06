@@ -82,7 +82,7 @@ public class LoRDeckEncoder {
             bytes = Base32.decode(code);
         }
         catch (Exception ex) {
-            throw new IllegalArgumentException("Illegal deck code: " + code);
+            throw new IllegalArgumentException("Unrecognized deck code: " + code);
         }
         // Store bytes in an ArrayList to easily remove elements and use VarInt.pop().
         ArrayList<Byte> bytesList = new ArrayList<>();

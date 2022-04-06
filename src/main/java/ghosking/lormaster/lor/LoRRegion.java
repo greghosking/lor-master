@@ -23,7 +23,7 @@ public final class LoRRegion {
         return version;
     }
 
-    public int getId() {
+    public int getID() {
         return id;
     }
 

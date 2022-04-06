@@ -85,7 +85,7 @@ public final class LoRMatch {
         // if there is no existing match for the specified ID.
         String matchJSON = LoRRequest.get(url);
         if (matchJSON == null) {
-            throw new RuntimeException("Unrecognized match ID: " + id);
+            throw new IllegalArgumentException("Illegal match ID: " + id);
         }
 
         // Get the JSONObject for the match info and parse it for the type of the

@@ -2,7 +2,6 @@ package ghosking.lormaster.controller;
 
 import ghosking.lormaster.LoRMasterApplication;
 import ghosking.lormaster.lor.LoRPlayer;
-import ghosking.lormaster.lor.LoRRegion;
 import ghosking.lormaster.lor.LoRRequest;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,7 +11,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.util.Callback;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,7 +23,7 @@ public class LeaderboardController implements Initializable {
     /**
      * Create a custom cell renderer for the leaderboard ListViews.
      */
-    private class LeaderboardListCell extends ListCell<String> {
+    private static class LeaderboardListCell extends ListCell<String> {
         @Override
         protected void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
@@ -61,13 +59,13 @@ public class LeaderboardController implements Initializable {
     private ArrayList<LoRPlayer> getRegionLeaderboard(String region) {
         // Create the request URL for the region.
         String url = "https://" + region.toLowerCase() + ".api.riotgames.com" +
-                "/lor/ranked/v1/leaderboards?api_key=" + LoRRequest.apiKey;
+                "/lor/ranked/v1/leaderboards?api_key=" + LoRRequest.API_KEY;
 
         // Returns a string containing a list of all players in Masters rank for
         // the given region in JSON format, or null if the region does not exist.
         String leaderboardJSONString = LoRRequest.get(url);
         if (leaderboardJSONString == null) {
-            throw new RuntimeException("Unrecognized region: " + region);
+            throw new IllegalArgumentException("Illegal region: " + region);
         }
 
         JSONArray leaderboardJSONArray = (JSONArray) new JSONObject(leaderboardJSONString).get("players");

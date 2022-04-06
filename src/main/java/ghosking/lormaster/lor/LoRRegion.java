@@ -72,7 +72,7 @@ public final class LoRRegion {
             return new LoRRegion(4, id, "BC", "Bandle City");
         }
 
-        throw new RuntimeException("Unrecognized region ID: " + id);
+        throw new IllegalArgumentException("Unrecognized region ID: " + id);
     }
 
     /**
@@ -112,7 +112,7 @@ public final class LoRRegion {
             return new LoRRegion(4, 10, "BC", "Bandle City");
         }
 
-        throw new RuntimeException("Unrecognized region code: " + code);
+        throw new IllegalArgumentException("Unrecognized region code: " + code);
     }
 
     /**
@@ -152,6 +152,6 @@ public final class LoRRegion {
             return new LoRRegion(4, 10, "BC", "Bandle City");
         }
 
-        throw new RuntimeException("Unrecognized region name: " + name);
+        throw new IllegalArgumentException("Unrecognized region name: " + name);
     }
 }

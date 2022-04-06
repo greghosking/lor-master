@@ -109,7 +109,7 @@ public final class LoRPlayer {
         // there is no existing player for the specified PUUID.
         String playerJSON = LoRRequest.get(url);
         if (playerJSON == null) {
-            throw new RuntimeException("Unrecognized player PUUID: " + puuid);
+            throw new IllegalArgumentException("Unrecognized player PUUID: " + puuid);
         }
 
         // Get the JSONObject for the player and parse it for the player gameName
@@ -144,7 +144,7 @@ public final class LoRPlayer {
         // there is no existing player for the specified Riot ID.
         String playerJSON = LoRRequest.get(url);
         if (playerJSON == null) {
-            throw new RuntimeException("Unrecognized player Riot ID: " + gameName + " / " + tagLine);
+            throw new IllegalArgumentException("Unrecognized player Riot ID: " + gameName + " / " + tagLine);
         }
 
         // Get the JSONObject for the player and parse it for the player PUUID.

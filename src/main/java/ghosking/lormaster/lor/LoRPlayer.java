@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public final class LoRPlayer {
 
@@ -11,8 +12,8 @@ public final class LoRPlayer {
     private final String gameName;
     private final String tagLine;
 
-    private int rank;
-    private int lp;
+    private final int rank;
+    private final int lp;
 
     /**
      * Constructor is private to ensure that instances of this class are only created
@@ -23,6 +24,9 @@ public final class LoRPlayer {
         this.puuid = puuid;
         this.gameName = gameName;
         this.tagLine = tagLine;
+
+        this.rank = -1;
+        this.lp = -1;
     }
 
     /**
@@ -34,8 +38,8 @@ public final class LoRPlayer {
         this.rank = rank;
         this.lp = lp;
 
-        puuid = null;
-        tagLine = null;
+        this.puuid = null;
+        this.tagLine = null;
     }
 
     public String getPUUID() {
@@ -54,20 +58,8 @@ public final class LoRPlayer {
         return rank;
     }
 
-    public void setRank(int rank) {
-        if (rank > 0) {
-            this.rank = rank;
-        }
-    }
-
     public int getLP() {
         return lp;
-    }
-
-    public void setLP(int lp) {
-        if (lp >= 0) {
-            this.lp = lp;
-        }
     }
 
     @Override
@@ -75,7 +67,7 @@ public final class LoRPlayer {
         return rank + ". " + gameName + " (" + lp + ")";
     }
 
-    public ArrayList<LoRMatch> getMatchHistory() {
+    public List<LoRMatch> getMatchHistory() {
         // Create the request URL for the player match history using the player PUUID.
         String url = "https://americas.api.riotgames.com/lor/match/v1/matches/by-puuid/" +
                 puuid + "/ids?api_key=" + LoRRequest.API_KEY;
@@ -87,10 +79,9 @@ public final class LoRPlayer {
 
         // Parse each element of the matchIDs JSONArray to create a new LoRMatch
         // which is added to the matchHistory ArrayList.
-        ArrayList<LoRMatch> matchHistory = new ArrayList<>();
-        for (Object matchIDObj : matchIDsJSONArray) {
+        List<LoRMatch> matchHistory = new ArrayList<>();
+        for (Object matchIDObj : matchIDsJSONArray)
             matchHistory.add(LoRMatch.fromID(matchIDObj.toString()));
-        }
 
         return matchHistory;
     }

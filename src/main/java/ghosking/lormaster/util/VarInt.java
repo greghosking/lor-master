@@ -12,7 +12,7 @@ public class VarInt {
     private static final int ALL_BUT_MSB = 0x7F;
     private static final int JUST_MSB = 0x80;
 
-    public static int pop(ArrayList<Byte> bytes) {
+    public static int pop(List<Byte> bytes) {
         int result = 0;
         int currentShift = 0;
         int bytesPopped = 0;
@@ -35,11 +35,11 @@ public class VarInt {
 
     public static List<Integer> get(int value) {
         Integer[] data = new Integer[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        ArrayList<Integer> buffer = new ArrayList<>(Arrays.asList(data));
+        List<Integer> buffer = new ArrayList<>(Arrays.asList(data));
         int currentIndex = 0;
 
         if (value == 0) {
-            ArrayList<Integer> result = new ArrayList<>();
+            List<Integer> result = new ArrayList<>();
             result.add(0);
             return result;
         }
@@ -48,9 +48,7 @@ public class VarInt {
             int byteVal = value & ALL_BUT_MSB;
             value >>>= 7;
 
-            if (value != 0) {
-                byteVal |= JUST_MSB;
-            }
+            if (value != 0) byteVal |= JUST_MSB;
 
             buffer.set(currentIndex++, byteVal);
         }

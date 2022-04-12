@@ -3,6 +3,7 @@ package ghosking.lormaster.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Derived from https://github.com/RiotGames/LoRDeckCodes/blob/main/LoRDeckCodes/Base32.cs.
@@ -15,7 +16,7 @@ public final class Base32 {
     );
     private static final int MASK = CHARACTERS.size() - 1;
     private static final int SHIFT = Integer.numberOfTrailingZeros(CHARACTERS.size());
-    private static final HashMap<Character, Integer> CHARACTER_MAP = new HashMap<>() {{
+    private static final Map<Character, Integer> CHARACTER_MAP = new HashMap<>() {{
         for (int i = 0; i < CHARACTERS.size(); i++) {
             put(CHARACTERS.get(i), i);
         }
@@ -23,13 +24,9 @@ public final class Base32 {
     private static final String SEPARATOR = "-";
 
     public static String encode(byte[] data) {
-        if (data.length == 0) {
-            return "";
-        }
+        if (data.length == 0) return "";
 
-        if (data.length >= (1 << 28)) {
-            throw new ArrayIndexOutOfBoundsException("Array is too long for this operation.");
-        }
+        if (data.length >= (1 << 28)) throw new ArrayIndexOutOfBoundsException("Array is too long for this operation.");
 
         int outputLength = (data.length * 8 + SHIFT - 1) / SHIFT;
         StringBuilder result = new StringBuilder(outputLength);
@@ -62,9 +59,7 @@ public final class Base32 {
         String encoded = code.trim().replace(SEPARATOR, "");
         encoded = encoded.replaceAll("[=]*$", "").toUpperCase();
 
-        if (encoded.length() == 0) {
-            return new byte[0];
-        }
+        if (encoded.length() == 0) return new byte[0];
 
         int encodedLength = encoded.length();
         int decodedLength = encodedLength * SHIFT / 8;

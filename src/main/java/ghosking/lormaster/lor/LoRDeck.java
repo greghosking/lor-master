@@ -1,10 +1,38 @@
 package ghosking.lormaster.lor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public final class LoRDeck {
 
-    private final ArrayList<LoRCardCodeAndCount> cards;
+    public static final class LoRCardCodeAndCount {
+
+        private final String cardCode;
+        private int count;
+
+        public LoRCardCodeAndCount(String cardCode, int count) {
+            this.cardCode = cardCode;
+            this.count = count;
+        }
+
+        public String getCardCode() {
+            return cardCode;
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+        public void incrementCount() {
+            count++;
+        }
+
+        public void decrementCount() {
+            if (count > 0) count--;
+        }
+    }
+
+    private final List<LoRCardCodeAndCount> cards;
 
     /**
      * Create an empty deck.
@@ -13,20 +41,20 @@ public final class LoRDeck {
         cards = new ArrayList<>();
     }
 
-    public ArrayList<LoRCardCodeAndCount> getCards() {
+    public List<LoRCardCodeAndCount> getCards() {
         return cards;
     }
 
     public int getSize() {
         int size = 0;
-        for (LoRCardCodeAndCount cardCodeAndCount : cards) {
+        for (LoRCardCodeAndCount cardCodeAndCount : cards)
             size += cardCodeAndCount.getCount();
-        }
+
         return size;
     }
 
-    public ArrayList<LoRRegion> getRegions() {
-        ArrayList<LoRRegion> regions = new ArrayList<>();
+    public List<LoRRegion> getRegions() {
+        List<LoRRegion> regions = new ArrayList<>();
         LoRCardDatabase cardDatabase = LoRCardDatabase.getInstance();
 
         // Search the deck to keep track of any regions in the deck, not counting
@@ -34,19 +62,14 @@ public final class LoRDeck {
         // in the deck in order to be there.
         for (LoRCardCodeAndCount cardCodeAndCount : cards) {
             LoRCardDatabase.LoRCard card = cardDatabase.getCard(cardCodeAndCount.getCardCode());
-            if (card.getRegions().size() > 1) {
-                continue;
-            }
+            if (card.getRegions().size() > 1) continue;
 
             boolean isRegionInDeck = false;
-            for (LoRRegion region : regions) {
-                if (region.getID() == card.getRegion().getID()) {
-                    isRegionInDeck = true;
-                }
-            }
-            if (!isRegionInDeck) {
+            for (LoRRegion region : regions)
+                if (region.getID() == card.getRegion().getID()) isRegionInDeck = true;
+
+            if (!isRegionInDeck)
                 regions.add(card.getRegion());
-            }
         }
 
         return regions;
@@ -58,9 +81,7 @@ public final class LoRDeck {
 
         for (LoRCardCodeAndCount cardCodeAndCount : cards) {
             LoRCardDatabase.LoRCard card = cardDatabase.getCard(cardCodeAndCount.getCardCode());
-            if (card.getRarity().equalsIgnoreCase("Champion")) {
-                numChampions += cardCodeAndCount.getCount();
-            }
+            if (card.getRarity() == LoRRarity.CHAMPION) numChampions += cardCodeAndCount.getCount();
         }
 
         return numChampions;
@@ -78,12 +99,11 @@ public final class LoRDeck {
     public void add(String cardCode) throws DeckSizeLimitExceededException, ChampionCountLimitExceededException, RegionCountLimitExceededException, CardCopiesCountLimitExceededException {
         LoRCardDatabase cardDatabase = LoRCardDatabase.getInstance();
 
-        if (getSize() >= 40) {
-            throw new DeckSizeLimitExceededException("Cannot add card to deck with 40 cards.");
-        }
-        if (cardDatabase.getCard(cardCode).getRarity().equalsIgnoreCase("Champion") && getNumChampions() >= 6) {
+        if (getSize() >= 40) throw new DeckSizeLimitExceededException("Cannot add card to deck with 40 cards.");
+
+        if (cardDatabase.getCard(cardCode).getRarity() == LoRRarity.CHAMPION && getNumChampions() >= 6)
             throw new ChampionCountLimitExceededException("Cannot add champion to deck with 6 champions.");
-        }
+
         if (getRegions().size() >= 2) {
             boolean hasMatchingRegion = false;
             for (LoRRegion deckRegion : getRegions()) {
@@ -94,9 +114,8 @@ public final class LoRDeck {
                     }
                 }
             }
-            if (!hasMatchingRegion) {
+            if (!hasMatchingRegion)
                 throw new RegionCountLimitExceededException("Cannot add card with new region to deck with 2 regions.");
-            }
         }
 
         boolean isCardInDeck = false;
@@ -106,9 +125,8 @@ public final class LoRDeck {
             if (cardCodeAndCount.getCardCode().equalsIgnoreCase(cardCode)) {
                 // But do not add another copy of the card if there are already
                 // 3 copies in the deck.
-                if (cardCodeAndCount.getCount() >= 3) {
+                if (cardCodeAndCount.getCount() >= 3)
                     throw new CardCopiesCountLimitExceededException("Cannot add fourth copy of card to deck.");
-                }
 
                 isCardInDeck = true;
                 cardCodeAndCount.incrementCount();
@@ -116,9 +134,7 @@ public final class LoRDeck {
         }
 
         // If not, create a new LoRCardCodeAndCount instance for this card.
-        if (!isCardInDeck) {
-            cards.add(new LoRCardCodeAndCount(cardCode, 1));
-        }
+        if (!isCardInDeck) cards.add(new LoRCardCodeAndCount(cardCode, 1));
     }
 
     /**
@@ -143,13 +159,10 @@ public final class LoRDeck {
             if (cardCodeAndCount.getCardCode().equalsIgnoreCase(cardCode)) {
                 // If there is only one of this card left in the deck, remove the
                 // LoRCardCodeAndCount from the deck entirely.
-                if (cardCodeAndCount.getCount() == 1) {
-                    cards.remove(cardCodeAndCount);
-                }
+                if (cardCodeAndCount.getCount() == 1) cards.remove(cardCodeAndCount);
                 // Otherwise, decrement the associated count by one.
-                else {
-                    cardCodeAndCount.decrementCount();
-                }
+                else cardCodeAndCount.decrementCount();
+
                 return;
             }
         }

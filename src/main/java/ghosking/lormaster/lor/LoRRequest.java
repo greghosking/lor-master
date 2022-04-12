@@ -4,9 +4,12 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import java.io.IOException;
+import java.util.Date;
+
 public final class LoRRequest {
 
-    public static final String API_KEY = "RGAPI-31acbc87-4948-4012-ad6f-283848e6f617";
+    public static final String API_KEY = "RGAPI-44ce4cff-2c9a-4fad-aa14-11edb3bf0f46";
 
     /**
      * @param url The URL of the request.
@@ -37,23 +40,21 @@ public final class LoRRequest {
                 // case 401:
                 // Response code 403: Forbidden.
                 case 403:
-                    System.out.println("Error processing request: " + request.toString());
-                    System.out.println("Authentication error! Invalid API key.");
                     response.body().close();
-                    return null;
+                    throw new AccessForbiddenException("Error processing request: " + request.toString());
+
                 // Response code 404: Data not found.
-                // case 404:
+                 case 404:
+                     response.body().close();
+                     throw new DataNotFoundException("Error processing request: " + request.toString());
                 // Response code 405: Method not allowed.
                 // case 405:
                 // Response code 415: Unsupported media type.
                 // case 415:
                 // Response code 429: Rate limit exceeded.
                 case 429:
-                    System.out.println("Error processing request: " + request.toString());
-                    System.out.println("Rate limit exceeded! Development rate limit: "
-                            + "20 requests every 1 second, 100 requests every 2 minutes.");
                     response.body().close();
-                    return null;
+                    throw new RateLimitExceededException("Error processing request: " + request.toString());
                 // Response code 500: Internal server error.
                 // case 500:
                 // Response code 502: Bad gateway.
@@ -63,11 +64,32 @@ public final class LoRRequest {
                 // Response code 504: Gateway timeout.
                 // case 504:
             }
-        } catch (Exception ex) {
+        }
+        catch (AccessForbiddenException | DataNotFoundException | RateLimitExceededException ignored) {
+        }
+        catch (IOException ex) {
             ex.printStackTrace();
             System.exit(1);
         }
 
         return null;
+    }
+
+    public static class AccessForbiddenException extends Exception {
+        public AccessForbiddenException(String errorMessage) {
+            super(errorMessage);
+        }
+    }
+
+    public static class DataNotFoundException extends Exception {
+        public DataNotFoundException(String errorMessage) {
+            super(errorMessage);
+        }
+    }
+
+    public static class RateLimitExceededException extends Exception {
+        public RateLimitExceededException(String errorMessage) {
+            super(errorMessage);
+        }
     }
 }

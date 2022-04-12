@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.List;
 
 public final class LoRMatch {
 
@@ -34,7 +35,7 @@ public final class LoRMatch {
             return deckCode;
         }
 
-        public boolean isWonMatch() {
+        public boolean wonMatch() {
             return wonMatch;
         }
     }
@@ -42,13 +43,13 @@ public final class LoRMatch {
     private final String id;
     private final String type;
     private final LocalDateTime startDateTime;
-    private final ArrayList<LoRMatchParticipant> participants;
+    private final List<LoRMatchParticipant> participants;
 
     /**
      * Constructor is private to ensure that instances of this class are only created
      * through fromID(String id).
      */
-    private LoRMatch(String id, String type, LocalDateTime startTime, ArrayList<LoRMatchParticipant> participants) {
+    private LoRMatch(String id, String type, LocalDateTime startTime, List<LoRMatchParticipant> participants) {
         this.id = id;
         this.type = type;
         this.startDateTime = startTime;
@@ -67,7 +68,7 @@ public final class LoRMatch {
         return startDateTime;
     }
 
-    public ArrayList<LoRMatchParticipant> getParticipants() {
+    public List<LoRMatchParticipant> getParticipants() {
         return participants;
     }
 
@@ -84,9 +85,7 @@ public final class LoRMatch {
         // Returns a string containing the match data in JSON format, or null
         // if there is no existing match for the specified ID.
         String matchJSON = LoRRequest.get(url);
-        if (matchJSON == null) {
-            throw new IllegalArgumentException("Unrecognized match ID: " + id);
-        }
+        if (matchJSON == null) throw new IllegalArgumentException("Unrecognized match ID: " + id);
 
         // Get the JSONObject for the match info and parse it for the type of the
         // match, the start time, and the participants.
@@ -101,7 +100,7 @@ public final class LoRMatch {
 
         // Parse each element of the participants JSONArray to create a new LoRMatchParticipant
         // which is added to the participants ArrayList.
-        ArrayList<LoRMatchParticipant> participants = new ArrayList<>();
+        List<LoRMatchParticipant> participants = new ArrayList<>();
         for (Object participantObj : participantsJSONArray) {
             JSONObject participantJSONObj = (JSONObject) participantObj;
             String puuid = participantJSONObj.getString("puuid");

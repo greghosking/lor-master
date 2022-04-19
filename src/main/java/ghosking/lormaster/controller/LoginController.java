@@ -15,22 +15,20 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
     @FXML
-    private ImageView backImageView;
+    ImageView backImageView, frontImageView;
     @FXML
-    private ImageView frontImageView;
+    TextField gameNameTextField, tagLineTextField;
     @FXML
-    private TextField gameNameTextField;
+    Button loginButton;
     @FXML
-    private TextField tagLineTextField;
-    @FXML
-    private Button loginButton;
-    @FXML
-    private Label loginMessageLabel;
+    Label loginMessageLabel;
 
     private final double slideDuration = 10;
     private final double fadeDuration = 1.5;
@@ -43,7 +41,10 @@ public class LoginController implements Initializable {
 
     private void startSlideshow() {
         LoRCardDatabase cardDatabase = LoRCardDatabase.getInstance();
-        ArrayList<String> championCardCodes = cardDatabase.getCardCodesByRarity(cardDatabase.getCardCodes(), false, false, false, true);
+        List<String> championCardCodes = new LoRCardDatabase.LoRCardFilter()
+                .bySupertype(List.of("champion"))
+                .byType(List.of(LoRType.UNIT))
+                .getCardCodes();
 
         ArrayList<Image> images = new ArrayList<>();
         // To make sure that the slideshow has an image to start with, load a random

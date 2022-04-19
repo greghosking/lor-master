@@ -36,23 +36,9 @@ public class LeaderboardController implements Initializable {
     }
 
     @FXML
-    Button profileNavigationButton;
+    Button profileButton, liveMatchButton, collectionButton, decksButton, metaButton;
     @FXML
-    Button communityNavigationButton;
-    @FXML
-    Button collectionNavigationButton;
-    @FXML
-    Button decksNavigationButton;
-    @FXML
-    Button metaNavigationButton;
-    @FXML
-    ListView<String> americasLeaderboardListView;
-    @FXML
-    ListView<String> europeLeaderboardListView;
-    @FXML
-    ListView<String> seaLeaderboardListView;
-    @FXML
-    ListView<String> worldLeaderboardListView;
+    ListView<String> americasLeaderboardListView, europeLeaderboardListView, seaLeaderboardListView, worldLeaderboardListView;
 
     private static ArrayList<LoRPlayer> worldLeaderboard;
 
@@ -64,9 +50,7 @@ public class LeaderboardController implements Initializable {
         // Returns a string containing a list of all players in Masters rank for
         // the given region in JSON format, or null if the region does not exist.
         String leaderboardJSONString = LoRRequest.get(url);
-        if (leaderboardJSONString == null) {
-            throw new IllegalArgumentException("Illegal region: " + region);
-        }
+        if (leaderboardJSONString == null) throw new IllegalArgumentException("Illegal region: " + region);
 
         JSONArray leaderboardJSONArray = (JSONArray) new JSONObject(leaderboardJSONString).get("players");
         // Parse each element of the leaderboard JSONArray to create a new LoRPlayer
@@ -87,14 +71,12 @@ public class LeaderboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("Initializing the leaderboard...");
-
         // Link the other navigation buttons to their respective scenes.
-        profileNavigationButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToProfileScene());
-        communityNavigationButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToCommunityScene());
-        collectionNavigationButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToCollectionScene());
-        decksNavigationButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToDecksScene());
-        metaNavigationButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToMetaScene());
+        profileButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToProfileScene());
+        liveMatchButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToLiveMatchScene());
+        collectionButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToCollectionScene());
+        decksButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToDecksScene());
+        metaButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToMetaScene());
 
         // Set each leaderboard ListView to use the custom cell renderer defined above.
         americasLeaderboardListView.setCellFactory(list -> new LeaderboardListCell());
@@ -112,10 +94,9 @@ public class LeaderboardController implements Initializable {
             // Sort the world leaderboard by LP descending and reassign rank as necessary.
             for (int i = 0; i < worldLeaderboard.size() - 1; i++) {
                 int indexOfMostLP = i;
-                for (int j = i + 1; j < worldLeaderboard.size(); j++) {
+                for (int j = i + 1; j < worldLeaderboard.size(); j++)
                     if (worldLeaderboard.get(j).getLP() > worldLeaderboard.get(indexOfMostLP).getLP()) {
                         indexOfMostLP = j;
-                    }
                 }
                 LoRPlayer placeholder = worldLeaderboard.get(i);
                 worldLeaderboard.set(i, worldLeaderboard.get(indexOfMostLP));
@@ -130,18 +111,10 @@ public class LeaderboardController implements Initializable {
 
             // Add all players from each leaderboard ArrayList to the corresponding
             // leaderboard ListView to be rendered.
-            for (LoRPlayer player : americasLeaderboard) {
-                americasLeaderboardListView.getItems().add(player.toString());
-            }
-            for (LoRPlayer player : europeLeaderboard) {
-                europeLeaderboardListView.getItems().add(player.toString());
-            }
-            for (LoRPlayer player : seaLeaderboard) {
-                seaLeaderboardListView.getItems().add(player.toString());
-            }
-            for (LoRPlayer player : worldLeaderboard) {
-                worldLeaderboardListView.getItems().add(player.toString());
-            }
+            for (LoRPlayer player : americasLeaderboard) americasLeaderboardListView.getItems().add(player.toString());
+            for (LoRPlayer player : europeLeaderboard) europeLeaderboardListView.getItems().add(player.toString());
+            for (LoRPlayer player : seaLeaderboard) seaLeaderboardListView.getItems().add(player.toString());
+            for (LoRPlayer player : worldLeaderboard) worldLeaderboardListView.getItems().add(player.toString());
         });
         leaderboardThread.start();
     }

@@ -4,8 +4,7 @@ import javafx.scene.image.Image;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public final class LoRCardDatabase {
 
@@ -22,10 +21,10 @@ public final class LoRCardDatabase {
         private final ArrayList<String> keywords;
         private final String spellSpeed;
 
-        private final String type;
+        private final LoRType type;
         private final ArrayList<String> subtypes;
         private final String supertype;
-        private final String rarity;
+        private final LoRRarity rarity;
         private final boolean collectible;
 
         private final String description;
@@ -38,7 +37,10 @@ public final class LoRCardDatabase {
          * created through the LoRCardDatabase constructor when called through
          * the method getInstance().
          */
-        private LoRCard(ArrayList<String> associatedCardCodes, String code, ArrayList<LoRRegion> regions, String name, int cost, int attack, int health, ArrayList<String> keywords, String spellSpeed, String type, ArrayList<String> subtypes, String supertype, String rarity, boolean collectible, String description, String levelupDescription, HashMap<String, String> assetURLs) {
+        private LoRCard(ArrayList<String> associatedCardCodes, String code, ArrayList<LoRRegion> regions, String name,
+                        int cost, int attack, int health, ArrayList<String> keywords, String spellSpeed, LoRType type,
+                        ArrayList<String> subtypes, String supertype, LoRRarity rarity, boolean collectible, String description,
+                        String levelupDescription, HashMap<String, String> assetURLs) {
             this.associatedCardCodes = associatedCardCodes;
             this.code = code;
             this.regions = regions;
@@ -107,7 +109,7 @@ public final class LoRCardDatabase {
             return spellSpeed;
         }
 
-        public String getType() {
+        public LoRType getType() {
             return type;
         }
 
@@ -119,7 +121,7 @@ public final class LoRCardDatabase {
             return supertype;
         }
 
-        public String getRarity() {
+        public LoRRarity getRarity() {
             return rarity;
         }
 
@@ -136,10 +138,12 @@ public final class LoRCardDatabase {
         }
 
         public Image getGameAsset() {
+            int w = 680;
+            int h = 1024;
             // If the image does not already exist in assets, create the image using
             // the corresponding URL and put it in assets.
             if (!assets.containsKey("game")) {
-                assets.put("game", new Image(assetURLs.get("game")));
+                assets.put("game", new Image(assetURLs.get("game"), (w / 3.5), (h / 3.5), false, true, true));
             }
             return assets.get("game");
         }
@@ -154,13 +158,214 @@ public final class LoRCardDatabase {
         }
     }
 
+    public static final class LoRCardFilter {
+
+        private List<String> cardCodes;
+
+        public LoRCardFilter() {
+            this.cardCodes = getInstance().getCardCodes();
+        }
+
+        /**
+         * Copy constructor
+         */
+        public LoRCardFilter(LoRCardFilter cardFilter) {
+            this.cardCodes = cardFilter.getCardCodes();
+        }
+
+        /**
+         * @param regionsToInclude
+         * @return
+         */
+        public LoRCardFilter byRegion(List<LoRRegion> regionsToInclude) {
+            List<String> filteredCardCodes = new ArrayList<>();
+            boolean sharedRegionFound;
+
+            for (String cardCode : cardCodes) {
+                sharedRegionFound = false;
+                for (LoRRegion region : getInstance().getCard(cardCode).getRegions())
+                    for (LoRRegion regionToInclude : regionsToInclude)
+                        if (region.getID() == regionToInclude.getID() && !sharedRegionFound) {
+                            filteredCardCodes.add(cardCode);
+                            sharedRegionFound = true;
+                        }
+            }
+
+            cardCodes = filteredCardCodes;
+            return this;
+        }
+
+        /**
+         * @param costsToInclude
+         * @return
+         */
+        public LoRCardFilter byCost(List<Integer> costsToInclude) {
+            List<String> filteredCardCodes = new ArrayList<>();
+
+            for (String cardCode : cardCodes)
+                if (costsToInclude.contains(getInstance().getCard(cardCode).getCost())) filteredCardCodes.add(cardCode);
+
+            cardCodes = filteredCardCodes;
+            return this;
+        }
+
+        /**
+         * @param typesToInclude
+         * @return
+         */
+        public LoRCardFilter byType(List<LoRType> typesToInclude) {
+            List<String> filteredCardCodes = new ArrayList<>();
+
+            for (String cardCode : cardCodes)
+                if (typesToInclude.contains(getInstance().getCard(cardCode).getType())) filteredCardCodes.add(cardCode);
+
+            cardCodes = filteredCardCodes;
+            return this;
+        }
+
+        public LoRCardFilter bySupertype(List<String> supertypesToInclude) {
+            List<String> filteredCardCodes = new ArrayList<>();
+
+            for (String cardCode : cardCodes) {
+                for (String supertype : supertypesToInclude)
+                    if (supertype.equalsIgnoreCase(getInstance().getCard(cardCode).getSupertype()))
+                        filteredCardCodes.add(cardCode);
+            }
+
+            cardCodes = filteredCardCodes;
+            return this;
+        }
+
+        /**
+         * @param raritiesToInclude
+         * @return
+         */
+        public LoRCardFilter byRarity(List<LoRRarity> raritiesToInclude) {
+            List<String> filteredCardCodes = new ArrayList<>();
+
+            for (String cardCode : cardCodes)
+                if (raritiesToInclude.contains(getInstance().getCard(cardCode).getRarity())) filteredCardCodes.add(cardCode);
+
+            cardCodes = filteredCardCodes;
+            return this;
+        }
+
+        /**
+         * @param collectible
+         * @return
+         */
+        public LoRCardFilter byCollectible(boolean collectible) {
+            List<String> filteredCardCodes = new ArrayList<>();
+
+            for (String cardCode : cardCodes)
+                if (getInstance().getCard(cardCode).isCollectible() == collectible) filteredCardCodes.add(cardCode);
+
+            cardCodes = filteredCardCodes;
+            return this;
+        }
+
+        /**
+         * @param query
+         * @return
+         */
+        public LoRCardFilter search(String query) {
+            List<String> filteredCardCodes = new ArrayList<>();
+            query = query.toUpperCase();
+            boolean queryFound;
+
+            for (String cardCode : cardCodes) {
+                queryFound = false;
+                LoRCard card = getInstance().getCard(cardCode);
+                // Check if the query string appears in the name, supertype, or descriptions of the card.
+                if (card.getName().toUpperCase().contains(query) || card.getSupertype().toUpperCase().contains(query) ||
+                        card.getDescription().toUpperCase().contains(query) || card.getLevelupDescription().toUpperCase().contains(query)) {
+                    if (!queryFound) {
+                        filteredCardCodes.add(cardCode);
+                        queryFound = true;
+                    }
+                }
+                // Check if the query string appears in the keywords or subtypes of the card.
+                for (String keyword : card.getKeywords())
+                    if (keyword.toUpperCase().contains(query) && !queryFound) {
+                        filteredCardCodes.add(cardCode);
+                        queryFound = true;
+                        break;
+                    }
+                for (String subtype : card.getSubtypes())
+                    if (subtype.toUpperCase().contains(query) && !queryFound) {
+                        filteredCardCodes.add(cardCode);
+                        queryFound = true;
+                        break;
+                    }
+            }
+
+            cardCodes = filteredCardCodes;
+            return this;
+        }
+
+        /**
+         * @return
+         */
+        public LoRCardFilter sort() {
+            // Filter the current list of card codes by rarity to separate
+            // champions from the rest of the cards.
+            List<String> championCardCodes = new LoRCardFilter(this).byRarity(Arrays.asList(LoRRarity.CHAMPION)).getCardCodes();
+            List<String> nonChampionCardCodes = new LoRCardFilter(this).byRarity(Arrays.asList(LoRRarity.COMMON, LoRRarity.RARE, LoRRarity.EPIC, LoRRarity.NONE)).getCardCodes();
+
+            // Sort the two lists by cost ascending (using name instead if two
+            // cards have the same costs).
+            for (int i = 0; i < championCardCodes.size() - 1; i++) {
+                int minIndex = i;
+                for (int j = i + 1; j < championCardCodes.size(); j++) {
+                    LoRCard card = getInstance().getCard(championCardCodes.get(j));
+                    LoRCard minCostCard = getInstance().getCard(championCardCodes.get(minIndex));
+
+                    if (card.getCost() < minCostCard.getCost())
+                        minIndex = j;
+                    else if (card.getCost() == minCostCard.getCost() && card.getName().compareToIgnoreCase(minCostCard.getName()) < 1)
+                        minIndex = j;
+                }
+                String placeholder = championCardCodes.get(i);
+                championCardCodes.set(i, championCardCodes.get(minIndex));
+                championCardCodes.set(minIndex, placeholder);
+            }
+
+            for (int i = 0; i < nonChampionCardCodes.size() - 1; i++) {
+                int minIndex = i;
+                for (int j = i + 1; j < nonChampionCardCodes.size(); j++) {
+                    LoRCard card = getInstance().getCard(nonChampionCardCodes.get(j));
+                    LoRCard minCostCard = getInstance().getCard(nonChampionCardCodes.get(minIndex));
+
+                    if (card.getCost() < minCostCard.getCost())
+                        minIndex = j;
+                    else if (card.getCost() == minCostCard.getCost() && card.getName().compareToIgnoreCase(minCostCard.getName()) < 1)
+                        minIndex = j;
+                }
+                String placeholder = nonChampionCardCodes.get(i);
+                nonChampionCardCodes.set(i, nonChampionCardCodes.get(minIndex));
+                nonChampionCardCodes.set(minIndex, placeholder);
+            }
+
+            cardCodes.clear();
+            cardCodes.addAll(championCardCodes);
+            cardCodes.addAll(nonChampionCardCodes);
+            return this;
+        }
+
+        /**
+         * @return
+         */
+        public List<String> getCardCodes() {
+            return cardCodes;
+        }
+    }
+
     private static LoRCardDatabase instance;
     private final HashMap<String, LoRCard> cards;
 
     private LoRCardDatabase() {
         cards = new HashMap<>();
 
-        // @TODO: Find a better way to handle this... (Custom exceptions in LoRRequest class.)
         int set = 1;
         while (true) {
             // Create the request URL for the current set.
@@ -200,13 +405,13 @@ public final class LoRCardDatabase {
                 }
                 String spellSpeed = cardJSONObj.getString("spellSpeed");
 
-                String type = cardJSONObj.getString("type");
+                LoRType type = LoRType.valueOf(cardJSONObj.getString("type").toUpperCase());
                 ArrayList<String> subtypes = new ArrayList<>();
                 for (var subtypeObj : cardJSONObj.getJSONArray("subtypes")) {
                     subtypes.add(subtypeObj.toString());
                 }
                 String supertype = cardJSONObj.getString("supertype");
-                String rarity = cardJSONObj.getString("rarity");
+                LoRRarity rarity = LoRRarity.valueOf(cardJSONObj.getString("rarity").toUpperCase());
                 boolean collectible = cardJSONObj.getBoolean("collectible");
 
                 String description = cardJSONObj.getString("descriptionRaw");
@@ -241,57 +446,5 @@ public final class LoRCardDatabase {
 
     public ArrayList<String> getCardCodes() {
         return new ArrayList<>(cards.keySet());
-    }
-
-    // @TODO: Implement this and add documentation.
-    public ArrayList<String> getCardCodesByRegion(ArrayList<String> cardCodes, boolean includeDE, boolean includeFR, boolean includeIO, boolean includeNX, boolean includePZ, boolean includeSI, boolean includeBW, boolean includeMT, boolean includeSH, boolean includeBC) {
-
-        return cardCodes;
-    }
-
-    // @TODO: Implement this and add documentation.
-    public ArrayList<String> getCardCodesByName(ArrayList<String> cardCodes, String name) {
-
-        return cardCodes;
-    }
-
-    // @TODO: Implement this and add documentation.
-    public ArrayList<String> getCardCodesByCost(ArrayList<String> cardCodes, boolean include1OrLessCost, boolean include2Cost) {
-
-        return cardCodes;
-    }
-
-    // @TODO: Implement this and add documentation.
-    public ArrayList<String> getCardCodesByKeyword(ArrayList<String> cardCodes, String keyword) {
-
-        return cardCodes;
-    }
-
-    // @TODO: Implement this and add documentation.
-    public ArrayList<String> getCardCodesByType(ArrayList<String> cardCodes, boolean includeUnits, boolean includeSpells, boolean includeLandmarks) {
-
-        return cardCodes;
-    }
-
-    // @TODO: Add documentation.
-    public ArrayList<String> getCardCodesByRarity(ArrayList<String> cardCodes, boolean includeCommon, boolean includeRare, boolean includeEpic, boolean includeChampion) {
-        // Search through the given list of card codes, removing any cards that
-        // do not have any of the requested rarities.
-        for (int i = cardCodes.size() - 1; i >= 0; i--) {
-            String rarity = getCard(cardCodes.get(i)).getRarity();
-            String type = getCard(cardCodes.get(i)).getType();
-            String supertype = getCard(cardCodes.get(i)).getSupertype();
-            if (!((includeCommon && rarity.equalsIgnoreCase("COMMON")) || (includeRare && rarity.equalsIgnoreCase("RARE")) || (includeEpic && rarity.equalsIgnoreCase("EPIC")) || (includeChampion && type.equalsIgnoreCase("UNIT") && supertype.equalsIgnoreCase("CHAMPION")))) {
-                cardCodes.remove(i);
-            }
-        }
-
-        return cardCodes;
-    }
-
-    // @TODO: Implement this and add documentation.
-    public ArrayList<String> getCardCodesByCollectible(ArrayList<String> cardCodes, boolean includeCollectible) {
-
-        return cardCodes;
     }
 }

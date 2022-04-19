@@ -1,46 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background-pane" stylesheets="@../css/decks-view.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ghosking.lormaster.controller.DecksController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background-anchor-pane" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ghosking.lormaster.controller.DecksController">
    <children>
-      <Button fx:id="profileNavigationButton" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/decks-view.css" text="PROFILE">
+      <Button fx:id="profileButton" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="PROFILE">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="collectionNavigationButton" layoutY="240.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/decks-view.css" text="COLLECTION">
+      <Button fx:id="liveMatchButton" layoutY="120.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="LIVE MATCH">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="decksNavigationButton" layoutY="360.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="selected-navigation-button" stylesheets="@../css/decks-view.css" text="DECKS">
+      <Button fx:id="collectionButton" layoutY="240.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="COLLECTION">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="communityNavigationButton" layoutY="120.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/decks-view.css" text="COMMUNITY">
+      <Button fx:id="decksButton" layoutY="360.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="selected-button" stylesheets="@../css/main.css" text="DECKS">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="leaderboardNavigationButton" layoutY="480.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/decks-view.css" text="LEADERBOARD">
+      <Button fx:id="leaderboardButton" layoutY="480.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="LEADERBOARD">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="metaNavigationButton" layoutY="600.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/decks-view.css" text="META">
+      <Button fx:id="metaButton" layoutY="600.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="META">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" prefHeight="720.0" prefWidth="1080.0" stylesheets="@../css/decks-view.css" text="SELECTED DECKS!" textFill="WHITE">
+      <Button fx:id="importDeckButton" layoutX="416.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="216.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="IMPORT DECK">
          <font>
-            <Font size="36.0" />
+            <Font name="Lucida Console" size="18.0" />
          </font>
-      </Label>
+      </Button>
+      <Button fx:id="newDeckButton" layoutX="200.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="216.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="NEW DECK">
+         <font>
+            <Font name="Lucida Console" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="exportDeckButton" disable="true" layoutX="632.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="216.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="EXPORT DECK">
+         <font>
+            <Font name="Lucida Console" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="editDeckButton" disable="true" layoutX="848.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="216.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="EDIT DECK">
+         <font>
+            <Font name="Lucida Console" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="deleteDeckButton" disable="true" layoutX="1064.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="216.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="DELETE DECK">
+         <font>
+            <Font name="Lucida Console" size="18.0" />
+         </font>
+      </Button>
+      <ScrollPane fx:id="decksScrollPane" hbarPolicy="NEVER" layoutX="306.0" layoutY="136.0" styleClass="decks-scroll-pane" stylesheets="@../css/main.css" vbarPolicy="NEVER">
+         <content>
+            <GridPane fx:id="decksGridPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="520.0" prefWidth="864.0" styleClass="decks-grid-pane" stylesheets="@../css/main.css">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.0" minWidth="0.0" prefWidth="108.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.0" minWidth="10.0" prefWidth="108.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="646.0" minWidth="10.0" prefWidth="646.0" />
+              </columnConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
+      <Line endX="100.0" layoutX="100.0" layoutY="360.0" startX="-100.0" stroke="#c9a15c" />
+      <Line endX="100.0" layoutX="100.0" layoutY="480.0" startX="-100.0" stroke="#c9a15c" />
+      <Line endX="89.99998474121094" endY="230.0" layoutX="110.0" layoutY="490.0" startX="89.99998474121094" startY="-10.0" stroke="#c9a15c" />
+      <Line endX="89.99998474121094" endY="230.0" layoutX="110.0" layoutY="130.0" startX="89.99998474121094" startY="-130.0" stroke="#c9a15c" />
+      <Line endX="978.0" layoutX="302.0" layoutY="80.0" startX="-102.0" stroke="#c9a15c" />
+      <Line endX="90.0" endY="-50.0" layoutX="326.0" layoutY="130.0" startX="89.99998474121094" startY="-130.0" stroke="#c9a15c" />
+      <Line endX="90.0" endY="-50.0" layoutX="542.0" layoutY="130.0" startX="89.99998474121094" startY="-130.0" stroke="#c9a15c" />
+      <Line endX="90.0" endY="-50.0" layoutX="758.0" layoutY="130.0" startX="89.99998474121094" startY="-130.0" stroke="#c9a15c" />
+      <Line endX="90.0" endY="-50.0" layoutX="974.0" layoutY="130.0" startX="89.99998474121094" startY="-130.0" stroke="#c9a15c" />
    </children>
 </AnchorPane>

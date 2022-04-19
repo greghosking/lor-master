@@ -12,17 +12,17 @@
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
+      <Button fx:id="liveMatchButton" layoutY="120.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="LIVE MATCH">
+         <font>
+            <Font name="Lucida Console" size="18.0" />
+         </font>
+      </Button>
       <Button fx:id="collectionButton" layoutY="240.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="COLLECTION">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
       <Button fx:id="decksButton" layoutY="360.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="DECKS">
-         <font>
-            <Font name="Lucida Console" size="18.0" />
-         </font>
-      </Button>
-      <Button fx:id="liveMatchButton" layoutY="120.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="LIVE MATCH">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>

@@ -9,7 +9,7 @@ import java.util.Date;
 
 public final class LoRRequest {
 
-    public static final String API_KEY = "RGAPI-44ce4cff-2c9a-4fad-aa14-11edb3bf0f46";
+    public static final String API_KEY = "RGAPI-d3328d21-f093-4b22-845e-4be3ad4a84df";
 
     /**
      * @param url The URL of the request.

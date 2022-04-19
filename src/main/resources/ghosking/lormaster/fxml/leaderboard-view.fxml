@@ -4,68 +4,68 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background-pane" stylesheets="@../css/leaderboard-view.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ghosking.lormaster.controller.LeaderboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background-anchor-pane" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ghosking.lormaster.controller.LeaderboardController">
    <children>
-      <Button fx:id="profileNavigationButton" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/leaderboard-view.css" text="PROFILE">
+      <Button fx:id="profileButton" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="PROFILE">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="collectionNavigationButton" layoutY="240.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/leaderboard-view.css" text="COLLECTION">
+      <Button fx:id="liveMatchButton" layoutY="120.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="LIVE MATCH">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="decksNavigationButton" layoutY="360.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/leaderboard-view.css" text="DECKS">
+      <Button fx:id="collectionButton" layoutY="240.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="COLLECTION">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="communityNavigationButton" layoutY="120.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/leaderboard-view.css" text="COMMUNITY">
+      <Button fx:id="decksButton" layoutY="360.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="DECKS">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="leaderboardNavigationButton" layoutY="480.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="selected-navigation-button" stylesheets="@../css/leaderboard-view.css" text="LEADERBOARD">
+      <Button fx:id="leaderboardButton" layoutY="480.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="selected-button" stylesheets="@../css/main.css" text="LEADERBOARD">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="metaNavigationButton" layoutY="600.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/leaderboard-view.css" text="META">
+      <Button fx:id="metaButton" layoutY="600.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="META">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <ListView fx:id="americasLeaderboardListView" layoutX="256.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" styleClass="leaderboard-list-view" stylesheets="@../css/leaderboard-view.css" />
-      <ListView fx:id="europeLeaderboardListView" layoutX="512.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" styleClass="leaderboard-list-view" stylesheets="@../css/leaderboard-view.css" />
-      <ListView fx:id="seaLeaderboardListView" layoutX="768.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" styleClass="leaderboard-list-view" stylesheets="@../css/leaderboard-view.css" />
-      <ListView fx:id="worldLeaderboardListView" layoutX="1024.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" styleClass="leaderboard-list-view" stylesheets="@../css/leaderboard-view.css" />
-      <Label alignment="CENTER" layoutX="256.0" prefHeight="120.0" prefWidth="200.0" styleClass="leaderboard-label" stylesheets="@../css/leaderboard-view.css" text="AMERICAS" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="256.0" prefHeight="120.0" prefWidth="200.0" styleClass="leaderboard-label" stylesheets="@../css/main.css" text="AMERICAS" textFill="WHITE">
          <font>
             <Font name="Lucida Console" size="24.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="512.0" prefHeight="120.0" prefWidth="200.0" styleClass="leaderboard-label" stylesheets="@../css/leaderboard-view.css" text="EUROPE" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="512.0" prefHeight="120.0" prefWidth="200.0" styleClass="leaderboard-label" stylesheets="@../css/main.css" text="EUROPE" textFill="WHITE">
          <font>
             <Font name="Lucida Console" size="24.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="768.0" prefHeight="120.0" prefWidth="200.0" styleClass="leaderboard-label" stylesheets="@../css/leaderboard-view.css" text="SEA" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="768.0" prefHeight="120.0" prefWidth="200.0" styleClass="leaderboard-label" stylesheets="@../css/main.css" text="SEA" textFill="WHITE">
          <font>
             <Font name="Lucida Console" size="24.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="1024.0" prefHeight="120.0" prefWidth="200.0" styleClass="leaderboard-label" stylesheets="@../css/leaderboard-view.css" text="WORLD" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="1024.0" prefHeight="120.0" prefWidth="200.0" styleClass="leaderboard-label" stylesheets="@../css/main.css" text="WORLD" textFill="WHITE">
          <font>
             <Font name="Lucida Console" size="24.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="664.0" prefHeight="55.0" prefWidth="1080.0" styleClass="leaderboard-label" stylesheets="@../css/leaderboard-view.css" text="Leaderboards are updated every fifteen minutes..." textAlignment="CENTER" textFill="WHITE" visible="false">
-         <font>
-            <Font name="Lucida Console" size="12.0" />
-         </font>
-      </Label>
+      <ListView fx:id="americasLeaderboardListView" layoutX="256.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" styleClass="leaderboard-list-view" stylesheets="@../css/main.css" />
+      <ListView fx:id="europeLeaderboardListView" layoutX="512.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" styleClass="leaderboard-list-view" stylesheets="@../css/main.css" />
+      <ListView fx:id="seaLeaderboardListView" layoutX="768.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" styleClass="leaderboard-list-view" stylesheets="@../css/main.css" />
+      <ListView fx:id="worldLeaderboardListView" layoutX="1024.0" layoutY="120.0" prefHeight="544.0" prefWidth="200.0" styleClass="leaderboard-list-view" stylesheets="@../css/main.css" />
+      <Line endX="100.0" layoutX="100.0" layoutY="480.0" startX="-100.0" stroke="#c9a15c" />
+      <Line endX="100.0" layoutX="100.0" layoutY="600.0" startX="-100.0" stroke="#c9a15c" />
+      <Line endX="89.99998474121094" endY="110.0" layoutX="110.0" layoutY="610.0" startX="89.99998474121094" startY="-10.0" stroke="#c9a15c" />
+      <Line endX="89.99998474121094" endY="110.0" layoutX="109.0" layoutY="370.0" startX="89.99998474121094" startY="-378.20001220703125" stroke="#c9a15c" />
    </children>
 </AnchorPane>

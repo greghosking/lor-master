@@ -1,54 +1,231 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background-pane" stylesheets="@../css/collection-view.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ghosking.lormaster.controller.CollectionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background-anchor-pane" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ghosking.lormaster.controller.CollectionController">
    <children>
-      <GridPane fx:id="cardsGridPane" layoutX="200.0" prefHeight="598.0" prefWidth="698.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
-      <Button fx:id="profileNavigationButton" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/collection-view.css" text="PROFILE">
+      <Button fx:id="profileButton" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="PROFILE">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="collectionNavigationButton" layoutY="240.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="selected-navigation-button" stylesheets="@../css/collection-view.css" text="COLLECTION">
+      <Button fx:id="liveMatchButton" layoutY="120.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="LIVE MATCH">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="decksNavigationButton" layoutY="360.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/collection-view.css" text="DECKS">
+      <Button fx:id="collectionButton" layoutY="240.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="selected-button" stylesheets="@../css/main.css" text="COLLECTION">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="communityNavigationButton" layoutY="120.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/collection-view.css" text="COMMUNITY">
+      <Button fx:id="decksButton" layoutY="360.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="DECKS">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="leaderboardNavigationButton" layoutY="480.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/collection-view.css" text="LEADERBOARD">
+      <Button fx:id="leaderboardButton" layoutY="480.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="LEADERBOARD">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="metaNavigationButton" layoutY="600.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-navigation-button" stylesheets="@../css/collection-view.css" text="META">
+      <Button fx:id="metaButton" layoutY="600.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="META">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
+      <ScrollPane fx:id="cardsScrollPane" hbarPolicy="NEVER" layoutX="200.0" layoutY="120.0" prefHeight="600.0" prefWidth="880.0" styleClass="cards-scroll-pane" stylesheets="@../css/main.css" vbarPolicy="NEVER">
+         <content>
+            <GridPane fx:id="cardsGridPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="880.0" styleClass="cards-grid-pane" stylesheets="@../css/main.css">
+              <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
+      <ToggleButton fx:id="DEToggleButton" layoutX="200.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="FRToggleButton" layoutX="280.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="IOToggleButton" layoutX="360.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="NXToggleButton" layoutX="440.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="PZToggleButton" layoutX="520.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="SIToggleButton" layoutX="600.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="BWToggleButton" layoutX="680.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="MTToggleButton" layoutX="760.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="SHToggleButton" layoutX="840.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="BCToggleButton" layoutX="920.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="allToggleButton" layoutX="1000.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <AnchorPane layoutX="1080.0" prefHeight="720.0" prefWidth="200.0" styleClass="filters-background-pane" stylesheets="@../css/main.css">
+         <children>
+            <TextField fx:id="searchTextField" prefHeight="120.0" prefWidth="200.0" promptText="SEARCH" styleClass="search-text-field" stylesheets="@../css/main.css">
+               <font>
+                  <Font name="Lucida Console" size="18.0" />
+               </font></TextField>
+            <Label layoutX="15.0" layoutY="120.0" prefHeight="60.0" prefWidth="170.0" styleClass="filters-label" stylesheets="@../css/main.css" text="TYPE">
+               <font>
+                  <Font name="Lucida Console" size="18.0" />
+               </font>
+            </Label>
+            <GridPane layoutY="180.0" prefHeight="120.0" prefWidth="200.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ToggleButton fx:id="unitToggleButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" selected="true" text="UNIT">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="spellToggleButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" selected="true" text="SPELL" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="landmarkToggleButton" layoutX="110.0" layoutY="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" selected="true" text="LANDMARK" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+               </children>
+            </GridPane>
+            <Label layoutX="15.0" layoutY="300.0" prefHeight="60.0" prefWidth="170.0" styleClass="filters-label" stylesheets="@../css/main.css" text="RARITY">
+               <font>
+                  <Font name="Lucida Console" size="18.0" />
+               </font>
+            </Label>
+            <GridPane layoutY="360.0" prefHeight="120.0" prefWidth="200.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ToggleButton fx:id="commonToggleButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" selected="true" text="COMMON">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="rareToggleButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" selected="true" text="RARE" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="epicToggleButton" layoutX="110.0" layoutY="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" selected="true" text="EPIC" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="championToggleButton" layoutX="10.0" layoutY="70.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" selected="true" text="CHAMP" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+               </children>
+            </GridPane>
+            <Label layoutX="15.0" layoutY="480.0" prefHeight="60.0" prefWidth="170.0" styleClass="filters-label" stylesheets="@../css/main.css" text="COST">
+               <font>
+                  <Font name="Lucida Console" size="18.0" />
+               </font>
+            </Label>
+            <GridPane layoutY="540.0" prefHeight="120.0" prefWidth="200.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ToggleButton mnemonicParsing="false" text="1-">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="zeroCostToggleButton" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="0">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="oneCostToggleButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="1" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="twoCostToggleButton" layoutX="76.0" layoutY="10.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="2" GridPane.columnIndex="2">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="threeCostToggleButton" layoutX="143.0" layoutY="10.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="3" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="fourCostToggleButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="fiveCostToggleButton" layoutX="76.0" layoutY="50.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="5" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="sixCostToggleButton" layoutX="143.0" layoutY="50.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="6" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="sevenCostToggleButton" layoutX="10.0" layoutY="90.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="7" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="eightPlusCostToggleButton" layoutX="76.0" layoutY="90.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="8+" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Lucida Console" size="18.0" />
+                     </font>
+                  </ToggleButton>
+               </children>
+            </GridPane>
+            <Button fx:id="resetButton" layoutY="660.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="RESET">
+               <font>
+                  <Font name="Lucida Console" size="18.0" />
+               </font>
+            </Button>
+            <Line endX="100.0" layoutX="99.0" layoutY="301.0" startX="-100.0" stroke="#c9a15c" />
+            <Line endX="100.0" layoutX="99.0" layoutY="480.0" startX="-100.0" stroke="#c9a15c" />
+            <Line endX="100.0" layoutX="99.0" layoutY="660.0" startX="-100.0" stroke="#c9a15c" />
+         </children>
+      </AnchorPane>
+      <Line endX="-141.00001525878906" endY="-79.80000305175781" layoutX="341.0" layoutY="78.0" startX="-141.00001525878906" startY="161.89288330078125" stroke="#c9a15c" />
+      <Line endX="100.0" layoutX="100.0" layoutY="240.0" startX="-100.0" stroke="#c9a15c" />
+      <Line endX="100.0" layoutX="100.0" layoutY="360.0" startX="-100.0" stroke="#c9a15c" />
+      <Line endX="-141.00001525878906" endY="-79.80000305175781" layoutX="340.0" layoutY="441.0" startX="-140.00001525878906" startY="279.0" stroke="#c9a15c" />
+      <Line endX="981.0" endY="-1.52587890625E-5" layoutX="299.0" layoutY="120.0" startX="-100.0" stroke="#c9a15c" />
+      <Line endX="-139.0" endY="-352.0" layoutX="1219.0" layoutY="352.0" startX="-140.00001525878906" startY="367.70001220703125" stroke="#c9a15c" />
    </children>
 </AnchorPane>

@@ -9,41 +9,41 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background-pane" stylesheets="@../css/login-view.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ghosking.lormaster.controller.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ghosking.lormaster.controller.LoginController">
    <children>
       <ImageView fx:id="backImageView" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" />
       <ImageView fx:id="frontImageView" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#241b1c80" height="720.0" stroke="BLACK" strokeType="INSIDE" width="1280.0" />
-      <Label alignment="CENTER" layoutY="160.0" prefHeight="39.0" prefWidth="1280.0" styleClass="title" stylesheets="@../css/login-view.css" text="WELCOME TO" textAlignment="CENTER" textFill="WHITE">
+      <Label alignment="CENTER" layoutY="160.0" prefHeight="39.0" prefWidth="1280.0" stylesheets="@../css/main.css" text="WELCOME TO" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Lucida Console" size="36.0" />
          </font>
+         <styleClass>
+            <String fx:value="title-label" />
+            <String fx:value="label" />
+         </styleClass>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="199.0" prefHeight="50.0" prefWidth="1280.0" stylesheets="@../css/login-view.css" text="LEGENDS OF RUNETERRA MASTER" textFill="WHITE">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="199.0" prefHeight="50.0" prefWidth="1280.0" styleClass="title-label" stylesheets="@../css/main.css" text="LEGENDS OF RUNETERRA MASTER" textFill="WHITE">
          <font>
             <Font name="Lucida Console" size="48.0" />
          </font>
-         <styleClass>
-            <String fx:value="title-text" />
-            <String fx:value="title" />
-         </styleClass>
       </Label>
-      <TextField fx:id="gameNameTextField" layoutX="490.0" layoutY="455.0" prefHeight="40.0" prefWidth="185.0" promptText="Game Name" styleClass="text-field" stylesheets="@../css/login-view.css">
+      <TextField fx:id="gameNameTextField" layoutX="490.0" layoutY="455.0" prefHeight="40.0" prefWidth="185.0" promptText="Game Name" styleClass="login-text-field" stylesheets="@../css/main.css">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </TextField>
-      <TextField fx:id="tagLineTextField" layoutX="680.0" layoutY="455.0" prefHeight="40.0" prefWidth="110.0" promptText="# ABC12" styleClass="text-field" stylesheets="@../css/login-view.css">
+      <TextField fx:id="tagLineTextField" layoutX="680.0" layoutY="455.0" prefHeight="40.0" prefWidth="110.0" promptText="# ABC12" styleClass="login-text-field" stylesheets="@../css/main.css">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </TextField>
-      <Button fx:id="loginButton" layoutX="490.0" layoutY="501.0" mnemonicParsing="false" onMouseClicked="#attemptLogin" prefHeight="40.0" prefWidth="300.0" styleClass="login-button" stylesheets="@../css/login-view.css" text="LOG IN">
+      <Button fx:id="loginButton" layoutX="490.0" layoutY="501.0" mnemonicParsing="false" onMouseClicked="#attemptLogin" prefHeight="40.0" prefWidth="300.0" styleClass="login-button" stylesheets="@../css/main.css" text="LOG IN">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Label fx:id="loginMessageLabel" layoutX="278.0" layoutY="686.0" stylesheets="@../css/login-view.css" text="Cannot find an account with that game name and tag line. Please try again." textFill="RED" visible="false">
+      <Label fx:id="loginMessageLabel" layoutX="278.0" layoutY="686.0" text="Cannot find an account with that game name and tag line. Please try again." textFill="RED" visible="false">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>

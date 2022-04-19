@@ -1,0 +1,158 @@
+/**
+ * General Scene Styles
+ */
+.background-anchor-pane {
+    -fx-background-color: #3F2A29;
+}
+
+.selected-button {
+    -fx-background-color: #3F2A29;
+    -fx-background-radius: 0;
+    -fx-text-fill: #FFF1DA;
+}
+
+.unselected-button {
+    -fx-background-color: #261D1E;
+    -fx-background-radius: 0;
+    -fx-text-fill: #C6B7A0;
+}
+
+.unselected-button:hover {
+    -fx-background-color: #332424;
+    -fx-text-fill: #E3D4BD;
+}
+
+/**
+ * Login Scene Styles
+ */
+.title-label {
+    -fx-text-fill: #FFF1DA;
+}
+
+.title-label.label .text {
+    -fx-stroke: black;
+    -fx-stroke-width: 1px;
+}
+
+.login-text-field {
+    -fx-background-color: #3F2A29A0;
+    -fx-border-color: #C9A15C;
+    -fx-prompt-text-fill: #C6B7A0;
+    -fx-text-fill: #FFF1DA;
+}
+
+.login-button {
+    -fx-background-color: #3F2A29A0;
+    -fx-background-radius: 0;
+    -fx-border-color: #C9A15C;
+    -fx-text-fill: #C6B7A0;
+}
+
+.login-button:hover {
+    -fx-background-color: #3F2A29;
+    -fx-text-fill: #FFF1DA;
+}
+
+/**
+ * Profile Scene Styles
+ */
+
+
+/**
+ * Live Match Scene Styles
+ */
+
+
+/**
+ * Collection Scene Styles
+ */
+.toggle-button:selected {
+    -fx-background-color: #3F2A29;
+    -fx-background-radius: 0;
+    -fx-text-fill: #FFF1DA;
+}
+
+.toggle-button {
+    -fx-background-color: #261D1E;
+    -fx-text-fill: #C6B7A0;
+}
+
+.toggle-button:hover {
+    -fx-background-color: #332424;
+    -fx-text-fill: #E3D4BD;
+}
+
+.cards-scroll-pane {
+    -fx-background-color: #3F2A29;
+    -fx-background-radius: 0;
+}
+
+.cards-grid-pane {
+    -fx-background-color: #3F2A29;
+    -fx-background-radius: 0;
+}
+
+.search-text-field {
+    -fx-background-color: #3F2A2980;
+    -fx-prompt-text-fill: #C6B7A0;
+    -fx-text-fill: #FFF1DA;
+}
+
+.filters-background-pane {
+    -fx-background-color: #261D1E;
+}
+
+.filters-label {
+    -fx-text-fill: #C6B7A0;
+}
+
+/**
+ * Decks Scene Styles
+ */
+.decks-scroll-pane {
+    -fx-background-color: #261D1E;
+    -fx-background-radius: 0;
+    -fx-border-color: #c9a15c;
+}
+
+.decks-grid-pane {
+    -fx-background-color: #261D1E;
+    -fx-background-radius: 0;
+}
+
+/**
+ * Deck Editor Scene Styles
+ */
+
+
+/**
+ * Leaderboard Scene Styles
+ */
+.leaderboard-label {
+    -fx-text-fill: #FFF1DA;
+}
+
+.leaderboard-list-view {
+    -fx-background-color: #261D1EA0;
+    -fx-background-radius: 2;
+    -fx-border-color: #C9A15C;
+}
+.leaderboard-list-view .scroll-bar:vertical {
+    -fx-scale-x: 0;
+}
+
+.leaderboard-list-view .scroll-bar:horizontal {
+    -fx-scale-x: 0;
+    -fx-scale-y: 0;
+}
+
+.leaderboard-list-view .scroll-bar:horizontal .increment-arrow,
+.leaderboard-list-view .scroll-bar:horizontal .decrement-arrow,
+.leaderboard-list-view .scroll-bar:horizontal .increment-button,
+.leaderboard-list-view .scroll-bar:horizontal .decrement-button {
+    -fx-padding:0;
+}
+
+/**
+ * Meta Scene Styles
+ */

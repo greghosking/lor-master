@@ -11,25 +11,15 @@ import java.util.ResourceBundle;
 public class ProfileController implements Initializable {
 
     @FXML
-    Button communityNavigationButton;
-    @FXML
-    Button collectionNavigationButton;
-    @FXML
-    Button decksNavigationButton;
-    @FXML
-    Button leaderboardNavigationButton;
-    @FXML
-    Button metaNavigationButton;
+    Button liveMatchButton, collectionButton, decksButton, leaderboardButton, metaButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         // Link the other navigation buttons to their respective scenes.
-        communityNavigationButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToCommunityScene());
-        collectionNavigationButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToCollectionScene());
-        decksNavigationButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToDecksScene());
-        leaderboardNavigationButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToLeaderboardScene());
-        metaNavigationButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToMetaScene());
+        liveMatchButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToLiveMatchScene());
+        collectionButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToCollectionScene());
+        decksButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToDecksScene());
+        leaderboardButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToLeaderboardScene());
+        metaButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToMetaScene());
     }
-
 }

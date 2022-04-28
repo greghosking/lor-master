@@ -1,16 +1,12 @@
 package ghosking.lormaster.controller;
 
 import ghosking.lormaster.LoRMasterApplication;
-import ghosking.lormaster.lor.LoRCardDatabase;
-import ghosking.lormaster.lor.LoRRarity;
-import ghosking.lormaster.lor.LoRRegion;
-import ghosking.lormaster.lor.LoRType;
+import ghosking.lormaster.lor.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -28,9 +24,11 @@ public class CollectionController implements Initializable {
     @FXML
     Button profileButton, liveMatchButton, decksButton, leaderboardButton, metaButton;
     @FXML
-    ToggleButton DEToggleButton, FRToggleButton, IOToggleButton, NXToggleButton, PZToggleButton, SIToggleButton;
+    ToggleButton DEToggleButton, FRToggleButton, IOToggleButton, NXToggleButton, PZToggleButton, SIToggleButton, BWToggleButton, MTToggleButton, SHToggleButton, BCToggleButton, allToggleButton;
     @FXML
-    ToggleButton BWToggleButton, MTToggleButton, SHToggleButton, BCToggleButton, allToggleButton;
+    ScrollPane cardsScrollPane;
+    @FXML
+    GridPane cardsGridPane;
     @FXML
     TextField searchTextField;
     @FXML
@@ -38,99 +36,59 @@ public class CollectionController implements Initializable {
     @FXML
     ToggleButton commonToggleButton, rareToggleButton, epicToggleButton, championToggleButton;
     @FXML
-    ToggleButton zeroCostToggleButton, oneCostToggleButton, twoCostToggleButton, threeCostToggleButton, fourCostToggleButton;
-    @FXML
-    ToggleButton fiveCostToggleButton, sixCostToggleButton, sevenCostToggleButton, eightPlusCostToggleButton;
+    ToggleButton zeroCostToggleButton, oneCostToggleButton, twoCostToggleButton, threeCostToggleButton, fourCostToggleButton, fiveCostToggleButton, sixCostToggleButton, sevenCostToggleButton, eightPlusCostToggleButton;
     @FXML
     Button resetButton;
-
-    @FXML
-    ScrollPane cardsScrollPane;
-    @FXML
-    GridPane cardsGridPane;
 
     List<ToggleButton> regionToggleButtons;
     List<ToggleButton> typeToggleButtons;
     List<ToggleButton> rarityToggleButtons;
     List<ToggleButton> costToggleButtons;
+    Image placeholderCardImage;
 
-    private void updateCardsGridPane() {
-        // Clear the grid contents.
-        for (Node node : cardsGridPane.getChildren())
-            ((ImageView) node).setImage(null);
+    private void setupSceneButtons() {
+        profileButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToProfileScene());
+        liveMatchButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToLiveMatchScene());
+        decksButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToDecksScene());
+        leaderboardButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToLeaderboardScene());
+        metaButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToMetaScene());
+    }
 
-        List<LoRRegion> regionsToInclude = new ArrayList<>();
-        if (DEToggleButton.isSelected()) regionsToInclude.add(LoRRegion.fromCode("DE"));
-        if (FRToggleButton.isSelected()) regionsToInclude.add(LoRRegion.fromCode("FR"));
-        if (IOToggleButton.isSelected()) regionsToInclude.add(LoRRegion.fromCode("IO"));
-        if (NXToggleButton.isSelected()) regionsToInclude.add(LoRRegion.fromCode("NX"));
-        if (PZToggleButton.isSelected()) regionsToInclude.add(LoRRegion.fromCode("PZ"));
-        if (SIToggleButton.isSelected()) regionsToInclude.add(LoRRegion.fromCode("SI"));
-        if (BWToggleButton.isSelected()) regionsToInclude.add(LoRRegion.fromCode("BW"));
-        if (MTToggleButton.isSelected()) regionsToInclude.add(LoRRegion.fromCode("MT"));
-        if (SHToggleButton.isSelected()) regionsToInclude.add(LoRRegion.fromCode("SH"));
-        if (BCToggleButton.isSelected()) regionsToInclude.add(LoRRegion.fromCode("BC"));
+    public void onRegionToggleButtonClicked() {
+        allToggleButton.setSelected(true);
+        for (int i = 0; i < regionToggleButtons.size() - 1; i++)
+            if (!regionToggleButtons.get(i).isSelected()) allToggleButton.setSelected(false);
+        updateCardsGridPane();
+    }
 
-        List<LoRType> typesToInclude = new ArrayList<>();
-        if (unitToggleButton.isSelected()) typesToInclude.add(LoRType.UNIT);
-        if (spellToggleButton.isSelected()) typesToInclude.add(LoRType.SPELL);
-        if (landmarkToggleButton.isSelected()) typesToInclude.add(LoRType.LANDMARK);
+    public void onAllRegionToggleButtonClicked() {
+        for (int i = 0; i < regionToggleButtons.size() - 1; i++)
+            regionToggleButtons.get(i).setSelected(allToggleButton.isSelected());
+        updateCardsGridPane();
+    }
 
-        List<LoRRarity> raritiesToInclude = new ArrayList<>();
-        if (commonToggleButton.isSelected()) raritiesToInclude.add(LoRRarity.COMMON);
-        if (rareToggleButton.isSelected()) raritiesToInclude.add(LoRRarity.RARE);
-        if (epicToggleButton.isSelected()) raritiesToInclude.add(LoRRarity.EPIC);
-        if (championToggleButton.isSelected()) raritiesToInclude.add(LoRRarity.CHAMPION);
-
-        List<Integer> costsToInclude = new ArrayList<>();
-        if (zeroCostToggleButton.isSelected()) costsToInclude.add(0);
-        if (oneCostToggleButton.isSelected()) costsToInclude.add(1);
-        if (twoCostToggleButton.isSelected()) costsToInclude.add(2);
-        if (threeCostToggleButton.isSelected()) costsToInclude.add(3);
-        if (fourCostToggleButton.isSelected()) costsToInclude.add(4);
-        if (fiveCostToggleButton.isSelected()) costsToInclude.add(5);
-        if (sixCostToggleButton.isSelected()) costsToInclude.add(6);
-        if (sevenCostToggleButton.isSelected()) costsToInclude.add(7);
-        if (sevenCostToggleButton.isSelected()) costsToInclude.addAll(Arrays.asList(8, 9, 10, 11, 12, 13, 14, 15));
-
-        // Start to filter the cards by the selected options.
-        LoRCardDatabase cardDatabase = LoRCardDatabase.getInstance();
-        LoRCardDatabase.LoRCardFilter filter = new LoRCardDatabase.LoRCardFilter()
-                .byRegion(regionsToInclude)
-                .byType(typesToInclude)
-                .byRarity(raritiesToInclude)
-                .byCost(costsToInclude)
-                .byCollectible(true);
-        // If the search bar is not empty, search for the user query.
-        if (!searchTextField.getText().equalsIgnoreCase("")) filter.search(searchTextField.getText());
-        // Sort and store the contents of the filter in a new list.
-        List<String> cardCodes = filter.sort().getCardCodes();
-
-        for (int i = 0; i < cardCodes.size(); i++) {
-            int cardIndex = i;
-            ((ImageView) cardsGridPane.getChildren().get(i)).setImage(cardDatabase.getCard(cardCodes.get(i)).getGameAsset());
-            cardsGridPane.getChildren().get(i).setOnMouseClicked(mouseEvent -> showCardFullAsset(cardCodes.get(cardIndex)));
+    private void setupRegionToggleButtons() {
+        String baseURL = "https://dd.b.pvp.net/3_4_0/core/en_us/img/regions/icon-";
+        List<String> iconFilenames = Arrays.asList("demacia.png", "freljord.png", "ionia.png", "noxus.png", "piltoverzaun.png",
+                "shadowisles.png", "bilgewater.png", "targon.png", "shurima.png", "bandlecity.png", "all.png");
+        for (int i = 0; i < regionToggleButtons.size(); i++) {
+            regionToggleButtons.get(i).setGraphic(new ImageView(new Image(baseURL + iconFilenames.get(i), regionToggleButtons.get(i).getPrefWidth() / 1.5,
+                    regionToggleButtons.get(i).getPrefHeight() / 1.75, false, true, false)));
         }
-
-        // Scroll back to the top of the grid.
-        cardsScrollPane.setVvalue(0);
     }
 
     private void showCardFullAsset(String cardCode) {
-        LoRCardDatabase cardDatabase = LoRCardDatabase.getInstance();
         // Create a new stage with a black background.
         StackPane stack = new StackPane();
         stack.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), Insets.EMPTY)));
         Scene scene = new Scene(stack, 1280, 720);
 
-        double imageW = 1280;
-        double imageH = 720;
         // The expanded art for spells is circular and should have equal dimensions.
-        if (cardDatabase.getCard(cardCode).getType() == LoRType.SPELL) {
-            imageW = 720 / 1.25;
-            imageH = 720 / 1.25;
-        }
-        ImageView fullImageView = new ImageView(cardDatabase.getCard(cardCode).getFullAsset());
+        boolean isSpell = LoRCardDatabase.getInstance().getCard(cardCode).getType() == LoRType.SPELL;
+        double imageW = isSpell ? (720 / 1.25) : 1280;
+        double imageH = isSpell ? (720 / 1.25) : 720;
+
+        ImageView fullImageView = new ImageView(LoRCardDatabase.getInstance().getCard(cardCode).getFullAsset());
         fullImageView.setPreserveRatio(false);
         fullImageView.setFitWidth(imageW);
         fullImageView.setFitHeight(imageH);
@@ -144,67 +102,121 @@ public class CollectionController implements Initializable {
         stage.show();
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Link the other navigation buttons to their respective scenes.
-        profileButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToProfileScene());
-        liveMatchButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToLiveMatchScene());
-        decksButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToDecksScene());
-        leaderboardButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToLeaderboardScene());
-        metaButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToMetaScene());
+    private List<LoRRegion> getSelectedRegions() {
+        List<LoRRegion> regions = new ArrayList<>();
+        if (DEToggleButton.isSelected()) regions.add(LoRRegion.fromCode("DE"));
+        if (FRToggleButton.isSelected()) regions.add(LoRRegion.fromCode("FR"));
+        if (IOToggleButton.isSelected()) regions.add(LoRRegion.fromCode("IO"));
+        if (NXToggleButton.isSelected()) regions.add(LoRRegion.fromCode("NX"));
+        if (PZToggleButton.isSelected()) regions.add(LoRRegion.fromCode("PZ"));
+        if (SIToggleButton.isSelected()) regions.add(LoRRegion.fromCode("SI"));
+        if (BWToggleButton.isSelected()) regions.add(LoRRegion.fromCode("BW"));
+        if (MTToggleButton.isSelected()) regions.add(LoRRegion.fromCode("MT"));
+        if (SHToggleButton.isSelected()) regions.add(LoRRegion.fromCode("SH"));
+        if (BCToggleButton.isSelected()) regions.add(LoRRegion.fromCode("BC"));
+        return regions;
+    }
 
-        regionToggleButtons = Arrays.asList(DEToggleButton, FRToggleButton, IOToggleButton, NXToggleButton, PZToggleButton,
-                SIToggleButton, BWToggleButton, MTToggleButton, SHToggleButton, BCToggleButton, allToggleButton);
-        typeToggleButtons = Arrays.asList(unitToggleButton, spellToggleButton, landmarkToggleButton);
-        rarityToggleButtons = Arrays.asList(commonToggleButton, rareToggleButton, epicToggleButton, championToggleButton);
-        costToggleButtons = Arrays.asList(zeroCostToggleButton, oneCostToggleButton, twoCostToggleButton, threeCostToggleButton,
-                fourCostToggleButton, fiveCostToggleButton, sixCostToggleButton, sevenCostToggleButton, eightPlusCostToggleButton);
+    private List<LoRType> getSelectedTypes() {
+        List<LoRType> types = new ArrayList<>();
+        if (unitToggleButton.isSelected()) types.add(LoRType.UNIT);
+        if (spellToggleButton.isSelected()) types.add(LoRType.SPELL);
+        if (landmarkToggleButton.isSelected()) types.add(LoRType.LANDMARK);
+        return types;
+    }
 
-        // Load the icons for each region toggle button and set the click handlers.
-        String baseURL = "https://dd.b.pvp.net/3_4_0/core/en_us/img/regions/icon-";
-        List<String> iconURLS = Arrays.asList("demacia.png", "freljord.png", "ionia.png", "noxus.png", "piltoverzaun.png",
-                "shadowisles.png", "bilgewater.png", "targon.png", "shurima.png", "bandlecity.png", "all.png");
-        for (int i = 0; i < regionToggleButtons.size(); i++) {
-            double w = regionToggleButtons.get(i).getPrefWidth() / 1.5;
-            double h = regionToggleButtons.get(i).getPrefHeight() / 1.75;
-            regionToggleButtons.get(i).setGraphic(new ImageView(new Image(baseURL + iconURLS.get(i), w, h, false, true, true)));
+    private List<LoRRarity> getSelectedRarities() {
+        List<LoRRarity> rarities = new ArrayList<>();
+        if (commonToggleButton.isSelected()) rarities.add(LoRRarity.COMMON);
+        if (rareToggleButton.isSelected()) rarities.add(LoRRarity.RARE);
+        if (epicToggleButton.isSelected()) rarities.add(LoRRarity.EPIC);
+        if (championToggleButton.isSelected()) rarities.add(LoRRarity.CHAMPION);
+        return rarities;
+    }
 
-            // Each region toggle button should call updateCardsGrid() when clicked,
-            // and should also toggle the allToggleButton as needed.
-            if (i < regionToggleButtons.size() - 1) {
-                regionToggleButtons.get(i).setOnMouseClicked(mouseEvent -> {
-                    updateCardsGridPane();
+    private List<Integer> getSelectedCosts() {
+        List<Integer> costs = new ArrayList<>();
+        if (zeroCostToggleButton.isSelected()) costs.add(0);
+        if (oneCostToggleButton.isSelected()) costs.add(1);
+        if (twoCostToggleButton.isSelected()) costs.add(2);
+        if (threeCostToggleButton.isSelected()) costs.add(3);
+        if (fourCostToggleButton.isSelected()) costs.add(4);
+        if (fiveCostToggleButton.isSelected()) costs.add(5);
+        if (sixCostToggleButton.isSelected()) costs.add(6);
+        if (sevenCostToggleButton.isSelected()) costs.add(7);
+        if (eightPlusCostToggleButton.isSelected()) costs.addAll(Arrays.asList(8, 9, 10, 11, 12, 13, 14, 15));
+        return costs;
+    }
 
-                    allToggleButton.setSelected(true);
-                    for (int j = 0; j < regionToggleButtons.size() - 1; j++)
-                        if (!regionToggleButtons.get(j).isSelected()) allToggleButton.setSelected(false);
+    public void updateCardsGridPane() {
+        // Filter the cards by the user selections.
+        LoRCardDatabase cardDatabase = LoRCardDatabase.getInstance();
+        LoRCardDatabase.LoRCardFilter filter = new LoRCardDatabase.LoRCardFilter()
+                .byRegion(getSelectedRegions())
+                .byType(getSelectedTypes())
+                .byRarity(getSelectedRarities())
+                .byCost(getSelectedCosts())
+                .byCollectible(true);
+        // If the search bar is not empty, search for the user query, then sort
+        // and store the results of the filter in a new list.
+        if (!searchTextField.getText().equalsIgnoreCase("")) filter.search(searchTextField.getText());
+        List<String> cardCodes = filter.sort().getCardCodes();
+
+        cardsGridPane.getChildren().removeAll(cardsGridPane.getChildren());
+        while (cardsGridPane.getRowConstraints().size() > 0)
+            cardsGridPane.getRowConstraints().remove(0);
+
+        // Calculate the number of rows necessary to display all cards and resize
+        // the cardsGridPane accordingly.
+        int rows = (int) Math.ceil(cardCodes.size() / 4.0);
+        double cardH = 1024 / 3.5;
+        cardsGridPane.setPrefHeight(Math.max(cardsScrollPane.getPrefHeight(), rows * cardH));
+        for (int i = 0; i < rows; i++) {
+            RowConstraints rowConst = new RowConstraints();
+            rowConst.setPrefHeight(cardH);
+            rowConst.setValignment(VPos.CENTER);
+            cardsGridPane.getRowConstraints().add(rowConst);
+        }
+
+        // Add the cards to the grid.
+        int cardIndex = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cardsGridPane.getColumnCount(); j++) {
+                if (cardIndex >= cardCodes.size())
+                    break;
+                final int finalCardIndex = cardIndex;
+                ImageView cardImageView = new ImageView();
+                // If the game asset has not finished loading, a placeholder asset
+                // should be shown instead.
+                Image cardImage = cardDatabase.getCard(cardCodes.get(cardIndex)).getGameAsset();
+                if (cardImage.getProgress() == 1.0)
+                    cardImageView.setImage(cardImage);
+                else
+                    cardImageView.setImage(placeholderCardImage);
+                cardImage.progressProperty().addListener((observableValue, oldValue, progress) -> {
+                    if ((double) progress == 1.0 && !cardImage.isError())
+                        cardImageView.setImage(cardImage);
+                    else
+                        cardImageView.setImage(placeholderCardImage);
                 });
-            }
-            // The allToggleButton should toggle all other region toggle buttons
-            // and then call updateCardsGrid().
-            else {
-                regionToggleButtons.get(i).setOnMouseClicked(mouseEvent -> {
-                    for (int j = 0; j < regionToggleButtons.size() - 1; j++)
-                        regionToggleButtons.get(j).setSelected(allToggleButton.isSelected());
-                    updateCardsGridPane();
-                });
+                cardImageView.setOnMouseClicked(mouseEvent -> showCardFullAsset(cardCodes.get(finalCardIndex)));
+
+                cardsGridPane.add(cardImageView, j, i);
+                cardIndex++;
             }
         }
 
+        // Scroll back to the top of the grid.
+        cardsScrollPane.setVvalue(0);
+    }
+
+    private void setupSearchTextField() {
         searchTextField.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) updateCardsGridPane();
         });
+    }
 
-        // Set up the click handlers for type, rarity, and cost toggle buttons.
-        for (ToggleButton button : typeToggleButtons)
-            button.setOnMouseClicked(mouseEvent -> updateCardsGridPane());
-        for (ToggleButton button : rarityToggleButtons)
-            button.setOnMouseClicked(mouseEvent -> updateCardsGridPane());
-        for (ToggleButton button : costToggleButtons)
-            button.setOnMouseClicked(mouseEvent -> updateCardsGridPane());
-
-        // Also make the reset button clear the search bar, re-select all type,
-        // rarity, and cost toggle buttons, and update the cardsGridPane.
+    private void setupResetButton() {
         resetButton.setOnMouseClicked(mouseEvent -> {
             searchTextField.setText("");
             for (ToggleButton button : typeToggleButtons)
@@ -215,39 +227,20 @@ public class CollectionController implements Initializable {
                 button.setSelected(true);
             updateCardsGridPane();
         });
+    }
 
-        // Get all collectible cards.
-        LoRCardDatabase cardDatabase = LoRCardDatabase.getInstance();
-        List<String> cardCodes = new LoRCardDatabase.LoRCardFilter().byCollectible(true).sort().getCardCodes();
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        regionToggleButtons = Arrays.asList(DEToggleButton, FRToggleButton, IOToggleButton, NXToggleButton, PZToggleButton, SIToggleButton, BWToggleButton, MTToggleButton, SHToggleButton, BCToggleButton, allToggleButton);
+        typeToggleButtons = Arrays.asList(unitToggleButton, spellToggleButton, landmarkToggleButton);
+        rarityToggleButtons = Arrays.asList(commonToggleButton, rareToggleButton, epicToggleButton, championToggleButton);
+        costToggleButtons = Arrays.asList(zeroCostToggleButton, oneCostToggleButton, twoCostToggleButton, threeCostToggleButton, fourCostToggleButton, fiveCostToggleButton, sixCostToggleButton, sevenCostToggleButton, eightPlusCostToggleButton);
+        placeholderCardImage = new Image(LoRMasterApplication.class.getResourceAsStream("images/placeholder.png"), 680 / 3.5, 1024 / 3.5, false, false);
 
-        // Calculate the number of rows necessary to display all cards and resize
-        // the cardsGridPane accordingly.
-        int rows = (int) Math.ceil(cardCodes.size() / 4.0);
-        int cols = cardsGridPane.getColumnCount();
-        cardsGridPane.setPrefHeight(rows * 1024 / 3.5);
-        for (int i = 0; i < rows; i++) {
-            RowConstraints rowConst = new RowConstraints();
-            rowConst.setPrefHeight(1024 / 3.5);
-            rowConst.setValignment(VPos.CENTER);
-            cardsGridPane.getRowConstraints().add(rowConst);
-        }
-
-        // Add the cards to the grid.
-        int cardIndex = 0;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (cardIndex >= cardCodes.size())
-                    break;
-                int _cardIndex = cardIndex;
-
-                // Create the ImageView for the current card and set up a mouse
-                // event handler to show the full art when the card is clicked.
-                ImageView cardImageView = new ImageView(cardDatabase.getCard(cardCodes.get(cardIndex)).getGameAsset());
-                cardImageView.setOnMouseClicked(mouseEvent -> showCardFullAsset(cardCodes.get(_cardIndex)));
-
-                cardsGridPane.add(cardImageView, j, i);
-                cardIndex++;
-            }
-        }
+        setupSceneButtons();
+        setupRegionToggleButtons();
+        updateCardsGridPane();
+        setupSearchTextField();
+        setupResetButton();
     }
 }

@@ -33,6 +33,7 @@ public final class LoRDeck {
     }
 
     private final List<LoRCardCodeAndCount> cards;
+    private String name;
 
     /**
      * Create an empty deck.
@@ -41,8 +42,24 @@ public final class LoRDeck {
         cards = new ArrayList<>();
     }
 
+    /**
+     * Copy constructor.
+     */
+    public LoRDeck(LoRDeck deck) {
+        cards = new ArrayList<>();
+        cards.addAll(deck.getCards());
+    }
+
     public List<LoRCardCodeAndCount> getCards() {
         return cards;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getSize() {
@@ -173,6 +190,25 @@ public final class LoRDeck {
      */
     public void clear() {
         cards.clear();
+    }
+
+    public void sort() {
+        LoRCardDatabase cardDatabase = LoRCardDatabase.getInstance();
+        for (int i = 0; i < cards.size() - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < cards.size(); j++) {
+                LoRCardDatabase.LoRCard card = cardDatabase.getCard(cards.get(j).getCardCode());
+                LoRCardDatabase.LoRCard minCostCard = cardDatabase.getCard(cards.get(minIndex).getCardCode());
+
+                if (card.getCost() < minCostCard.getCost())
+                    minIndex = j;
+                else if (card.getCost() == minCostCard.getCost() && card.getName().compareToIgnoreCase(minCostCard.getName()) < 1)
+                    minIndex = j;
+            }
+            LoRCardCodeAndCount placeholder = cards.get(i);
+            cards.set(i, cards.get(minIndex));
+            cards.set(minIndex, placeholder);
+        }
     }
 
     public static class DeckSizeLimitExceededException extends Exception {

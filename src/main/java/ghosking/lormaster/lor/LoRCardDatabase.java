@@ -30,7 +30,7 @@ public final class LoRCardDatabase {
         private final String description;
         private final String levelupDescription;
         private final HashMap<String, String> assetURLs;
-        private final HashMap<String, Image> assets;
+        private Image gameAsset;
 
         /**
          * Constructor is private to ensure that instances of this class are only
@@ -58,7 +58,7 @@ public final class LoRCardDatabase {
             this.description = description;
             this.levelupDescription = levelupDescription;
             this.assetURLs = assetURLs;
-            assets = new HashMap<>();
+            gameAsset = null;
         }
 
         public ArrayList<String> getAssociatedCardCodes() {
@@ -138,23 +138,22 @@ public final class LoRCardDatabase {
         }
 
         public Image getGameAsset() {
+            // These are the default width and height of the game asset...
+            // (for memory-usage purposes, we scale this down during the load.)
             int w = 680;
             int h = 1024;
-            // If the image does not already exist in assets, create the image using
-            // the corresponding URL and put it in assets.
-            if (!assets.containsKey("game")) {
-                assets.put("game", new Image(assetURLs.get("game"), (w / 3.5), (h / 3.5), false, true, true));
+            // Load the image if it has not already been loaded.
+            if (gameAsset == null) {
+                gameAsset = new Image(assetURLs.get("game"), w / 3.5, h / 3.5, false, true, true);
+
             }
-            return assets.get("game");
+            return gameAsset;
         }
 
         public Image getFullAsset() {
-            // If the image does not already exist in assets, create the image using
-            // the corresponding URL and put it in assets.
-            if (!assets.containsKey("full")) {
-                assets.put("full", new Image(assetURLs.get("full")));
-            }
-            return assets.get("full");
+            // For memory-usage purposes, always reload the full asset instead
+            // of storing the loaded image.
+            return new Image(assetURLs.get("full"));
         }
     }
 
@@ -174,8 +173,10 @@ public final class LoRCardDatabase {
         }
 
         /**
-         * @param regionsToInclude
-         * @return
+         * @param regionsToInclude A list of LoRRegions indicating which regions of cards
+         *                         to include (Demacia, Freljord, etc.).
+         * @return An instance of LoRCardFilter with its contents being any cards
+         *         that match one of the given LoRRegions.
          */
         public LoRCardFilter byRegion(List<LoRRegion> regionsToInclude) {
             List<String> filteredCardCodes = new ArrayList<>();
@@ -196,8 +197,10 @@ public final class LoRCardDatabase {
         }
 
         /**
-         * @param costsToInclude
-         * @return
+         * @param costsToInclude A list of integers indicating which costs of cards
+         *                       to include (0, 1, 2, ... 8, 9, 10, ...).
+         * @return An instance of LoRCardFilter with its contents being any cards
+         *         that match one of the given costs.
          */
         public LoRCardFilter byCost(List<Integer> costsToInclude) {
             List<String> filteredCardCodes = new ArrayList<>();
@@ -210,8 +213,10 @@ public final class LoRCardDatabase {
         }
 
         /**
-         * @param typesToInclude
-         * @return
+         * @param typesToInclude A list of LoRTypes indicating which types of cards
+         *                       to include (unit, spell, etc.).
+         * @return An instance of LoRCardFilter with its contents being any cards
+         *         that match one of the given LoRTypes.
          */
         public LoRCardFilter byType(List<LoRType> typesToInclude) {
             List<String> filteredCardCodes = new ArrayList<>();
@@ -223,6 +228,12 @@ public final class LoRCardDatabase {
             return this;
         }
 
+        /**
+         * @param supertypesToInclude A list of strings indicating which supertypes
+         *                            of cards to include.
+         * @return An instance of LoRCardFilter with its contents being any cards
+         *         that match one of the given supertypes.
+         */
         public LoRCardFilter bySupertype(List<String> supertypesToInclude) {
             List<String> filteredCardCodes = new ArrayList<>();
 
@@ -237,8 +248,10 @@ public final class LoRCardDatabase {
         }
 
         /**
-         * @param raritiesToInclude
-         * @return
+         * @param raritiesToInclude A list of LoRRarities indicating which rarities
+         *                          of cards to include (common, rare, etc.).
+         * @return An instance of LoRCardFilter with its contents being any cards
+         *         that match one of the given LoRRarities.
          */
         public LoRCardFilter byRarity(List<LoRRarity> raritiesToInclude) {
             List<String> filteredCardCodes = new ArrayList<>();
@@ -251,8 +264,10 @@ public final class LoRCardDatabase {
         }
 
         /**
-         * @param collectible
-         * @return
+         * @param collectible A boolean indicating whether to include collectible
+         *                    cards or non-collectible cards.
+         * @return An instance of LoRCardFilter with its contents being any cards
+         *         that match the given boolean.
          */
         public LoRCardFilter byCollectible(boolean collectible) {
             List<String> filteredCardCodes = new ArrayList<>();
@@ -265,8 +280,9 @@ public final class LoRCardDatabase {
         }
 
         /**
-         * @param query
-         * @return
+         * @param query The string to search for.
+         * @return An instance of LoRCardFilter with its contents being any cards
+         *         that contain the query in the name, description, keywords, etc.
          */
         public LoRCardFilter search(String query) {
             List<String> filteredCardCodes = new ArrayList<>();
@@ -279,14 +295,12 @@ public final class LoRCardDatabase {
                 // Check if the query string appears in the name, supertype, or descriptions of the card.
                 if (card.getName().toUpperCase().contains(query) || card.getSupertype().toUpperCase().contains(query) ||
                         card.getDescription().toUpperCase().contains(query) || card.getLevelupDescription().toUpperCase().contains(query)) {
-                    if (!queryFound) {
-                        filteredCardCodes.add(cardCode);
-                        queryFound = true;
-                    }
+                    filteredCardCodes.add(cardCode);
+                    break;
                 }
                 // Check if the query string appears in the keywords or subtypes of the card.
                 for (String keyword : card.getKeywords())
-                    if (keyword.toUpperCase().contains(query) && !queryFound) {
+                    if (keyword.toUpperCase().contains(query)) {
                         filteredCardCodes.add(cardCode);
                         queryFound = true;
                         break;
@@ -294,7 +308,6 @@ public final class LoRCardDatabase {
                 for (String subtype : card.getSubtypes())
                     if (subtype.toUpperCase().contains(query) && !queryFound) {
                         filteredCardCodes.add(cardCode);
-                        queryFound = true;
                         break;
                     }
             }
@@ -304,12 +317,13 @@ public final class LoRCardDatabase {
         }
 
         /**
-         * @return
+         * @return An instance of LoRCardFilter with its contents sorted in ascending
+         *         order by mana cost and then by name.
          */
         public LoRCardFilter sort() {
             // Filter the current list of card codes by rarity to separate
             // champions from the rest of the cards.
-            List<String> championCardCodes = new LoRCardFilter(this).byRarity(Arrays.asList(LoRRarity.CHAMPION)).getCardCodes();
+            List<String> championCardCodes = new LoRCardFilter(this).byRarity(List.of(LoRRarity.CHAMPION)).getCardCodes();
             List<String> nonChampionCardCodes = new LoRCardFilter(this).byRarity(Arrays.asList(LoRRarity.COMMON, LoRRarity.RARE, LoRRarity.EPIC, LoRRarity.NONE)).getCardCodes();
 
             // Sort the two lists by cost ascending (using name instead if two
@@ -353,7 +367,7 @@ public final class LoRCardDatabase {
         }
 
         /**
-         * @return
+         * @return The contents of the LoRCardFilter.
          */
         public List<String> getCardCodes() {
             return cardCodes;

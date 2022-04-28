@@ -5,11 +5,12 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.Date;
 
 public final class LoRRequest {
 
-    public static final String API_KEY = "RGAPI-d3328d21-f093-4b22-845e-4be3ad4a84df";
+    public static final String API_KEY = "RGAPI-6619ca68-ab28-48a1-84db-0d1154a88cf5";
 
     /**
      * @param url The URL of the request.
@@ -64,6 +65,9 @@ public final class LoRRequest {
                 // Response code 504: Gateway timeout.
                 // case 504:
             }
+        }
+        catch (SocketTimeoutException ex) {
+            return null;
         }
         catch (AccessForbiddenException | DataNotFoundException | RateLimitExceededException ignored) {
         }

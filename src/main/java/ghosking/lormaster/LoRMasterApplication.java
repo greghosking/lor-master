@@ -1,9 +1,12 @@
 package ghosking.lormaster;
 
+import ghosking.lormaster.controller.DeckEditorController;
+import ghosking.lormaster.controller.DecksController;
 import ghosking.lormaster.lor.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -27,8 +30,11 @@ public class LoRMasterApplication extends Application {
     // The user that is currently logged in.
     private static LoRPlayer activePlayer;
 
-
     private static LocalDateTime timeLastUpdatedLeaderboard;
+
+    public static Stage getStage() {
+        return stage;
+    }
 
     @Override
     public void start(Stage stage) {
@@ -36,28 +42,15 @@ public class LoRMasterApplication extends Application {
         LoRMasterApplication.stage.setResizable(false);
         switchToLoginScene();
 
-        // Start a separate thread to load all game assets in the background.
-//        Thread gameAssetLoaderThread = new Thread(() -> {
-//            LoRCardDatabase cardDatabase = LoRCardDatabase.getInstance();
-//            ArrayList<String> collectibleCardCodes = cardDatabase.getCardCodesByCollectible(cardDatabase.getCardCodes(), true, false);
-//            System.out.println("Collectible cards size: " + collectibleCardCodes.size());
-//            int cardsLoaded = 0;
-//            for (String cardCode : collectibleCardCodes) {
-//                cardsLoaded++;
-//                System.out.println("Loading " + cardDatabase.getCard(cardCode).getName() + " (" + cardCode + ") (" + cardsLoaded + "/" + collectibleCardCodes.size() + ")");
-//                cardDatabase.getCard(cardCode).getGameAsset();
-//
-//            }
-//        });
-//        gameAssetLoaderThread.start();
 
-        // @TODO: Load other scenes in the background in separate threads.
         Thread collectionSceneLoaderThread = new Thread(() -> {
             loadCollectionScene();
         });
         collectionSceneLoaderThread.start();
 
 
+        LoRMasterApplication.stage.getIcons().add(new Image(LoRMasterApplication.class.getResourceAsStream("images/lor-icon.png")));
+        LoRMasterApplication.stage.setTitle("Legends of Runeterra Master");
         LoRMasterApplication.stage.show();
     }
 
@@ -140,7 +133,23 @@ public class LoRMasterApplication extends Application {
     public static void switchToDecksScene() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(LoRMasterApplication.class.getResource("fxml/decks-view.fxml"));
+//            if (decksScene == null)
+            decksScene = new Scene(fxmlLoader.load());
+//            else
+//                DecksController.readDecks();
+            stage.setScene(decksScene);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void switchToDeckEditorScene(LoRDeck deck) {
+        try {
+            DeckEditorController.setUneditedDeck(deck);
+            FXMLLoader fxmlLoader = new FXMLLoader(LoRMasterApplication.class.getResource("fxml/deck-editor-view.fxml"));
             stage.setScene(new Scene(fxmlLoader.load()));
+
         }
         catch (Exception ex) {
             ex.printStackTrace();

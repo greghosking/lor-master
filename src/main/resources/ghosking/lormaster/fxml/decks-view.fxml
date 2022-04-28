@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -40,42 +41,38 @@
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="importDeckButton" layoutX="416.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="216.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="IMPORT DECK">
+      <Button fx:id="importDeckButton" layoutX="416.0" mnemonicParsing="false" onMouseClicked="#onImportDeckButtonClicked" prefHeight="80.0" prefWidth="216.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="IMPORT DECK">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="newDeckButton" layoutX="200.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="216.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="NEW DECK">
+      <Button fx:id="newDeckButton" layoutX="200.0" mnemonicParsing="false" onMouseClicked="#onNewDeckButtonClicked" prefHeight="80.0" prefWidth="216.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="NEW DECK">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
+         <tooltip>
+            <Tooltip text="Create a new deck">
+               <font>
+                  <Font name="Lucida Console" size="12.0" />
+               </font>
+            </Tooltip>
+         </tooltip>
       </Button>
       <Button fx:id="exportDeckButton" disable="true" layoutX="632.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="216.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="EXPORT DECK">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="editDeckButton" disable="true" layoutX="848.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="216.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="EDIT DECK">
+      <Button fx:id="editDeckButton" disable="true" layoutX="848.0" mnemonicParsing="false" onMouseClicked="#onEditDeckButtonClicked" prefHeight="80.0" prefWidth="216.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="EDIT DECK">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="deleteDeckButton" disable="true" layoutX="1064.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="216.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="DELETE DECK">
+      <Button fx:id="deleteDeckButton" disable="true" layoutX="1064.0" mnemonicParsing="false" onMouseClicked="#onDeleteDeckButtonClicked" prefHeight="80.0" prefWidth="216.0" styleClass="unselected-button" stylesheets="@../css/main.css" text="DELETE DECK">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <ScrollPane fx:id="decksScrollPane" hbarPolicy="NEVER" layoutX="306.0" layoutY="136.0" styleClass="decks-scroll-pane" stylesheets="@../css/main.css" vbarPolicy="NEVER">
-         <content>
-            <GridPane fx:id="decksGridPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="520.0" prefWidth="864.0" styleClass="decks-grid-pane" stylesheets="@../css/main.css">
-              <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.0" minWidth="0.0" prefWidth="108.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.0" minWidth="10.0" prefWidth="108.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="646.0" minWidth="10.0" prefWidth="646.0" />
-              </columnConstraints>
-            </GridPane>
-         </content>
-      </ScrollPane>
       <Line endX="100.0" layoutX="100.0" layoutY="360.0" startX="-100.0" stroke="#c9a15c" />
       <Line endX="100.0" layoutX="100.0" layoutY="480.0" startX="-100.0" stroke="#c9a15c" />
       <Line endX="89.99998474121094" endY="230.0" layoutX="110.0" layoutY="490.0" startX="89.99998474121094" startY="-10.0" stroke="#c9a15c" />
@@ -85,5 +82,16 @@
       <Line endX="90.0" endY="-50.0" layoutX="542.0" layoutY="130.0" startX="89.99998474121094" startY="-130.0" stroke="#c9a15c" />
       <Line endX="90.0" endY="-50.0" layoutX="758.0" layoutY="130.0" startX="89.99998474121094" startY="-130.0" stroke="#c9a15c" />
       <Line endX="90.0" endY="-50.0" layoutX="974.0" layoutY="130.0" startX="89.99998474121094" startY="-130.0" stroke="#c9a15c" />
+      <ScrollPane fx:id="decksScrollPane" hbarPolicy="NEVER" layoutX="306.0" layoutY="135.0" prefHeight="520.0" prefWidth="864.0" styleClass="decks-scroll-pane" stylesheets="@../css/main.css">
+         <content>
+            <GridPane fx:id="decksGridPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="520.0" prefWidth="864.0" styleClass="decks-grid-pane" stylesheets="@../css/main.css">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="72.0" minWidth="0.0" prefWidth="72.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="72.0" minWidth="10.0" prefWidth="72.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="724.8" minWidth="10.0" prefWidth="724.8" />
+              </columnConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

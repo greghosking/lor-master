@@ -44,9 +44,9 @@
             <Font name="Lucida Console" size="18.0" />
          </font>
       </Button>
-      <ScrollPane fx:id="cardsScrollPane" hbarPolicy="NEVER" layoutX="200.0" layoutY="120.0" prefHeight="600.0" prefWidth="880.0" styleClass="cards-scroll-pane" stylesheets="@../css/main.css" vbarPolicy="NEVER">
+      <ScrollPane fx:id="cardsScrollPane" hbarPolicy="NEVER" layoutX="200.0" layoutY="120.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="600.0" prefWidth="880.0" styleClass="cards-scroll-pane" stylesheets="@../css/main.css">
          <content>
-            <GridPane fx:id="cardsGridPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="880.0" styleClass="cards-grid-pane" stylesheets="@../css/main.css">
+            <GridPane fx:id="cardsGridPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="865.0" styleClass="cards-grid-pane" stylesheets="@../css/main.css">
               <columnConstraints>
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -56,17 +56,17 @@
             </GridPane>
          </content>
       </ScrollPane>
-      <ToggleButton fx:id="DEToggleButton" layoutX="200.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
-      <ToggleButton fx:id="FRToggleButton" layoutX="280.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
-      <ToggleButton fx:id="IOToggleButton" layoutX="360.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
-      <ToggleButton fx:id="NXToggleButton" layoutX="440.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
-      <ToggleButton fx:id="PZToggleButton" layoutX="520.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
-      <ToggleButton fx:id="SIToggleButton" layoutX="600.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
-      <ToggleButton fx:id="BWToggleButton" layoutX="680.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
-      <ToggleButton fx:id="MTToggleButton" layoutX="760.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
-      <ToggleButton fx:id="SHToggleButton" layoutX="840.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
-      <ToggleButton fx:id="BCToggleButton" layoutX="920.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
-      <ToggleButton fx:id="allToggleButton" layoutX="1000.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="DEToggleButton" layoutX="200.0" mnemonicParsing="false" onMouseClicked="#onRegionToggleButtonClicked" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="FRToggleButton" layoutX="280.0" mnemonicParsing="false" onMouseClicked="#onRegionToggleButtonClicked" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="IOToggleButton" layoutX="360.0" mnemonicParsing="false" onMouseClicked="#onRegionToggleButtonClicked" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="NXToggleButton" layoutX="440.0" mnemonicParsing="false" onMouseClicked="#onRegionToggleButtonClicked" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="PZToggleButton" layoutX="520.0" mnemonicParsing="false" onMouseClicked="#onRegionToggleButtonClicked" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="SIToggleButton" layoutX="600.0" mnemonicParsing="false" onMouseClicked="#onRegionToggleButtonClicked" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="BWToggleButton" layoutX="680.0" mnemonicParsing="false" onMouseClicked="#onRegionToggleButtonClicked" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="MTToggleButton" layoutX="760.0" mnemonicParsing="false" onMouseClicked="#onRegionToggleButtonClicked" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="SHToggleButton" layoutX="840.0" mnemonicParsing="false" onMouseClicked="#onRegionToggleButtonClicked" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="BCToggleButton" layoutX="920.0" mnemonicParsing="false" onMouseClicked="#onRegionToggleButtonClicked" prefHeight="120.0" prefWidth="80.0" selected="true" />
+      <ToggleButton fx:id="allToggleButton" layoutX="1000.0" mnemonicParsing="false" onMouseClicked="#onAllRegionToggleButtonClicked" prefHeight="120.0" prefWidth="80.0" selected="true" />
       <AnchorPane layoutX="1080.0" prefHeight="720.0" prefWidth="200.0" styleClass="filters-background-pane" stylesheets="@../css/main.css">
          <children>
             <TextField fx:id="searchTextField" prefHeight="120.0" prefWidth="200.0" promptText="SEARCH" styleClass="search-text-field" stylesheets="@../css/main.css">
@@ -88,17 +88,17 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ToggleButton fx:id="unitToggleButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" selected="true" text="UNIT">
+                  <ToggleButton fx:id="unitToggleButton" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="100.0" prefWidth="100.0" selected="true" text="UNIT">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="spellToggleButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" selected="true" text="SPELL" GridPane.columnIndex="1">
+                  <ToggleButton fx:id="spellToggleButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="100.0" prefWidth="100.0" selected="true" text="SPELL" GridPane.columnIndex="1">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="landmarkToggleButton" layoutX="110.0" layoutY="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" selected="true" text="LANDMARK" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                  <ToggleButton fx:id="landmarkToggleButton" layoutX="110.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="60.0" prefWidth="200.0" selected="true" text="LANDMARK" GridPane.columnSpan="2" GridPane.rowIndex="1">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>
@@ -120,22 +120,22 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ToggleButton fx:id="commonToggleButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" selected="true" text="COMMON">
+                  <ToggleButton fx:id="commonToggleButton" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="60.0" prefWidth="110.0" selected="true" text="COMMON">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="rareToggleButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" selected="true" text="RARE" GridPane.columnIndex="1">
+                  <ToggleButton fx:id="rareToggleButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="60.0" prefWidth="110.0" selected="true" text="RARE" GridPane.columnIndex="1">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="epicToggleButton" layoutX="110.0" layoutY="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" selected="true" text="EPIC" GridPane.rowIndex="1">
+                  <ToggleButton fx:id="epicToggleButton" layoutX="110.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="60.0" prefWidth="110.0" selected="true" text="EPIC" GridPane.rowIndex="1">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="championToggleButton" layoutX="10.0" layoutY="70.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" selected="true" text="CHAMP" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <ToggleButton fx:id="championToggleButton" layoutX="10.0" layoutY="70.0" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="60.0" prefWidth="110.0" selected="true" text="CHAMP" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>
@@ -164,47 +164,47 @@
                         <Font name="Lucida Console" size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="zeroCostToggleButton" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="0">
+                  <ToggleButton fx:id="zeroCostToggleButton" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="82.0" prefWidth="100.0" selected="true" text="0">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="oneCostToggleButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="1" GridPane.columnIndex="1">
+                  <ToggleButton fx:id="oneCostToggleButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="82.0" prefWidth="100.0" selected="true" text="1" GridPane.columnIndex="1">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="twoCostToggleButton" layoutX="76.0" layoutY="10.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="2" GridPane.columnIndex="2">
+                  <ToggleButton fx:id="twoCostToggleButton" layoutX="76.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="82.0" prefWidth="100.0" selected="true" text="2" GridPane.columnIndex="2">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="threeCostToggleButton" layoutX="143.0" layoutY="10.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="3" GridPane.rowIndex="1">
+                  <ToggleButton fx:id="threeCostToggleButton" layoutX="143.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="82.0" prefWidth="100.0" selected="true" text="3" GridPane.rowIndex="1">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="fourCostToggleButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <ToggleButton fx:id="fourCostToggleButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="82.0" prefWidth="100.0" selected="true" text="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="fiveCostToggleButton" layoutX="76.0" layoutY="50.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="5" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <ToggleButton fx:id="fiveCostToggleButton" layoutX="76.0" layoutY="50.0" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="82.0" prefWidth="100.0" selected="true" text="5" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="sixCostToggleButton" layoutX="143.0" layoutY="50.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="6" GridPane.rowIndex="2">
+                  <ToggleButton fx:id="sixCostToggleButton" layoutX="143.0" layoutY="50.0" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="82.0" prefWidth="100.0" selected="true" text="6" GridPane.rowIndex="2">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="sevenCostToggleButton" layoutX="10.0" layoutY="90.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="7" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <ToggleButton fx:id="sevenCostToggleButton" layoutX="10.0" layoutY="90.0" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="82.0" prefWidth="100.0" selected="true" text="7" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="eightPlusCostToggleButton" layoutX="76.0" layoutY="90.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="100.0" selected="true" text="8+" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <ToggleButton fx:id="eightPlusCostToggleButton" layoutX="76.0" layoutY="90.0" mnemonicParsing="false" onMouseClicked="#updateCardsGridPane" prefHeight="82.0" prefWidth="100.0" selected="true" text="8+" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <font>
                         <Font name="Lucida Console" size="18.0" />
                      </font>

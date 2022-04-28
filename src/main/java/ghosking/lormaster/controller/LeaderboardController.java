@@ -6,11 +6,7 @@ import ghosking.lormaster.lor.LoRRequest;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.Background;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,21 +15,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class LeaderboardController implements Initializable {
-
-    /**
-     * Create a custom cell renderer for the leaderboard ListViews.
-     */
-    private static class LeaderboardListCell extends ListCell<String> {
-        @Override
-        protected void updateItem(String item, boolean empty) {
-            super.updateItem(item, empty);
-            setText(item);
-            // Clear the background and set the text color.
-            setBackground(Background.EMPTY);
-            setFont(Font.font("Lucida Console", 11));
-            setTextFill(Color.valueOf("#FFF1DA"));
-        }
-    }
 
     @FXML
     Button profileButton, liveMatchButton, collectionButton, decksButton, metaButton;
@@ -77,12 +58,6 @@ public class LeaderboardController implements Initializable {
         collectionButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToCollectionScene());
         decksButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToDecksScene());
         metaButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToMetaScene());
-
-        // Set each leaderboard ListView to use the custom cell renderer defined above.
-        americasLeaderboardListView.setCellFactory(list -> new LeaderboardListCell());
-        europeLeaderboardListView.setCellFactory(list -> new LeaderboardListCell());
-        seaLeaderboardListView.setCellFactory(list -> new LeaderboardListCell());
-        worldLeaderboardListView.setCellFactory(list -> new LeaderboardListCell());
 
         // Start a separate thread to get and sort the leaderboard data in the background.
         Thread leaderboardThread = new Thread(() -> {

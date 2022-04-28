@@ -10,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -23,20 +25,37 @@ public class LoginController implements Initializable {
     @FXML
     ImageView backImageView, frontImageView;
     @FXML
-    TextField gameNameTextField, tagLineTextField;
+    Rectangle backgroundRectangle;
+    @FXML
+    Label titleLabel1, titleLabel2;
+    @FXML
+    TextField usernameTextField, tagLineTextField;
     @FXML
     Button loginButton;
     @FXML
     Label loginMessageLabel;
 
+    private PauseTransition idleTransition;
+
     private final double slideDuration = 10;
     private final double fadeDuration = 1.5;
+    private int index;
 
     private LocalDateTime timeOfLastLoginAttempt;
     private final long timeBetweenLoginAttempts = 3;
-
-    private int index;
     private LoRPlayer activePlayer;
+
+    public void restartIdleTransition() {
+        // If the user makes any mouse clicks or movements or presses any keys,
+        // make everything visible again and restart the idle animation.
+        backgroundRectangle.setVisible(true);
+        titleLabel1.setVisible(true);
+        titleLabel2.setVisible(true);
+        usernameTextField.setVisible(true);
+        tagLineTextField.setVisible(true);
+        loginButton.setVisible(true);
+        idleTransition.playFromStart();
+    }
 
     private void startSlideshow() {
         LoRCardDatabase cardDatabase = LoRCardDatabase.getInstance();
@@ -117,14 +136,14 @@ public class LoginController implements Initializable {
         timeline.play();
     }
 
-    public void attemptLogin() {
+    private void attemptLogin() {
         // Hide the login message label when the user attempts to log in.
         loginMessageLabel.setVisible(false);
 
         // Start a separate thread to perform the login attempt in the background.
         Thread loginThread = new Thread(() -> {
             try {
-                activePlayer = LoRPlayer.fromRiotID(gameNameTextField.getText(), tagLineTextField.getText());
+                activePlayer = LoRPlayer.fromRiotID(usernameTextField.getText(), tagLineTextField.getText());
             }
             catch (Exception ex) {
                 showLoginError();
@@ -167,12 +186,27 @@ public class LoginController implements Initializable {
         // Prevent the user from spamming the login button and sending too many
         // login attempt requests.
         loginButton.setOnMouseClicked(mouseEvent -> {
+            restartIdleTransition();
             if (timeOfLastLoginAttempt == null ||
                     timeOfLastLoginAttempt.plusSeconds(timeBetweenLoginAttempts).isBefore(LocalDateTime.now())) {
                 timeOfLastLoginAttempt = LocalDateTime.now();
                 attemptLogin();
             }
         });
+
+        // If the user goes idle on the login screen, make everything but the
+        // background images invisible so the slideshow is in full focus.
+        idleTransition = new PauseTransition(Duration.seconds(15));
+        idleTransition.setOnFinished(e -> {
+            backgroundRectangle.setVisible(false);
+            titleLabel1.setVisible(false);
+            titleLabel2.setVisible(false);
+            usernameTextField.setVisible(false);
+            tagLineTextField.setVisible(false);
+            loginButton.setVisible(false);
+            loginMessageLabel.setVisible(false);
+        });
+        idleTransition.playFromStart();
 
         startSlideshow();
     }

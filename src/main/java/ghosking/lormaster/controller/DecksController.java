@@ -10,14 +10,13 @@ import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.*;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class DecksController implements Initializable {
 
@@ -25,7 +24,6 @@ public class DecksController implements Initializable {
     Button profileButton, liveMatchButton, collectionButton, leaderboardButton, metaButton;
     @FXML
     Button newDeckButton, importDeckButton, exportDeckButton, editDeckButton, deleteDeckButton;
-
     @FXML
     ScrollPane decksScrollPane;
     @FXML
@@ -54,10 +52,28 @@ public class DecksController implements Initializable {
     }
 
     public void onImportDeckButtonClicked() {
+        // Try to read a deck code from the user's clipboard.
+        try {
+            Clipboard clipboard = Clipboard.getSystemClipboard();
+            String deckCode = clipboard.getString().toUpperCase();
+            LoRDeck deck = LoRDeckEncoder.decode(deckCode);
+            selectedDeckIndex = decksGridPane.getRowCount();
+            decks.add(selectedDeckIndex, deck);
+            LoRMasterApplication.switchToDeckEditorScene(decks.get(selectedDeckIndex));
+        }
+        // If there is no valid deck code on the user's clipboard, alert the user.
+        catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.NONE, "", ButtonType.OK);
+            alert.getDialogPane().getStylesheets().add(LoRMasterApplication.class.getResource("css/main.css").toExternalForm());
+            alert.setTitle("Import Deck");
+            alert.setHeaderText("Could Not Import Deck!");
+            Label content = new Label("Please make sure you have copied a valid deck code\n" +
+                    "on your clipboard and try again.\n");
+            content.setWrapText(true);
+            alert.getDialogPane().setContent(content);
 
-        TextInputDialog textInputDialog = new TextInputDialog();
-        textInputDialog.showAndWait();
-
+            alert.showAndWait();
+        }
     }
 
     public void onExportDeckButtonClicked() {
@@ -69,14 +85,15 @@ public class DecksController implements Initializable {
     }
 
     public void onDeleteDeckButtonClicked() {
-        Alert alert = new Alert(Alert.AlertType.NONE, "Are you sure you want to delete this deck?", ButtonType.YES, ButtonType.NO);
+        Alert alert = new Alert(Alert.AlertType.NONE, "", ButtonType.YES, ButtonType.NO);
+        alert.getDialogPane().getStylesheets().add(LoRMasterApplication.class.getResource("css/main.css").toExternalForm());
         alert.setTitle("Delete Deck?");
-
-        DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(LoRMasterApplication.class.getResource("css/main.css").toExternalForm());
+        alert.setHeaderText("Delete Deck?");
+        Label content = new Label("Are you sure you want to delete this deck?\n");
+        content.setWrapText(true);
+        alert.getDialogPane().setContent(content);
 
         alert.showAndWait();
-
         if (alert.getResult() == ButtonType.YES) {
             decks.remove(selectedDeckIndex);
             selectedDeckIndex = -1;
@@ -213,19 +230,11 @@ public class DecksController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         setupSceneButtons();
         readDecks();
-
         setupDecksGridPane();
 
-
-
-        System.out.println(decks);
-
-
-
+        // If the user attempts to exit the application, make sure to save their decks.
         LoRMasterApplication.getStage().setOnCloseRequest(windowEvent -> writeDecks());
     }
-
 }

@@ -104,11 +104,13 @@ public class DeckEditorController implements Initializable {
         if (editedDeck.getSize() < 40) {
             ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.YES);
             ButtonType discardButtonType = new ButtonType("Discard", ButtonBar.ButtonData.NO);
-            Alert invalidDeckAlert = new Alert(Alert.AlertType.NONE, "Do you want to save your changes anyway?",
-                    saveButtonType, discardButtonType, ButtonType.CANCEL);
+            Alert invalidDeckAlert = new Alert(Alert.AlertType.NONE, "", saveButtonType, discardButtonType, ButtonType.CANCEL);
+            invalidDeckAlert.getDialogPane().getStylesheets().add(LoRMasterApplication.class.getResource("css/main.css").toExternalForm());
             invalidDeckAlert.setTitle("Invalid Deck");
             invalidDeckAlert.setHeaderText("Your deck does not have enough cards!");
-            invalidDeckAlert.getDialogPane().getStylesheets().add(LoRMasterApplication.class.getResource("css/main.css").toExternalForm());
+            Label content = new Label("Do you want to save your changes anyway?\n\n");
+            content.setWrapText(true);
+            invalidDeckAlert.getDialogPane().setContent(content);
 
             invalidDeckAlert.showAndWait();
             ButtonType result = invalidDeckAlert.getResult();

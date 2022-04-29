@@ -28,7 +28,7 @@
             <Font name="Lucida Console" size="48.0" />
          </font>
       </Label>
-      <TextField fx:id="usernameTextField" layoutX="490.0" layoutY="455.0" onKeyPressed="#restartIdleTransition" onKeyReleased="#restartIdleTransition" onKeyTyped="#restartIdleTransition" onMouseClicked="#restartIdleTransition" onMouseMoved="#restartIdleTransition" onMousePressed="#restartIdleTransition" onMouseReleased="#restartIdleTransition" onScroll="#restartIdleTransition" prefHeight="40.0" prefWidth="185.0" promptText="Username" styleClass="login-text-field" stylesheets="@../css/main.css">
+      <TextField fx:id="usernameTextField" layoutX="490.0" layoutY="455.0" onKeyPressed="#restartIdleTransition" onKeyReleased="#restartIdleTransition" onKeyTyped="#restartIdleTransition" onMouseClicked="#restartIdleTransition" onMouseMoved="#restartIdleTransition" onMousePressed="#restartIdleTransition" onMouseReleased="#restartIdleTransition" onScroll="#restartIdleTransition" prefHeight="40.0" prefWidth="185.0" promptText="USERNAME" styleClass="login-text-field" stylesheets="@../css/main.css">
          <font>
             <Font name="Lucida Console" size="18.0" />
          </font>

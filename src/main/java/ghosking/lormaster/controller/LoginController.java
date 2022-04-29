@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
@@ -43,7 +42,7 @@ public class LoginController implements Initializable {
 
     private LocalDateTime timeOfLastLoginAttempt;
     private final long timeBetweenLoginAttempts = 3;
-    private LoRPlayer activePlayer;
+    private LoRPlayer user;
 
     public void restartIdleTransition() {
         // If the user makes any mouse clicks or movements or presses any keys,
@@ -143,7 +142,7 @@ public class LoginController implements Initializable {
         // Start a separate thread to perform the login attempt in the background.
         Thread loginThread = new Thread(() -> {
             try {
-                activePlayer = LoRPlayer.fromRiotID(usernameTextField.getText(), tagLineTextField.getText());
+                user = LoRPlayer.fromRiotID(usernameTextField.getText(), tagLineTextField.getText());
             }
             catch (Exception ex) {
                 showLoginError();
@@ -158,8 +157,8 @@ public class LoginController implements Initializable {
                 new KeyFrame(Duration.seconds(1), event -> {
                     // If the login attempt was processed and successful by now,
                     // activePlayer will not be null.
-                    if (activePlayer != null) {
-                        LoRMasterApplication.setActivePlayer(activePlayer);
+                    if (user != null) {
+                        LoRMasterApplication.setUser(user);
                         LoRMasterApplication.switchToProfileScene();
                         timeline.stop();
                     }

@@ -63,21 +63,38 @@ public class DecksController implements Initializable {
         }
         // If there is no valid deck code on the user's clipboard, alert the user.
         catch (Exception ex) {
-            Alert alert = new Alert(Alert.AlertType.NONE, "", ButtonType.OK);
-            alert.getDialogPane().getStylesheets().add(LoRMasterApplication.class.getResource("css/main.css").toExternalForm());
-            alert.setTitle("Import Deck");
-            alert.setHeaderText("Could Not Import Deck!");
+            Alert importDeckAlert = new Alert(Alert.AlertType.NONE, "", ButtonType.OK);
+            importDeckAlert.getDialogPane().getStylesheets().add(LoRMasterApplication.class.getResource("css/main.css").toExternalForm());
+            importDeckAlert.setTitle("Import Deck");
+            importDeckAlert.setHeaderText("Could Not Import Deck!");
             Label content = new Label("Please make sure you have copied a valid deck code\n" +
                     "on your clipboard and try again.\n");
             content.setWrapText(true);
-            alert.getDialogPane().setContent(content);
+            importDeckAlert.getDialogPane().setContent(content);
 
-            alert.showAndWait();
+            importDeckAlert.showAndWait();
         }
     }
 
     public void onExportDeckButtonClicked() {
+        // Show the user an alert with the code for the selected deck.
+        ButtonType copyButtonType = new ButtonType("COPY TO CLIPBOARD", ButtonBar.ButtonData.YES);
+        Alert exportDeckAlert = new Alert(Alert.AlertType.NONE, "", copyButtonType);
+        exportDeckAlert.getDialogPane().getStylesheets().add(LoRMasterApplication.class.getResource("css/main.css").toExternalForm());
+        exportDeckAlert.setTitle("Export Deck");
+        exportDeckAlert.setHeaderText("SHARE THIS DECK CODE WITH OTHERS:");
+        Label content = new Label(LoRDeckEncoder.encode(decks.get(selectedDeckIndex)));
+        content.setWrapText(true);
+        exportDeckAlert.getDialogPane().setContent(content);
+        exportDeckAlert.showAndWait();
 
+        // If the user clicks the button, copy the deck code to the user's clipboard.
+        if (exportDeckAlert.getResult() == copyButtonType) {
+            ClipboardContent clipboardContent = new ClipboardContent();
+            clipboardContent.putString(LoRDeckEncoder.encode(decks.get(selectedDeckIndex)));
+            Clipboard clipboard = Clipboard.getSystemClipboard();
+            clipboard.setContent(clipboardContent);
+        }
     }
 
     public void onEditDeckButtonClicked() {
@@ -85,16 +102,21 @@ public class DecksController implements Initializable {
     }
 
     public void onDeleteDeckButtonClicked() {
-        Alert alert = new Alert(Alert.AlertType.NONE, "", ButtonType.YES, ButtonType.NO);
+        // Show the user an alert to confirm whether they want to delete the selected deck.
+        ButtonType yesButtonType = new ButtonType("YES", ButtonBar.ButtonData.YES);
+        ButtonType noButtonType = new ButtonType("NO", ButtonBar.ButtonData.NO);
+        Alert alert = new Alert(Alert.AlertType.NONE, "", yesButtonType, noButtonType);
         alert.getDialogPane().getStylesheets().add(LoRMasterApplication.class.getResource("css/main.css").toExternalForm());
         alert.setTitle("Delete Deck?");
-        alert.setHeaderText("Delete Deck?");
+        alert.setHeaderText("DELETE DECK?");
         Label content = new Label("Are you sure you want to delete this deck?\n");
         content.setWrapText(true);
         alert.getDialogPane().setContent(content);
 
+        // If the user chooses to delete the deck, remove it from the list and
+        // reset the selected deck index.
         alert.showAndWait();
-        if (alert.getResult() == ButtonType.YES) {
+        if (alert.getResult() == yesButtonType) {
             decks.remove(selectedDeckIndex);
             selectedDeckIndex = -1;
             updateDecksGridPane();

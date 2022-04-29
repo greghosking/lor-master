@@ -102,12 +102,13 @@ public class DeckEditorController implements Initializable {
         // If the user attempts to exit the editor with an invalid deck, prompt
         // the user to save or discard changes or return to the editor.
         if (editedDeck.getSize() < 40) {
-            ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.YES);
-            ButtonType discardButtonType = new ButtonType("Discard", ButtonBar.ButtonData.NO);
-            Alert invalidDeckAlert = new Alert(Alert.AlertType.NONE, "", saveButtonType, discardButtonType, ButtonType.CANCEL);
+            ButtonType saveButtonType = new ButtonType("SAVE", ButtonBar.ButtonData.YES);
+            ButtonType discardButtonType = new ButtonType("DISCARD", ButtonBar.ButtonData.NO);
+            ButtonType cancelButtonType = new ButtonType("CANCEL", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert invalidDeckAlert = new Alert(Alert.AlertType.NONE, "", saveButtonType, discardButtonType, cancelButtonType);
             invalidDeckAlert.getDialogPane().getStylesheets().add(LoRMasterApplication.class.getResource("css/main.css").toExternalForm());
             invalidDeckAlert.setTitle("Invalid Deck");
-            invalidDeckAlert.setHeaderText("Your deck does not have enough cards!");
+            invalidDeckAlert.setHeaderText("YOUR DECK DOES NOT HAVE ENOUGH CARDS!");
             Label content = new Label("Do you want to save your changes anyway?\n\n");
             content.setWrapText(true);
             invalidDeckAlert.getDialogPane().setContent(content);

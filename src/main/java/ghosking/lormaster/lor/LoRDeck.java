@@ -163,7 +163,19 @@ public final class LoRDeck {
      * @param count The number of copies to be added.
      */
     public void add(String cardCode, int count) {
-        cards.add(new LoRCardCodeAndCount(cardCode, count));
+        boolean isCardInDeck = false;
+        // Search the deck to see if the given card already exists in the deck.
+        for (LoRCardCodeAndCount cardCodeAndCount : cards) {
+            // If it does, increment the associated count by the specified amount.
+            if (cardCodeAndCount.getCardCode().equalsIgnoreCase(cardCode)) {
+                isCardInDeck = true;
+                for (int i = 0; i < count; i++)
+                    cardCodeAndCount.incrementCount();
+            }
+        }
+
+        // If not, create a new LoRCardCodeAndCount instance for this card.
+        if (!isCardInDeck) cards.add(new LoRCardCodeAndCount(cardCode, count));
     }
 
     /**

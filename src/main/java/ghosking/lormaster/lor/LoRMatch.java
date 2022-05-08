@@ -27,7 +27,7 @@ public final class LoRMatch {
             this.wonMatch = wonMatch;
         }
 
-        public String getPuuid() {
+        public String getPUUID() {
             return puuid;
         }
 

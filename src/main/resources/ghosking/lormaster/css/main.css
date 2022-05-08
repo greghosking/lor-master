@@ -128,7 +128,69 @@
 /**
  * Live Match Scene Styles
  */
+.live-deck-list-view {
+    -fx-background-color: #261D1E;
+    -fx-border-color: #C9A15C;
+    -fx-font-family: "Lucida Console";
+    -fx-font-size: 16px;
+}
 
+.live-deck-list-view .list-cell:even {
+    -fx-background-color: #3F2A29;
+    -fx-text-fill: #FFF1DA;
+}
+
+.live-deck-list-view .list-cell:odd {
+   -fx-background-color: #3F2A2980;
+    -fx-text-fill: #FFF1DA;
+}
+
+.live-deck-list-view .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-scale-x: 0.75;
+}
+
+.live-deck-list-view .scroll-bar:horizontal {
+    -fx-scale-x: 0;
+    -fx-scale-y: 0;
+    -fx-padding: 0;
+}
+
+.live-deck-list-view .scroll-bar:horizontal .increment-arrow,
+.live-deck-list-view .scroll-bar:horizontal .decrement-arrow,
+.live-deck-list-view .scroll-bar:horizontal .increment-button,
+.live-deck-list-view .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
+}
+
+.live-deck-list-view .scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent;
+    -fx-border-radius: 2em;
+}
+
+.live-deck-list-view .scroll-bar:vertical .increment-button ,
+.live-deck-list-view .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 0 10 0 0;
+}
+
+.live-deck-list-view .scroll-bar:vertical .increment-arrow,
+.live-deck-list-view .scroll-bar:vertical .decrement-arrow{
+    -fx-padding: 0 0.15em;
+    -fx-shape: " ";
+}
+
+.live-deck-list-view > .virtual-flow > .corner {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-scale-x: 0;
+    -fx-scale-y: 0;
+}
 
 /**
  * Collection Scene Styles
@@ -185,10 +247,6 @@
 .decks-grid-pane {
     -fx-background-color: #261D1E;
     -fx-background-radius: 0;
-}
-
-.deck-name-label {
-
 }
 
 .selected-deck {

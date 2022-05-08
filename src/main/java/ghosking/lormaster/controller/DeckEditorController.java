@@ -72,8 +72,9 @@ public class DeckEditorController implements Initializable {
     private void updateDeckListView() {
         editedDeck.sort();
         deckListView.getItems().clear();
+        LoRCardDatabase cardDatabase = LoRCardDatabase.getInstance();
         for (LoRDeck.LoRCardCodeAndCount cardCodeAndCount : editedDeck.getCards()) {
-            LoRCardDatabase.LoRCard card = LoRCardDatabase.getInstance().getCard(cardCodeAndCount.getCardCode());
+            LoRCardDatabase.LoRCard card = cardDatabase.getCard(cardCodeAndCount.getCardCode());
             deckListView.getItems().add("×" + cardCodeAndCount.getCount() + " " + card.getName().toUpperCase());
         }
     }
@@ -147,13 +148,9 @@ public class DeckEditorController implements Initializable {
     }
 
     private void setupRegionToggleButtons() {
-        String baseURL = "https://dd.b.pvp.net/3_4_0/core/en_us/img/regions/icon-";
-        List<String> iconFilenames = Arrays.asList("demacia.png", "freljord.png", "ionia.png", "noxus.png", "piltoverzaun.png",
-                "shadowisles.png", "bilgewater.png", "targon.png", "shurima.png", "bandlecity.png", "all.png");
-        for (int i = 0; i < regionToggleButtons.size(); i++) {
-            regionToggleButtons.get(i).setGraphic(new ImageView(new Image(baseURL + iconFilenames.get(i), regionToggleButtons.get(i).getPrefWidth() / 1.5,
-                    regionToggleButtons.get(i).getPrefHeight() / 1.75, false, true, false)));
-        }
+        List<Image> regionIcons = LoRMasterApplication.getRegionIcons();
+        for (int i = 0; i < regionToggleButtons.size(); i++)
+            regionToggleButtons.get(i).setGraphic(new ImageView(regionIcons.get(i)));
     }
 
     private void showCardFullAsset(String cardCode) {

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -41,5 +43,27 @@
       <Line endX="100.0" layoutX="100.0" layoutY="119.0" startX="-100.0" stroke="#c9a15c" />
       <Line endX="102.70710754394531" endY="-0.70709228515625" layoutX="100.0" layoutY="240.0" startX="-100.0" stroke="#c9a15c" />
       <Line endX="-102.00001525878906" endY="480.0" layoutX="302.0" layoutY="240.0" startX="-100.0" stroke="#c9a15c" />
+      <Label fx:id="matchNotFoundLabel1" alignment="CENTER" layoutX="202.0" layoutY="-1.0" prefHeight="481.0" prefWidth="1080.0" text="COULD NOT FIND ACTIVE MATCH!" textFill="#fff1db">
+         <font>
+            <Font name="Lucida Console" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="matchNotFoundLabel2" alignment="CENTER" layoutX="202.0" layoutY="240.0" prefHeight="481.0" prefWidth="1080.0" text="MAKE SURE YOU HAVE THIRD PARTY TOOLS ENABLED ON PORT 21337 IN GAME (SETTINGS &gt; THIRD PARTY TOOLS)" textAlignment="CENTER" textFill="#fff1db" wrapText="true">
+         <font>
+            <Font name="Lucida Console" size="24.0" />
+         </font>
+      </Label>
+      <ListView fx:id="playerDeckListView" layoutX="270.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="544.0" prefWidth="400.0" style="-fx-border-color: #C9A15C;" styleClass="live-deck-list-view" stylesheets="@../css/main.css" visible="false" />
+      <ListView fx:id="opponentDeckListView" layoutX="810.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="544.0" prefWidth="400.0" style="-fx-border-color: #C9A15C;" styleClass="live-deck-list-view" stylesheets="@../css/main.css" visible="false" />
+      <Label fx:id="playerDeckLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="270.0" layoutY="-1.0" prefHeight="120.0" prefWidth="400.0" text="CARDS IN YOUR DECK" textAlignment="CENTER" textFill="#fff1da" visible="false" wrapText="true">
+         <font>
+            <Font name="Lucida Console" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="opponentDeckLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="810.0" prefHeight="120.0" prefWidth="400.0" text="CARDS YOUR OPPONENT HAS REVEALED" textAlignment="CENTER" textFill="#fff1da" visible="false" wrapText="true">
+         <font>
+            <Font name="Lucida Console" size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

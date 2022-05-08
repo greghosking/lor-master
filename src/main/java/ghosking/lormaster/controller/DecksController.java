@@ -3,6 +3,7 @@ package ghosking.lormaster.controller;
 import ghosking.lormaster.LoRMasterApplication;
 import ghosking.lormaster.lor.LoRDeck;
 import ghosking.lormaster.lor.LoRDeckEncoder;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -31,18 +32,32 @@ public class DecksController implements Initializable {
 
     private static List<LoRDeck> decks;
     private static int selectedDeckIndex = -1;
-    List<Image> regionIcons;
 
     public static void overwriteSelectedDeck(LoRDeck deck) {
         decks.set(selectedDeckIndex, deck);
     }
 
     private void setupSceneButtons() {
-        profileButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToProfileScene());
-        liveMatchButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToLiveMatchScene());
-        collectionButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToCollectionScene());
-        leaderboardButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToLeaderboardScene());
-        metaButton.setOnMouseClicked(mouseEvent -> LoRMasterApplication.switchToMetaScene());
+        profileButton.setOnMouseClicked(mouseEvent -> {
+            LoRMasterApplication.switchToProfileScene();
+            writeDecks();
+        });
+        liveMatchButton.setOnMouseClicked(mouseEvent -> {
+            LoRMasterApplication.switchToLiveMatchScene();
+            writeDecks();
+        });
+        collectionButton.setOnMouseClicked(mouseEvent -> {
+            LoRMasterApplication.switchToCollectionScene();
+            writeDecks();
+        });
+        leaderboardButton.setOnMouseClicked(mouseEvent -> {
+            LoRMasterApplication.switchToLeaderboardScene();
+            writeDecks();
+        });
+        metaButton.setOnMouseClicked(mouseEvent -> {
+            LoRMasterApplication.switchToMetaScene();
+            writeDecks();
+        });
     }
 
     public void onNewDeckButtonClicked() {
@@ -66,7 +81,7 @@ public class DecksController implements Initializable {
             Alert importDeckAlert = new Alert(Alert.AlertType.NONE, "", ButtonType.OK);
             importDeckAlert.getDialogPane().getStylesheets().add(LoRMasterApplication.class.getResource("css/main.css").toExternalForm());
             importDeckAlert.setTitle("Import Deck");
-            importDeckAlert.setHeaderText("Could Not Import Deck!");
+            importDeckAlert.setHeaderText("COULD NOT IMPORT DECK!");
             Label content = new Label("Please make sure you have copied a valid deck code\n" +
                     "on your clipboard and try again.\n");
             content.setWrapText(true);
@@ -86,9 +101,9 @@ public class DecksController implements Initializable {
         Label content = new Label(LoRDeckEncoder.encode(decks.get(selectedDeckIndex)));
         content.setWrapText(true);
         exportDeckAlert.getDialogPane().setContent(content);
-        exportDeckAlert.showAndWait();
 
         // If the user clicks the button, copy the deck code to the user's clipboard.
+        exportDeckAlert.showAndWait();
         if (exportDeckAlert.getResult() == copyButtonType) {
             ClipboardContent clipboardContent = new ClipboardContent();
             clipboardContent.putString(LoRDeckEncoder.encode(decks.get(selectedDeckIndex)));
@@ -119,11 +134,27 @@ public class DecksController implements Initializable {
         if (alert.getResult() == yesButtonType) {
             decks.remove(selectedDeckIndex);
             selectedDeckIndex = -1;
+            writeDecks();
             updateDecksGridPane();
         }
     }
 
     private void updateDecksGridPane() {
+        readDecks();
+        decksGridPane.getChildren().removeAll(decksGridPane.getChildren());
+        while (decksGridPane.getRowConstraints().size() > 0)
+            decksGridPane.getRowConstraints().remove(0);
+        int rows = decks.size();
+        double rowH = 120;
+        decksGridPane.setPrefHeight(Math.max(decksGridPane.getPrefHeight(), rows * rowH));
+        for (int i = 0; i < rows; i++) {
+            RowConstraints rowConst = new RowConstraints();
+            rowConst.setPrefHeight(rowH);
+            rowConst.setValignment(VPos.CENTER);
+            decksGridPane.getRowConstraints().add(rowConst);
+        }
+
+        List<Image> regionIcons = LoRMasterApplication.getRegionIcons();
         decksGridPane.getChildren().clear();
         for (int i = 0; i < decks.size(); i++) {
             StackPane region1IconPane = new StackPane();
@@ -170,7 +201,8 @@ public class DecksController implements Initializable {
                         if (GridPane.getRowIndex(decksGridPane.getChildren().get(k)) == selectedDeckIndex) {
                             decksGridPane.getChildren().get(k).getStyleClass().clear();
                             decksGridPane.getChildren().get(k).getStyleClass().add("selected-deck");
-                        } else {
+                        }
+                        else {
                             decksGridPane.getChildren().get(k).getStyleClass().clear();
                             decksGridPane.getChildren().get(k).getStyleClass().add("unselected-deck");
                         }
@@ -178,29 +210,6 @@ public class DecksController implements Initializable {
                 });
             }
         }
-    }
-
-    private void setupDecksGridPane() {
-        regionIcons = new ArrayList<>();
-        String baseURL = "https://dd.b.pvp.net/3_4_0/core/en_us/img/regions/icon-";
-        List<String> iconFilenames = Arrays.asList("demacia.png", "freljord.png", "ionia.png", "noxus.png", "piltoverzaun.png",
-                "shadowisles.png", "bilgewater.png", "shurima.png", "all.png", "targon.png", "bandlecity.png");
-        for (String iconFilename : iconFilenames) {
-            regionIcons.add(new Image(baseURL + iconFilename, 80 / 1.5, 120 / 1.75, false, true, false));
-        }
-
-        readDecks();
-        int rows = decks.size();
-        double rowH = 120;
-        decksGridPane.setPrefHeight(Math.max(decksGridPane.getPrefHeight(), rows * rowH));
-        for (int i = 0; i < rows; i++) {
-            RowConstraints rowConst = new RowConstraints();
-            rowConst.setPrefHeight(rowH);
-            rowConst.setValignment(VPos.CENTER);
-            decksGridPane.getRowConstraints().add(rowConst);
-        }
-
-        updateDecksGridPane();
     }
 
     public static void readDecks() {
@@ -253,8 +262,7 @@ public class DecksController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupSceneButtons();
-        readDecks();
-        setupDecksGridPane();
+        Platform.runLater(this::updateDecksGridPane);
 
         // If the user attempts to exit the application, make sure to save their decks.
         LoRMasterApplication.getStage().setOnCloseRequest(windowEvent -> writeDecks());

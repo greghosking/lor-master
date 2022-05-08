@@ -157,7 +157,8 @@ public class LoginController implements Initializable {
                                 try {
                                     LoRMasterApplication.setUser(user);
                                     LoRMasterApplication.switchToLeaderboardScene();
-                                } finally {
+                                }
+                                finally {
                                     latch.countDown();
                                 }
                             });

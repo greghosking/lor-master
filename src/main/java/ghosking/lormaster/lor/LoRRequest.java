@@ -5,12 +5,14 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.Date;
 
 public final class LoRRequest {
 
-    public static final String API_KEY = "RGAPI-6619ca68-ab28-48a1-84db-0d1154a88cf5";
+    public static final String API_KEY = "RGAPI-e478db83-ba60-4505-8e1b-901dddb79445";
 
     /**
      * @param url The URL of the request.
@@ -66,7 +68,7 @@ public final class LoRRequest {
                 // case 504:
             }
         }
-        catch (SocketTimeoutException ex) {
+        catch (SocketTimeoutException | SocketException ex) {
             return null;
         }
         catch (AccessForbiddenException | DataNotFoundException | RateLimitExceededException ignored) {

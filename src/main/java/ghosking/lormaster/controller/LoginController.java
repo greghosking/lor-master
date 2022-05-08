@@ -3,6 +3,9 @@ package ghosking.lormaster.controller;
 import ghosking.lormaster.LoRMasterApplication;
 import ghosking.lormaster.lor.*;
 import javafx.animation.*;
+import javafx.application.Platform;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -18,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.CountDownLatch;
 
 public class LoginController implements Initializable {
 
@@ -82,54 +86,54 @@ public class LoginController implements Initializable {
         frontImageView.setOpacity(0);
 
         Timeline timeline = new Timeline(
-                // Show the backImageView for slideDuration seconds while slowly zooming in.
-                new KeyFrame(Duration.seconds(0), event -> {
-                    ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(slideDuration), backImageView);
-                    scaleTransition.setToX(1.125);
-                    scaleTransition.setToY(1.125);
-                    scaleTransition.setCycleCount(1);
-                    scaleTransition.play();
-                }),
-                // Set the image of the frontImageView to a random loaded image and fade it in
-                // over fadeDuration seconds.
-                new KeyFrame(Duration.seconds(slideDuration), event -> {
-                    index = (int) (Math.random() * images.size());
-                    frontImageView.setImage(images.get(index));
+            // Show the backImageView for slideDuration seconds while slowly zooming in.
+            new KeyFrame(Duration.seconds(0), event -> {
+                ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(slideDuration), backImageView);
+                scaleTransition.setToX(1.125);
+                scaleTransition.setToY(1.125);
+                scaleTransition.setCycleCount(1);
+                scaleTransition.play();
+            }),
+            // Set the image of the frontImageView to a random loaded image and fade it in
+            // over fadeDuration seconds.
+            new KeyFrame(Duration.seconds(slideDuration), event -> {
+                index = (int) (Math.random() * images.size());
+                frontImageView.setImage(images.get(index));
 
-                    // Before making the frontImageView visible, reset its scale.
-                    frontImageView.setScaleX(1);
-                    frontImageView.setScaleY(1);
+                // Before making the frontImageView visible, reset its scale.
+                frontImageView.setScaleX(1);
+                frontImageView.setScaleY(1);
 
-                    FadeTransition fadeTransition = new FadeTransition(Duration.seconds(fadeDuration), frontImageView);
-                    fadeTransition.setFromValue(0);
-                    fadeTransition.setToValue(1);
-                    fadeTransition.setCycleCount(1);
-                    fadeTransition.play();
-                }),
-                // Show the frontImageView for slideDuration seconds while slowly zooming in.
-                new KeyFrame(Duration.seconds(slideDuration + fadeDuration), event -> {
-                    ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(slideDuration), frontImageView);
-                    scaleTransition.setToX(1.125);
-                    scaleTransition.setToY(1.125);
-                    scaleTransition.setCycleCount(1);
-                    scaleTransition.play();
-                }),
-                // Set the image of the backImageView to a random loaded image and fade the
-                // frontImageView out over fadeDuration seconds.
-                new KeyFrame(Duration.seconds((slideDuration * 2) + fadeDuration), event -> {
-                    index = (int) (Math.random() * images.size());
-                    backImageView.setImage(images.get(index));
+                FadeTransition fadeTransition = new FadeTransition(Duration.seconds(fadeDuration), frontImageView);
+                fadeTransition.setFromValue(0);
+                fadeTransition.setToValue(1);
+                fadeTransition.setCycleCount(1);
+                fadeTransition.play();
+            }),
+            // Show the frontImageView for slideDuration seconds while slowly zooming in.
+            new KeyFrame(Duration.seconds(slideDuration + fadeDuration), event -> {
+                ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(slideDuration), frontImageView);
+                scaleTransition.setToX(1.125);
+                scaleTransition.setToY(1.125);
+                scaleTransition.setCycleCount(1);
+                scaleTransition.play();
+            }),
+            // Set the image of the backImageView to a random loaded image and fade the
+            // frontImageView out over fadeDuration seconds.
+            new KeyFrame(Duration.seconds((slideDuration * 2) + fadeDuration), event -> {
+                index = (int) (Math.random() * images.size());
+                backImageView.setImage(images.get(index));
 
-                    // Before making the backImageView visible, reset its scale.
-                    backImageView.setScaleX(1);
-                    backImageView.setScaleY(1);
+                // Before making the backImageView visible, reset its scale.
+                backImageView.setScaleX(1);
+                backImageView.setScaleY(1);
 
-                    FadeTransition ft = new FadeTransition(Duration.seconds(fadeDuration), frontImageView);
-                    ft.setFromValue(1);
-                    ft.setToValue(0);
-                    ft.setCycleCount(1);
-                    ft.play();
-                })
+                FadeTransition ft = new FadeTransition(Duration.seconds(fadeDuration), frontImageView);
+                ft.setFromValue(1);
+                ft.setToValue(0);
+                ft.setCycleCount(1);
+                ft.play();
+            })
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -140,32 +144,34 @@ public class LoginController implements Initializable {
         loginMessageLabel.setVisible(false);
 
         // Start a separate thread to perform the login attempt in the background.
-        Thread loginThread = new Thread(() -> {
-            try {
-                user = LoRPlayer.fromRiotID(usernameTextField.getText(), tagLineTextField.getText());
-            }
-            catch (Exception ex) {
-                showLoginError();
-            }
-        });
-        loginThread.start();
-
-        // Continually check if the login attempt has been processed without blocking.
-        Timeline timeline = new Timeline();
-        timeline.getKeyFrames().addAll(
-                new KeyFrame(Duration.seconds(0), event -> {}),
-                new KeyFrame(Duration.seconds(1), event -> {
-                    // If the login attempt was processed and successful by now,
-                    // activePlayer will not be null.
-                    if (user != null) {
-                        LoRMasterApplication.setUser(user);
-                        LoRMasterApplication.switchToProfileScene();
-                        timeline.stop();
+        Service<Void> loginService = new Service<>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<>() {
+                    @Override
+                    protected Void call() {
+                        try {
+                            user = LoRPlayer.fromRiotID(usernameTextField.getText(), tagLineTextField.getText());
+                            final CountDownLatch latch = new CountDownLatch(1);
+                            Platform.runLater(() -> {
+                                try {
+                                    LoRMasterApplication.setUser(user);
+                                    LoRMasterApplication.switchToLeaderboardScene();
+                                } finally {
+                                    latch.countDown();
+                                }
+                            });
+                            latch.await();
+                            return null;
+                        } catch (Exception ex) {
+                            showLoginError();
+                            return null;
+                        }
                     }
-                })
-        );
-        timeline.setCycleCount(3);
-        timeline.play();
+                };
+            }
+        };
+        loginService.start();
     }
 
     private void showLoginError() {

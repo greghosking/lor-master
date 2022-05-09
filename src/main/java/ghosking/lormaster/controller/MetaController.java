@@ -183,7 +183,7 @@ public class MetaController implements Initializable {
 
         for (int i = 0; i < decksStats.size(); i++) {
             // First column indicates the ranking of the deck.
-            Label rankLabel = new Label(i + ".");
+            Label rankLabel = new Label((i + 1) + ".");
             rankLabel.setPrefWidth(columnConstraints.get(0).getPrefWidth());
             rankLabel.setPrefHeight(rowH);
             rankLabel.setAlignment(Pos.CENTER);

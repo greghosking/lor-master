@@ -156,7 +156,7 @@ public class LoginController implements Initializable {
                             Platform.runLater(() -> {
                                 try {
                                     LoRMasterApplication.setUser(user);
-                                    LoRMasterApplication.switchToLeaderboardScene();
+                                    LoRMasterApplication.switchToProfileScene();
                                 }
                                 finally {
                                     latch.countDown();

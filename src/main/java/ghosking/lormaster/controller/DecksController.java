@@ -3,6 +3,7 @@ package ghosking.lormaster.controller;
 import ghosking.lormaster.LoRMasterApplication;
 import ghosking.lormaster.lor.LoRDeck;
 import ghosking.lormaster.lor.LoRDeckEncoder;
+import io.github.pixee.security.BoundedLineReader;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -218,7 +219,7 @@ public class DecksController implements Initializable {
         try {
             BufferedReader br = new BufferedReader(new FileReader("USER_DECK_CODES.txt"));
             String deckName, deckCode;
-            while ((deckName = br.readLine()) != null && (deckCode = br.readLine()) != null) {
+            while ((deckName = BoundedLineReader.readLine(br, 5_000_000)) != null && (deckCode = BoundedLineReader.readLine(br, 5_000_000)) != null) {
                 LoRDeck deck = LoRDeckEncoder.decode(deckCode);
                 deck.setName(deckName);
                 decks.add(deck);

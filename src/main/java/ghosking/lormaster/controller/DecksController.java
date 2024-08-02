@@ -4,6 +4,7 @@ import ghosking.lormaster.LoRMasterApplication;
 import ghosking.lormaster.lor.LoRDeck;
 import ghosking.lormaster.lor.LoRDeckEncoder;
 import io.github.pixee.security.BoundedLineReader;
+import java.nio.file.Files;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -243,7 +244,7 @@ public class DecksController implements Initializable {
     public static void writeDecks() {
         // Save user decks by writing deck codes to a file.
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("USER_DECK_CODES.txt"));
+            BufferedWriter bw = Files.newBufferedWriter("USER_DECK_CODES.txt".toPath());
 
             for (LoRDeck deck : decks) {
                 bw.write(deck.getName());
